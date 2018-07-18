@@ -11,17 +11,8 @@ import java.util.*;
 
 public class FileIOUtil {
 
-    public static boolean isExcel2003(String filePath)
-    {
-        return filePath.matches("^.+\\.(?i)(xls)$");
-    }
 
-    public static boolean isExcel2007(String filePath)
-    {
-        return filePath.matches("^.+\\.(?i)(xlsx)$");
-    }
-
-    public static List<Map<String, String>> importExcel(MultipartFile multipartFile,Class clazz, Map<Integer, String> columns, String format){
+    public static List<Map<String, String>> importExcel(MultipartFile multipartFile, Map<Integer, String> columns, String format){
 
         if (null == multipartFile){
             System.out.println("文件不存在");
@@ -58,31 +49,6 @@ public class FileIOUtil {
                 }
             }
         }
-
-//        String className = clazz.getName();
-//        System.out.println("==============" + className);
-//        //获得属性的所有信息
-//        Field[] fields = clazz.getDeclaredFields();
-//        for (Field f: fields) {
-//            //获得属性名
-//            String fstr = f.getName();
-//            System.out.print("属性类型:" + f.getGenericType().toString());
-//            System.out.println("属性名:" + fstr);
-//        }
-//
-//        try {
-//            //通过反射创建对象
-//            Object object = Class.forName(className).newInstance();
-//            //通过反射给属性赋值
-//            for (Integer column: columnMap.keySet()) {
-//
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-//        return new ArrayList<Map<Integer, String>>();
         return list;
     }
 
