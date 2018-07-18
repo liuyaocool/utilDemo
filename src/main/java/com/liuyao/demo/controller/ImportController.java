@@ -1,6 +1,5 @@
 package com.liuyao.demo.controller;
 
-import com.liuyao.demo.entity.Hero;
 import com.liuyao.demo.util.FileIOUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +32,7 @@ public class ImportController {
         columns.put(5, "hobby");
         columns.put(7, "beizhu");
 
-        return FileIOUtil.importExcel(file, Hero.class, columns, "yyyy-MM-dd HH:mm:ss");
+        return FileIOUtil.importExcel(file, columns, "yyyy-MM-dd HH:mm:ss", 3);
     }
 
 

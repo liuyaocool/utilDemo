@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 文件 IO 流工具类  学习使用(非项目)
+ */
 public class MyFileIOUtil {
 
     public static boolean isExcel2003(String filePath)

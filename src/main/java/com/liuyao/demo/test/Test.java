@@ -6,6 +6,9 @@ public class Test {
 
 //        FileIOUtil.importExcel(Hero.class);
 
+        int startRowNum = -3;
+        startRowNum = startRowNum < 0 ? 0 : startRowNum - 1; //设置开始行
+        System.out.println(startRowNum);
         aaa(10);
 
     }
