@@ -6,10 +6,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.util.*;
 
 /**
  * 文件 IO 流工具类  学习使用(非项目)
@@ -24,6 +23,40 @@ public class MyFileIOUtil {
     public static boolean isExcel2007(String filePath)
     {
         return filePath.matches("^.+\\.(?i)(xlsx)$");
+    }
+
+    /**
+     * 文件上传
+     * @param se
+     * @param file
+     * @return
+     */
+    public static String upload(HttpSession se, MultipartFile file, String path){
+
+        String url = "";
+        if (!file.isEmpty()) {
+            //获取upload 的路径
+            String systetmPath = se.getServletContext().getRealPath("upload");
+            System.out.println(systetmPath);
+            //随机生成一个唯一的名字
+            String mz = file.getOriginalFilename();
+            System.out.println(mz);//3.jpg
+            String[] mmm = mz.split("\\.");
+            String fileName = UUID.randomUUID().toString()+"."+mmm[1];
+
+            File targetFile = new File(path, fileName);
+            if(!targetFile.exists()){
+                targetFile.mkdirs();
+            }
+            try {
+                file.transferTo(targetFile);//保存文件
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            url = "/upload/"+fileName;
+        }
+        return url;
     }
 
     public static List<Map<String, String>> importExcel(MultipartFile multipartFile, Class clazz, Map<Integer, String> columns, String format){

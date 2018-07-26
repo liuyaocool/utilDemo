@@ -7,7 +7,12 @@
 <body>
 
 <form method="post" action="/systemFile/import" enctype="multipart/form-data">
-    <input type="file" name="file"/>
+    EXCEL导入:<input type="file" name="file"/>
+    <input type="submit"/>
+</form>
+
+<form method="post" action="/systemFile/upload" enctype="multipart/form-data">
+    文件上传:<input type="file" name="file"/>
     <input type="submit"/>
 </form>
 
