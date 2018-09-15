@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,5 +42,17 @@ public class ImportController {
         return MyFileIOUtil.upload(request.getSession(), file, "c:/java/upload");
     }
 
+    @PostMapping("/upLoad")
+    public String upLoad (HttpServletRequest request, @PathVariable("file") MultipartFile file) throws IOException {
+
+//        return FileIOUtil.uploadFile("/Users/apple/Desktop/qjyl/upload", file);
+        return null;
+    }
+
+    @PostMapping("/upWord")
+    public String upWord (HttpServletRequest request, @PathVariable("word") MultipartFile word) throws IOException {
+
+        return FileIOUtil.getWordBook(word);
+    }
 
 }
