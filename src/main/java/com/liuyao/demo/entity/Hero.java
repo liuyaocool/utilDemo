@@ -1,5 +1,7 @@
 package com.liuyao.demo.entity;
 
+import com.liuyao.demo.anno.MyAnno;
+
 public class Hero {
 
     private String id;
@@ -22,6 +24,7 @@ public class Hero {
         return id;
     }
 
+    @MyAnno(true)
     public void setId(String id) {
         this.id = id;
     }
@@ -30,6 +33,7 @@ public class Hero {
         return name;
     }
 
+    @MyAnno(false)
     public void setName(String name) {
         this.name = name;
     }
