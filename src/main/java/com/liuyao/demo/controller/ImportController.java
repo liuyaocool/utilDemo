@@ -24,6 +24,11 @@ public class ImportController {
         return "login";
     }
 
+    @GetMapping("/fileUpload")
+    public String filePage(){
+        return "fileUpload";
+    }
+
     @PostMapping("/import")
     public List<Map<String,String>> fileImport(@PathVariable("file") MultipartFile file){
 
@@ -40,13 +45,6 @@ public class ImportController {
     @PostMapping("/upload")
     public String fileUpload(@PathVariable("file") MultipartFile file, HttpServletRequest request){
         return MyFileIOUtil.upload(request.getSession(), file, "c:/java/upload");
-    }
-
-    @PostMapping("/upLoad")
-    public String upLoad (HttpServletRequest request, @PathVariable("file") MultipartFile file) throws IOException {
-
-//        return FileIOUtil.uploadFile("/Users/apple/Desktop/qjyl/upload", file);
-        return null;
     }
 
     @PostMapping("/upWord")
