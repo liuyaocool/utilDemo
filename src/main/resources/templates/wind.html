@@ -24,27 +24,22 @@
             margin: auto;
 
             /*transition:all 0.3s ease-in-out;*/
-            transform:rotate(0deg);
-            -ms-transform:rotate(0deg); 	/* IE 9 */
-            -moz-transform:rotate(0deg); 	/* Firefox */
-            -webkit-transform:rotate(0deg); /* Safari 和 Chrome */
-            -o-transform:rotate(0deg); /* Opera */
 
         }
 
-        .leftAngle{
+        .normalAngle{
+            width: 20px;
+            height: 20px;
             position: absolute;
             top: 0px;
-            left: 0px;
             bottom: 0px;
             margin: auto;
+        }
+        .leftAngle{
+            left: 0px;
         }
         .rightAngle{
-            position: absolute;
-            top: 0px;
             right: 0px;
-            bottom: 0px;
-            margin: auto;
         }
 
         a{
@@ -61,7 +56,7 @@
             transition:all 2s;
             background:red;
             transform-origin:50 100;
-            transform:rotate(360deg);
+            transform:rotate(720deg);
             border-radius:50%;
 
         }
@@ -72,8 +67,8 @@
     <div class="circle">
 
         <div class="arrow" onclick="resetAngle(this)">-->></div>
-        <input type="button" value="⬅️" class="leftAngle" onclick="angleRotate(this)">
-        <input type="button" value="➡️" class="rightAngle" onclick="angleRotate(this)">
+        <img class="leftAngle normalAngle" onclick="angleRotate(this)">
+        <img class="rightAngle normalAngle" onclick="angleRotate(this)">
 
     </div>
 
@@ -91,7 +86,11 @@
     var angle = 30;//旋转的角度
     function angleRotate(dom) {
 
-        var aa = eval('get' + $(".arrow").css("transform"))*1;//旋转后的角度
+        var aa = 0;
+
+        try {
+            aa = eval('get' + $(".arrow").css("transform"))*1;//旋转后的角度
+        } catch (e) {console.log(e)}
         if ($(dom).attr("class") == "leftAngle"){
             aa -= angle;
         } else {
