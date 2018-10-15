@@ -97,13 +97,18 @@
         } else {
             aa += angle;
         }
-        // console.log(-1*aa);
         $(".arrow").css("transform", "rotate(" + aa + "deg)");
         $(".arrow").css("-ms-transform", "rotate(" + aa + "deg)"); // IE 9
         $(".arrow").css("-moz-transform", "rotate(" + aa + "deg)");// Firefox
         $(".arrow").css("-webkit-transform", "rotate(" + aa + "deg)");// Safari 和 Chrome
         $(".arrow").css("-o-transform", "rotate(" + aa + "deg)");// Opera
-        return -aa;
+
+        if (aa != 0){
+            aa = 360 - aa;
+        } 
+        if ( aa >= 360) aa = aa - 360;
+        console.log(aa);
+        return aa;
     }
 
     function getmatrix(a,b,c,d,e,f) {
@@ -111,21 +116,17 @@
         var bb = Math.round(180 * Math.acos(b) / Math.PI);
         var cc = Math.round(180 * Math.asin(c) / Math.PI);
         var dd = Math.round(180 * Math.acos(d) / Math.PI);
-        console.log("old:"+aa+"/"+bb+"/"+cc+"/"+dd);
+        // console.log("old:"+aa+"/"+bb+"/"+cc+"/"+dd);
 
-        var deg = dd;
-        if (aa != bb && -aa != bb) {
-            deg = 360 - dd;
+        var deg = 0;
+        if (aa == bb || -aa == bb) {
+            deg = dd;
+        } else if (-aa + bb == 180) {
+            deg = 180 + cc;
+        } else if (aa + bb == 180) {
+            deg = 360 - cc || 360 - dd;
         }
-        // var deg = 0;
-        // if (aa == bb || -aa == bb) {
-        //     deg = dd;
-        // } else if (-aa + bb == 180) {
-        //     deg = 180 + cc;
-        // } else if (aa + bb == 180) {
-        //     deg = 360 - cc || 360 - dd;
-        // }
-        console.log(deg);
+        // console.log(deg);
         return deg;
     }
 
