@@ -71,7 +71,7 @@
 
     <div class="circle">
 
-        <div class="arrow">-->></div>
+        <div class="arrow" onclick="resetAngle(this)">-->></div>
         <input type="button" value="⬅️" class="leftAngle" onclick="angleRotate(this)">
         <input type="button" value="➡️" class="rightAngle" onclick="angleRotate(this)">
 
@@ -109,6 +109,13 @@
         if ( aa >= 360) aa = aa - 360;
         console.log(aa);
         return aa;
+    }
+    function resetAngle(dom) {
+        $(dom).css("transform", "rotate(0deg)");
+        $(dom).css("-ms-transform", "rotate(0deg)"); // IE 9
+        $(dom).css("-moz-transform", "rotate(0deg)");// Firefox
+        $(dom).css("-webkit-transform", "rotate(0deg)");// Safari 和 Chrome
+        $(dom).css("-o-transform", "rotate(0deg)");// Opera
     }
 
     function getmatrix(a,b,c,d,e,f) {
