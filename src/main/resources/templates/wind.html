@@ -11,35 +11,46 @@
             border-radius: 150px;
             border: 1px solid red;
             position: absolute;
+            /*background-color: aqua;*/
         }
         .arrow{
-            border: 1px solid black;
-            width: 45px;
-            height: 25px;
+            /*border: 1px solid black;*/
+            width: 105px;
+            height: 45px;
             position: absolute;
             top: 0px;
             left: 0px;
             right: 0px;
             bottom: 0px;
             margin: auto;
+            background-image: url("../static/img/center-deep2.png");
+            background-size: 100% 100%;
 
             /*transition:all 0.3s ease-in-out;*/
-
         }
 
         .normalAngle{
-            width: 20px;
-            height: 20px;
+            width: 70px;
+            height: 100px;
             position: absolute;
             top: 0px;
             bottom: 0px;
             margin: auto;
+            background-size: 100% 100%;
         }
         .leftAngle{
             left: 0px;
+            background-image: url("../static/img/right-deep.png");
+        }
+        .leftAngle:hover{
+            background-image: url("../static/img/right.png");
         }
         .rightAngle{
             right: 0px;
+            background-image: url("../static/img/right.png");
+        }
+        .rightAngle:hover{
+            background-image: url("../static/img/right-deep.png");
         }
 
         a{
@@ -66,9 +77,9 @@
 
     <div class="circle">
 
-        <div class="arrow" onclick="resetAngle(this)">-->></div>
-        <img class="leftAngle normalAngle" onclick="angleRotate(this)">
-        <img class="rightAngle normalAngle" onclick="angleRotate(this)">
+        <div class="arrow" onclick="resetAngle(this)" ></div>
+        <div class="leftAngle normalAngle" onclick="angleRotate(this)"></div>
+        <div class="rightAngle normalAngle" onclick="angleRotate(this)"></div>
 
     </div>
 
@@ -91,7 +102,7 @@
         try {
             aa = eval('get' + $(".arrow").css("transform"))*1;//旋转后的角度
         } catch (e) {console.log(e)}
-        if ($(dom).attr("class") == "leftAngle"){
+        if ($(dom).attr("class").indexOf("leftAngle") >= 0){
             aa -= angle;
         } else {
             aa += angle;
