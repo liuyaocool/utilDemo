@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <style>
+        .circle{
+            width: 300px;
+            height: 300px;
+            border-radius: 150px;
+            border: 1px solid red;
+            position: absolute;
+        }
+        .arrow{
+            border: 1px solid black;
+            width: 45px;
+            height: 25px;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            margin: auto;
+
+            /*transition:all 0.3s;*/
+            transform:rotate(0deg);
+            -ms-transform:rotate(0deg); 	/* IE 9 */
+            -moz-transform:rotate(0deg); 	/* Firefox */
+            -webkit-transform:rotate(0deg); /* Safari 和 Chrome */
+            -o-transform:rotate(0deg); /* Opera */
+
+        }
+
+        .leftAngle{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+        .rightAngle{
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+        a{
+            text-align:center;
+            line-height:100px;
+            transition:all 2s;
+            width:100px;
+            height:100px;
+            background:pink;
+            float:left;
+            border-radius:50%;
+        }
+        a:hover{
+            transition:all 2s;
+            background:red;
+            transform-origin:50 100;
+            transform:rotate(360deg);
+            border-radius:50%;
+
+        }
+    </style>
+</head>
+<body>
+
+    <div class="circle">
+
+        <div class="arrow">-->></div>
+        <input type="button" value="⬅️" class="leftAngle" onclick="angleRotate(this)">
+        <input type="button" value="➡️" class="rightAngle" onclick="angleRotate(this)">
+
+    </div>
+
+    <div style="position:absolute; top: 400px;">
+        <h1>请将鼠标移动到下面的矩形上：</h1>
+        <a>
+            两秒旋转360
+        </a>
+    </div>
+
+
+    <script type="text/javascript" src="../static/jquery-1.12.2.min.js"></script>
+<script>
+
+    var angle = 30;//旋转的角度
+    function angleRotate(dom) {
+
+        var aa = eval('get' + $(".arrow").css("transform"))*1;//旋转后的角度
+        if ($(dom).attr("class") == "leftAngle"){
+            aa -= angle;
+        } else {
+            aa += angle;
+        }
+        // console.log(-1*aa);
+        $(".arrow").css("transform", "rotate(" + aa + "deg)");
+        $(".arrow").css("-ms-transform", "rotate(" + aa + "deg)"); // IE 9
+        $(".arrow").css("-moz-transform", "rotate(" + aa + "deg)");// Firefox
+        $(".arrow").css("-webkit-transform", "rotate(" + aa + "deg)");// Safari 和 Chrome
+        $(".arrow").css("-o-transform", "rotate(" + aa + "deg)");// Opera
+        return -aa;
+    }
+
+    function getmatrix(a,b,c,d,e,f) {
+        var aa = Math.round(180 * Math.asin(a) / Math.PI);
+        var bb = Math.round(180 * Math.acos(b) / Math.PI);
+        var cc = Math.round(180 * Math.asin(c) / Math.PI);
+        var dd = Math.round(180 * Math.acos(d) / Math.PI);
+        console.log("old:"+aa+"/"+bb+"/"+cc+"/"+dd);
+
+        var deg = dd;
+        if (aa != bb && -aa != bb) {
+            deg = 360 - dd;
+        }
+        // var deg = 0;
+        // if (aa == bb || -aa == bb) {
+        //     deg = dd;
+        // } else if (-aa + bb == 180) {
+        //     deg = 180 + cc;
+        // } else if (aa + bb == 180) {
+        //     deg = 360 - cc || 360 - dd;
+        // }
+        console.log(deg);
+        return deg;
+    }
+
+</script>
+</body>
+</html>
