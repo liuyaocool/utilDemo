@@ -23,7 +23,7 @@
             bottom: 0px;
             margin: auto;
 
-            /*transition:all 0.3s;*/
+            /*transition:all 0.3s ease-in-out;*/
             transform:rotate(0deg);
             -ms-transform:rotate(0deg); 	/* IE 9 */
             -moz-transform:rotate(0deg); 	/* Firefox */
@@ -97,6 +97,9 @@
         } else {
             aa += angle;
         }
+        if (aa < 0) aa += 360;
+        // setmatrix(aa,$(dom.parentNode).find("div"));
+        // if (aa > 180) aa -= 360;
         $(".arrow").css("transform", "rotate(" + aa + "deg)");
         $(".arrow").css("-ms-transform", "rotate(" + aa + "deg)"); // IE 9
         $(".arrow").css("-moz-transform", "rotate(" + aa + "deg)");// Firefox
@@ -116,6 +119,21 @@
         $(dom).css("-moz-transform", "rotate(0deg)");// Firefox
         $(dom).css("-webkit-transform", "rotate(0deg)");// Safari 和 Chrome
         $(dom).css("-o-transform", "rotate(0deg)");// Opera
+    }
+
+    function setmatrix(angle, dom){
+        var cosVal = Math.cos(angle * Math.PI / 180),
+            sinVal = Math.sin(angle * Math.PI / 180);
+
+        var transformVal = 'matrix('+ cosVal.toFixed(6) +','+ sinVal.toFixed(6) +
+            ','+ (-1 * sinVal).toFixed(6) +','+ cosVal.toFixed(6) +',0,0)';
+
+        $(dom).css("transform", transformVal);
+        $(dom).css("-ms-transform", transformVal); // IE 9
+        $(dom).css("-moz-transform", transformVal);// Firefox
+        $(dom).css("-webkit-transform", transformVal);// Safari 和 Chrome
+        $(dom).css("-o-transform", transformVal);// Opera
+
     }
 
     function getmatrix(a,b,c,d,e,f) {
