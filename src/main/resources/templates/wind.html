@@ -165,6 +165,54 @@
         return deg;
     }
 
+    //将对象按照 与val相近 排列
+    function sortByVal(obj,val) {
+        if (typeof obj != 'object') return;
+        var arr = Object.keys(obj);
+        arr.sort(function(a,b){
+            return Math.abs(a-val)-Math.abs(b-val);
+        });
+    }
+
+    //监听时间条
+    function timeBarListener(ev) {
+
+        var oldValue = $(this).attr("oldValue")*1;
+        var newValue = ev.target.value*1;
+
+        console.log("valueChange");
+        console.log(oldValue + "/" + newValue);
+
+        var tarr = Object.keys(timeMap);
+        // var tarr = [1,115,26,37,41,59,66,73,82.333,94.111];
+
+        if (tarr.indexOf(newValue) < 0) {
+
+            tarr.sort(function(a,b){ return a-b;});
+
+            var minVal,maxVal;
+            for (var i = 0, len = tarr.length; i < len/2+1; i++) {
+                if (tarr[i] > newValue) {
+                    minVal = tarr[i - 1] == null ? tarr[i] : tarr[i-1];
+                    maxVal = tarr[i];
+                    break;
+                }
+                if (tarr[len-i-1] < newValue) {
+                    minVal = tarr[len-i-1];
+                    maxVal = tarr[len-i] == null ? tarr[len-i-1] : tarr[len-1];
+                    break;
+                }
+            }
+            if (oldValue < newValue){
+                $(this).val(maxVal);
+            } else {
+                $(this).val(minVal);
+            }
+        }
+        $("#showTimeBar").val($(this).val());
+        $(this).attr("oldValue", $(this).val());
+    }
+
 </script>
 </body>
 </html>
