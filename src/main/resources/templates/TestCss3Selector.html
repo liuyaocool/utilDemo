@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .aa{
+            width: fit-content;
+            transition: background-color 0.3s;
+            background-color: green;
+        }
+        .aa:before{
+            content: '123';
+            border-radius: 5px;
+            width: fit-content;
+            height: fit-content;
+            background-color: red;
+        }
+
+        .aa:active{
+            background-color: blue;
+
+        }
+        .aa:hover{
+
+            background-color: brown;
+            -webkit-transform: scale(2);
+            -moz-transform: scale(2);
+            -ms-transform: scale(2);
+            -o-transform: scale(2);
+            transform: scale(2);
+
+        }
+        .bb:link{
+            background-color: black;
+            color: white;
+        }
+        .bb:visited{
+            background-color: brown;
+            color: aquamarine;
+        }
+        span{
+            display: block;
+            background-color: green;
+            width: fit-content;
+            transition: all 0.2s;
+        }
+        span:hover{
+            -webkit-transform: skew(0deg,30deg);
+            -moz-transform: skew(0deg,30deg);
+            -ms-transform: skew(0deg,30deg);
+            -o-transform: skew(0deg,30deg);
+            transform: skew(0deg,30deg);
+            /*-webkit-transform: rotate(20deg);*/
+            /*-moz-transform: rotate(20deg);*/
+            /*-ms-transform: rotate(20deg);*/
+            /*-o-transform: rotate(20deg);*/
+            /*transform: rotate(20deg);*/
+        }
+        p{
+            transition: all 0.3s;
+        }
+        p:hover{
+            -webkit-transform: translate(0px,3px);
+            -moz-transform: translate(0px,3px);
+            -ms-transform: translate(0px,3px);
+            -o-transform: translate(0px,3px);
+            transform: translate(0px,3px);
+
+        }
+
+        p::selection{
+            background-color: red;
+
+        }
+        div::selection{
+            background-color: red;
+
+        }
+
+        input{
+            transition: all 0.2s;
+        }
+        input:valid{
+            background-color: yellow;
+        }
+        input:invalid{
+            background-color: gray;
+        }
+        input:hover{
+            -webkit-transform: scale(1.2,1.2);
+            -moz-transform: scale(1.2,1.2);
+            -ms-transform: scale(1.2,1.2);
+            -o-transform: scale(1.2,1.2);
+            transform: scale(1.2,1.2);
+        }
+        input:focus{
+            -webkit-transform: scale(1.2,1.2);
+            -moz-transform: scale(1.2,1.2);
+            -ms-transform: scale(1.2,1.2);
+            -o-transform: scale(1.2,1.2);
+            transform: scale(1.2,1.2);
+        }
+
+        @-webkit-keyframes angle {
+            0%{
+                -webkit-transform: rotate(0deg);
+            }
+            40%{
+                -webkit-transform: rotate(180deg);
+            }
+            70%{
+                -webkit-transform: rotate(-180deg);
+            }
+            100%{
+                -webkit-transform: rotate(0deg);
+            }
+        }
+
+        .angle{
+            background-color: yellow;
+            width: 100px;
+            height: 30px;
+        }
+        .angle:hover{
+            animation-name: angle;
+            animation-duration: 2s; /*定义播放时间*/
+            animation-delay: 1s; /*定义播放延迟时间*/
+            transition-timing-function: ease-in-out;/*过度效果*/
+
+            -webkit-animation-iteration-count: infinite;/*播放次数 无限次 可以改为数字*/
+            -moz-animation-iteration-count: infinite;/*播放次数*/
+            -o-animation-iteration-count: infinite;/*播放次数*/
+            animation-iteration-count: infinite;/*播放次数*/
+
+            animation-direction: alternate;/*播放方向， nomal: 正方向； alternate：偶正 奇反*/
+
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="aa">
+        测试before伪类
+    </div>
+
+    <a class="bb" href="http://www.baidu.com" target="view_window">访问百度</a>
+    <a class="bb" href="https://www.csdn.net/" target="view_window1">访问csdn</a>
+    <a class="bb" href="https://www.imooc.com/" target="view_window2">访问慕课网</a>
+    <a class="bb" href="https://http://www.w3school.com.cn//" target="view_window3">访问W3school</a>
+
+    <p>测试鼠标选中选择器</p>
+
+    age：<input type="number" min="18" max="50" style="width: 50px"/><br/>
+    email:<input type="email" placeholder="请输入邮箱。。。"/>
+
+    <span>aaaaaaaaaa</span>
+    <span>bbbbbbbbbb</span>
+
+    <hr/>
+    <h3>高级动画设置Animation</h3>
+
+
+    <div class="angle"><--</div>
+
+
+
+
+</body>
+</html>
