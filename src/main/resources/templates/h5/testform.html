@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <style>
+
+        input:invalid{
+            background-color: gray;
+        }
+    </style>
+
+</head>
+<body>
+
+<form method="post" action="#">
+    email：<input type="email" id="email"  oninput="loadEmail()" required="required"><span></span>
+    number：<input type="number" min="15" id="number" oninput="loadNum()" required="required"><span></span>
+
+</form>
+
+<script src="../../static/js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var num = document.getElementById("number");
+        num.addEventListener("invalid", function (ev) {
+            showValidMsg(ev,num.validity,this);
+        },false);
+    });
+    function loadNum() {
+        var num = document.getElementById("number");
+        num.addEventListener("invalid", function (ev) {
+            showValidMsg(ev,num.validity,this);
+        },false);
+        console.log(num.validity);
+    }
+    function loadEmail() {
+        console.log(document.getElementById("email").validity);
+    }
+    function showValidMsg(ev,va,jsObj) {
+
+        if (va.valueMissing){
+            ev.preventDefault();
+            $(jsObj).next("span").text("内容不能为空");
+        }
+    }
+
+</script>
+</body>
+</html>
