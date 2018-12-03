@@ -16,7 +16,8 @@
 
 <form method="post" action="#">
     <input type="button" onclick="setEmail()" value="设置email">
-    email：<input type="email" id="email"  oninput="loadEmail()" onchange="console.log('onchange');" required="required"><span></span>
+    onpropertychange 是ie上的方法 == oninput
+    email：<input type="email" id="email"   onpropertychange="loadEmail()" oninput="loadEmail()" onchange="console.log('onchange');" required="required"><span></span>
     number：<input type="number" min="15" id="number" oninput="loadNum()" required="required"><span></span>
 
 </form>
