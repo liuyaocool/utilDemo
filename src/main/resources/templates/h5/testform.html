@@ -15,7 +15,8 @@
 <body>
 
 <form method="post" action="#">
-    email：<input type="email" id="email"  oninput="loadEmail()" required="required"><span></span>
+    <input type="button" onclick="setEmail()" value="设置email">
+    email：<input type="email" id="email"  oninput="loadEmail()" onchange="console.log('onchange');" required="required"><span></span>
     number：<input type="number" min="15" id="number" oninput="loadNum()" required="required"><span></span>
 
 </form>
@@ -29,6 +30,9 @@
             showValidMsg(ev,num.validity,this);
         },false);
     });
+    function setEmail() {
+        $("#email").val("adadf@163.com").change();
+    }
     function loadNum() {
         var num = document.getElementById("number");
         num.addEventListener("invalid", function (ev) {
