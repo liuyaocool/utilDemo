@@ -7,7 +7,10 @@
     <style>
 
         input:invalid{
-            background-color: gray;
+            background-color: indianred;
+        }
+        input:valid{
+            background-color: greenyellow;
         }
     </style>
 
@@ -16,33 +19,66 @@
 
 <form method="post" action="#">
     <input type="button" onclick="setEmail()" value="设置email">
-    onpropertychange 是ie上的方法 == oninput
-    email：<input type="email" id="email"   onpropertychange="loadEmail()" oninput="loadEmail()" onchange="console.log('onchange');" required="required"><span></span>
-    number：<input type="number" min="15" id="number" oninput="loadNum()" required="required"><span></span>
-
+    onpropertychange 是ie上的方法 == oninput<br/>
+    email：<input type="email" name="ema" id="email" maxlength="20" pattern="^\d{3}$" onpropertychange="loadEmail()" oninput="loadEmail(this)" onchange="console.log('onchange');" required="required"><span></span><br/>
+    number：<input type="number" min="15" id="number" oninput="loadNum(this)" required="required"><span></span>
+    <hr/>
+    <form onsubmit="" name="myform">
+        只输入英文<input type="text" pattern="/^[a-zA-Z]$/" maxlength="10"><br/>
+        邮件<input type="email"><br/>
+        数字<input type="number" min="18" name="num" oninput="loadNum(this)"><br/>
+        6位<input type="password" min="6" max="6"><br/>
+    </form>
 </form>
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
 
-    $(function () {
+    // $(function () {
         var num = document.getElementById("number");
         num.addEventListener("invalid", function (ev) {
             showValidMsg(ev,num.validity,this);
         },false);
-    });
+    // });
     function setEmail() {
         $("#email").val("adadf@163.com").change();
     }
-    function loadNum() {
-        var num = document.getElementById("number");
-        num.addEventListener("invalid", function (ev) {
-            showValidMsg(ev,num.validity,this);
-        },false);
-        console.log(num.validity);
+    function loadNum(dom) {
+        // document.myform.num.setCustomValidity("不能为空。");
+        // document.myform.num.validationMessage;
+        if (dom.validity.valueMissing){
+
+            dom.setCustomValidity("不能为空。");//不好使
+            dom.validationMessage;
+            alert("aa")
+            // $(dom).next("span").text("内容不能为空。");
+        } else {
+            $(dom).next("span").text("");
+        }
+        console.log(dom.validity);
     }
-    function loadEmail() {
-        console.log(document.getElementById("email").validity);
+    function loadEmail(dom) {
+        if (dom.validity.valueMissing){
+            $(dom).next("span").text("内容不能为空。");
+        } else if(dom.validity.typeMismatch){
+            $(dom).next("span").text("格式不正确。");
+        } else if (dom.validity.tooLong){
+            $(dom).next("span").text("超长。");
+        } else if (dom.validity.stepMismatch){
+            $(dom).next("span").text("不合法。");
+        } else if (dom.validity.rangeUnderflow){
+            $(dom).next("span").text("是输入过小。");
+        } else if (dom.validity.rangeOverflow){
+            $(dom).next("span").text("是输入过大。");
+        }else if (dom.validity.patternMismatch){
+            $(dom).next("span").text("不满足正则。");//三位数字
+        }else if (!dom.validity.valid){
+            $(dom).next("span").text("存在不满足的验证。");
+        }
+        else {
+            $(dom).next("span").text("");
+        }
+        // console.log(dom.validity);
     }
     function showValidMsg(ev,va,jsObj) {
 
