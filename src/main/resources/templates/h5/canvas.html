@@ -15,21 +15,43 @@
 <body>
 
 <canvas id="mycan" width="300px" height="300px" onclick="cgSize(300)">
-    123123
+    此处为画布内容，浏览器不支持H5画布！
 </canvas>
 
-<input type="button" value="制图" onclick="getImg()"><img id="myimg"><br/>
+<input type="button" value="制图" onclick="getImg()" style="margin: 10px 10px;"><img id="myimg"><br/>
 
 <input type="button" value="cgSize" onclick="cgSize(250)">
 <input type="button" value="fill" onclick="fill()">
 <input type="button" value="画笔" onclick="pencel()">
 <input type="button" value="渐变1" onclick="ccgSlow()">
 <input type="button" value="渐变2" onclick="ccgSlow2()">
+<input type="button" value="图片" onclick="imgDraw()">
+<input type="button" value="画线" onclick="lineDraw()">
+
+<br/><img id="imgmodel" src="../../static/img/working.gif">
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
     var myCan = document.getElementById("mycan");
     var context = myCan.getContext("2d");//2d  3d -- 获得canvas接口
+
+    function lineDraw() {
+        context.strokeStyle = "yellowGreen"
+        //1
+        context
+
+    }
+    function imgDraw() {
+        var img = document.getElementById("imgmodel");
+        var pattern;
+        try {
+            pattern = context.createPattern(img, "repeat-y");//repeat repeat-x repeat-y no-repeat
+        }catch (e) {
+            console.log(e);
+        }
+        context.fillStyle = pattern;
+        context.fillRect(0,0,200,200);
+    }
 
     function ccgSlow() {
         var gradient = context.createRadialGradient(10,10,20,300,300,50);//x0 y0 r0 x1 y1 r1
