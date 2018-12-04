@@ -6,37 +6,70 @@
 
     <style>
         #mycan{
-            width: 300px;
-            height: 150px;
-            background-color: #ffcc66;
+            /*background-color: #ffcc66;*/
+            border: 2px solid red;
         }
-
     </style>
 
 </head>
 <body>
 
-<canvas id="mycan" >
+<canvas id="mycan" width="300px" height="300px" onclick="cgSize(300)">
     123123
 </canvas>
-<input type="button" value="cgSize" onclick="cgSize()">
+
+<input type="button" value="制图" onclick="getImg()"><img id="myimg"><br/>
+
+<input type="button" value="cgSize" onclick="cgSize(250)">
 <input type="button" value="fill" onclick="fill()">
-<input type="button" value="3">
-<input type="button" value="4">
-<input type="button" value="5">
+<input type="button" value="画笔" onclick="pencel()">
+<input type="button" value="渐变1" onclick="ccgSlow()">
+<input type="button" value="渐变2" onclick="ccgSlow2()">
+
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
+    var myCan = document.getElementById("mycan");
+    var context = myCan.getContext("2d");//2d  3d -- 获得canvas接口
 
-    function cgSize() {
-        var myCan = document.getElementById("mycan");
-        myCan.setAttribute("width", 250);
+    function ccgSlow() {
+        var gradient = context.createRadialGradient(10,10,20,300,300,50);//x0 y0 r0 x1 y1 r1
+        gradient.addColorStop(0,"blue");
+        gradient.addColorStop(0.5,"green");
+        context.fillStyle = gradient;
+        context.fillRect(0,0,300,300);
+    }
+    function ccgSlow2() {
+        var gradient = context.createLinearGradient(0,0,300,0);
+        gradient.addColorStop(0,"greenyellow");
+        gradient.addColorStop(0.3,"blue");
+        gradient.addColorStop(0.7,"green");
+        gradient.addColorStop(1,"pink");
+        context.fillStyle = gradient;
+        context.fillRect(0,0,300,200);
+    }
+    function pencel() {
+        context.fillStyle = "red";
+        context.fillRect(0,0,50,25);
+        context.strokeStyle = "blue";
+        context.strokeRect(50,50,50,50);
+        context.fillStyle = "green";
+        context.fillRect(100,100,50,50);
+        context.strokeStyle = "black";
+        context.strokeRect(150,50,50,50);
+    }
+    function getImg() {
+        var url = myCan.toDataURL("image/jpeg", 0.5);
+        document.getElementById("myimg").src = url;
+    }
+    function cgSize(wid) {
+        myCan.setAttribute("width", wid);
     }
     function fill() {
-        var myCan = document.getElementById("mycan");
-        var context = myCan.getContext("2d");
-        context.fillRect(1,1,50,50);
+        context.fillRect(10,1,50,50);
+        console.log(myCan.getContext("2d"));
+        console.log(myCan.getContext("3d"));
     }
-    
+
 </script>
 </body>
 </html>
