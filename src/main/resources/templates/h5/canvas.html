@@ -26,7 +26,8 @@
 <input type="button" value="渐变1" onclick="ccgSlow()">
 <input type="button" value="渐变2" onclick="ccgSlow2()">
 <input type="button" value="图片" onclick="imgDraw()">
-<input type="button" value="画线" onclick="lineDraw()">
+<input type="button" value="画线1" onclick="lineDraw()">
+<input type="button" value="画线2" onclick="lineDraw2()">
 
 <br/><img id="imgmodel" src="../../static/img/working.gif">
 
@@ -35,11 +36,41 @@
     var myCan = document.getElementById("mycan");
     var context = myCan.getContext("2d");//2d  3d -- 获得canvas接口
 
+    function lineDraw2() {
+        context.lineWidth = 15;
+        context.strokeStyle = "green";
+        //1
+        context.beginPath();//开辟一条新的子路径
+        context.lineCap = "butt";//默认 不处理
+        context.moveTo(10,10);//定义起点坐标
+        context.lineTo(150,10);//画直线
+        context.stroke();//绘制
+        //2
+        context.beginPath();
+        context.lineCap = "round";//头 尾添加半圆弧
+        context.moveTo(10,50);
+        context.lineTo(150,50);
+        context.stroke();
+        //3
+        context.beginPath();
+        context.lineCap = "square";//头 尾添加矩形 长=线宽/2 宽=线宽
+        context.moveTo(10,100);
+        context.lineTo(150,100);
+        context.stroke();
+    }
     function lineDraw() {
         context.strokeStyle = "yellowGreen"
         //1
-        context
-
+        context.beginPath();
+        context.moveTo(10,10);
+        context.lineTo(150,10);
+        context.stroke()
+        //2
+        context.beginPath();
+        context.moveTo(10,40);
+        context.lineTo(150,40);
+        context.lineWidth = 15;
+        context.stroke()
     }
     function imgDraw() {
         var img = document.getElementById("imgmodel");
@@ -50,7 +81,7 @@
             console.log(e);
         }
         context.fillStyle = pattern;
-        context.fillRect(0,0,200,200);
+        context.fillRect(0,0,200,200);//填充矩形
     }
 
     function ccgSlow() {
@@ -77,7 +108,7 @@
         context.fillStyle = "green";
         context.fillRect(100,100,50,50);
         context.strokeStyle = "black";
-        context.strokeRect(150,50,50,50);
+        context.strokeRect(150,50,50,50);//描绘一个指定矩形
     }
     function getImg() {
         var url = myCan.toDataURL("image/jpeg", 0.5);
