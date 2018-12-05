@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+
+<script src="../../static/js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+
+    if (typeof(Worker)){
+        console.log("支持worker")
+    } else {
+        console.log("不支持Worker")
+    }
+    if (typeof(SharedWorker)) {
+        console.log("支持共享线程")
+    }else {
+        console.log("不支持共享worker")
+    }
+
+</script>
+</body>
+</html>
