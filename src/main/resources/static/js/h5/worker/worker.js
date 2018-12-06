@@ -10,8 +10,8 @@ onmessage = function (ev) {
       b: b
   });
 };
-var n = 0;
-search: while (true){
-    postMessage(n);
-    n++;
-}
+// var n = 0;
+// search: while (true){
+//     postMessage(n);
+//     n++;
+// }

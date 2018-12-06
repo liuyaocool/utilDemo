@@ -18,25 +18,32 @@
     var worker;
     $(function () {
 
-        if (typeof(Worker)){
-            console.log("支持worker")
+        if (typeof(SharedWorker)) {
             /**
-             * 调用次构造，会在浏览器后台隐式实例化一个PortMessage对象
-             * 此对象定义了消息端口的属性和方法，支持在两个消息端口之间信息数据的传输
-             * 数据包括 JSON XML格式
+             * 实例化PortMessage对象，
+             * 可以通过实例化后的SharedWorker对象的属性进行访问
+             * （文件，标识名）
              */
-            worker = new Worker("../../static/js/h5/worker/worker.js");//DedicateWorker接口构造方法
-            worker.addEventListener("message",getMessage, false);
-            worker.addEventListener("error",errorMsg, false);
+            worker = new SharedWorker("../../static/js/h5/worker/sharedworker.js", "mySharedWorker");
+            //port 即实例化对象，表示主线程中的消息端口
 
+            worker.port.start();
+            worker.port.addEventListener("message",getMessage, false);
+            worker.port.addEventListener("error",errorMsg, false);
             $("#sendWork").click(sendWork);
-        } else {
-            console.log("不支持Worker")
+
+            // worker.port.onmessage = function(ev){
+            //     $("p").append("<br/>传回的数据:" + ev.data);
+            // };
+            console.log(SharedWorker);
+            console.log("支持共享线程")
+        }else {
+            console.log("不支持共享worker")
         }
     });
 
     function sendWork(ev) {
-        worker.postMessage({//消息发送方法
+        worker.postMessage({
             a:"a",
             b:"b",
             c:"c"
