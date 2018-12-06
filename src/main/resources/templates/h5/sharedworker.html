@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>SharedWorker</title>
 
     <style>
 
@@ -15,6 +15,7 @@
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
+    var work;
     var worker;
     $(function () {
 
@@ -25,13 +26,13 @@
              * （文件，标识名）
              * 可以被多个页面访问 多个关联页面都关闭才会关闭
              */
-            worker = new SharedWorker("../../static/js/h5/worker/sharedworker.js", "mySharedWorker");
-            //port 即实例化对象，表示主线程中的消息端口
-
+            work = new SharedWorker("../../static/js/h5/worker/sharedworker.js", "mySharedWorker");
+            //port 即实例化对象，表示主线程中的消息端口 子线程的一个消息端口
+            worker = work.port;
+            worker.start();//初始化主线程消息端口，
             // 若要使用此方法监听onmessage事件，就必须在之前调用start()方法
-            worker.port.addEventListener("message",getMessage, false);
-            worker.port.addEventListener("error",errorMsg, false);
-            worker.port.start();//初始化主线程消息端口，
+            worker.addEventListener("message",getMessage, false);
+            // worker.addEventListener("error",errorMsg, false);
 
             $("#sendWork").click(sendWork);
 
@@ -46,8 +47,9 @@
     });
 
     function sendWork(ev) {
-        console.log("send")
-        worker.port.postMessage({
+        console.log("send");
+        console.log(worker);
+        worker.postMessage({
             a:"a",
             b:"b",
             c:"c"
@@ -56,8 +58,6 @@
     
     function getMessage(ev) {
         $("p").append("<br/>传回的数据:" + ev.data);
-
-        // if (ev.data > 10) worker.port.close();//终止专用子线程的执行
     }
 
     function errorMsg(ev) {
