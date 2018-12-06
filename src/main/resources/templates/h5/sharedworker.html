@@ -28,16 +28,17 @@
             worker = new SharedWorker("../../static/js/h5/worker/sharedworker.js", "mySharedWorker");
             //port 即实例化对象，表示主线程中的消息端口
 
-            worker.port.start();//初始化主线程消息端口，
             // 若要使用此方法监听onmessage事件，就必须在之前调用start()方法
             worker.port.addEventListener("message",getMessage, false);
             worker.port.addEventListener("error",errorMsg, false);
+            worker.port.start();//初始化主线程消息端口，
+
             $("#sendWork").click(sendWork);
 
             // worker.port.onmessage = function(ev){
             //     $("p").append("<br/>传回的数据:" + ev.data);
             // };
-            console.log(SharedWorker);
+            // console.log(SharedWorker);
             console.log("支持共享线程")
         }else {
             console.log("不支持共享worker")
@@ -45,7 +46,8 @@
     });
 
     function sendWork(ev) {
-        worker.postMessage({
+        console.log("send")
+        worker.port.postMessage({
             a:"a",
             b:"b",
             c:"c"
@@ -55,7 +57,7 @@
     function getMessage(ev) {
         $("p").append("<br/>传回的数据:" + ev.data);
 
-        if (ev.data > 10) worker.terminate();//终止专用子线程的执行
+        // if (ev.data > 10) worker.port.close();//终止专用子线程的执行
     }
 
     function errorMsg(ev) {
