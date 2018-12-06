@@ -10,10 +10,10 @@ function onMsg(ev) {
     var a = ev.data.a;
     var b = ev.data.b;
     var c = ev.data.c;
-    // postMessage("a:" +a + "/b:" + b + "/c:" + c);
-    console.log("send.js");
-    this.postMessage({
-        a: a,
-        b: b
-    });
+    this.postMessage(self.location.host);
+    // this.postMessage("a:" +a + "/b:" + b + "/c:" + c);
+    // this.postMessage({
+    //     a: a,
+    //     b: b
+    // });
 }

@@ -5,7 +5,7 @@ onmessage = function (ev) {
   var b = ev.data.b;
   var c = ev.data.c;
   // postMessage("a:" +a + "/b:" + b + "/c:" + c);
-  postMessage({
+  self.postMessage({
       a: a,
       b: b
   });

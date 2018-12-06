@@ -10,6 +10,35 @@
 
 </head>
 <body>
+
+<pre>
+
+共享线程--SharedWorker接口
+    实现了AbstractWorker接口
+    SharedWorker()
+    port属性
+    onerror属性
+
+
+通用子线程控制接口--WorkerGlobalScope接口
+    继承实现了WorkerUtils接口的属性和方法
+    self  //表示WorkerGlobalScope本身 例Worker
+    location  //返回WorkerLocation对象 （保存一系列js文件信息） 例SharedWorker
+        href //js绝对路径
+        protocol //js传送的协议
+        host //
+    close() //终止子线程的执行
+    onerror
+    onoffline
+    ononlie
+    importScripts()
+    navigator
+
+
+
+</pre>
+
+
 <input type="button" id="sendWork" value="sdwk">
 <p></p>
 

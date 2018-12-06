@@ -10,6 +10,21 @@
 
 </head>
 <body>
+<pre>
+
+专用线程--DedicatedWorker接口（简称Worker接口）
+    兼容性比共享线程好
+    主线程建立专用线程 来控制专用线程的调度和数据传送。
+
+    实现了AbstractWorker接口--提供了一系列在主线程中创建和控制专用线程的属性和方法
+    Worker()
+    onmessage
+    onerror
+    postMessage() //普通文本 二进制数据块 JSON XML格式化的数据
+    terminate()
+
+</pre>
+
 <input type="button" id="sendWork" value="sdwk">
 <p></p>
 
