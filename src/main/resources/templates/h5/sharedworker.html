@@ -23,6 +23,7 @@
              * 实例化PortMessage对象，
              * 可以通过实例化后的SharedWorker对象的属性进行访问
              * （文件，标识名）
+             * 可以被多个页面访问 多个关联页面都关闭才会关闭
              */
             worker = new SharedWorker("../../static/js/h5/worker/sharedworker.js", "mySharedWorker");
             //port 即实例化对象，表示主线程中的消息端口
