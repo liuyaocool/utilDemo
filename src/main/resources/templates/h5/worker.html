@@ -14,16 +14,33 @@
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
+    var worker;
+    $(function () {
 
-    if (typeof(Worker)){
-        console.log("支持worker")
-    } else {
-        console.log("不支持Worker")
-    }
-    if (typeof(SharedWorker)) {
-        console.log("支持共享线程")
-    }else {
-        console.log("不支持共享worker")
+        if (typeof(Worker)){
+            console.log("支持worker")
+            /**
+             * 调用次构造，会在浏览器后台隐式实例化一个PortMessage对象
+             * 此对象定义了消息端口的属性和方法，支持在两个消息端口之间信息数据的传输
+             * 数据包括 JSON XML格式
+             */
+            worker = new Worker("../../static/js/h5/worker/worker.js");//DedicateWorker接口构造方法
+            worker.addEventListener("message",getMessage, false);
+
+
+        } else {
+            console.log("不支持Worker")
+        }
+        if (typeof(SharedWorker)) {
+            console.log(SharedWorker);
+            console.log("支持共享线程")
+        }else {
+            console.log("不支持共享worker")
+        }
+    })
+    
+    function getMessage(ev) {
+        document.write("传回的数据:" + ev.data);
     }
 
 </script>
