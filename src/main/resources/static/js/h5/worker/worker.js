@@ -5,10 +5,10 @@ onmessage = function (ev) {
   var b = ev.data.b;
   var c = ev.data.c;
   // postMessage("a:" +a + "/b:" + b + "/c:" + c);
-  self.postMessage({
-      a: a,
-      b: b
-  });
+  // self.postMessage({a: a, b: b});
+    importScripts("../h5.js");
+  self.postMessage(testImp(3));
+
 };
 // var n = 0;
 // search: while (true){

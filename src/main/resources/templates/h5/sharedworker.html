@@ -11,6 +11,9 @@
 </head>
 <body>
 
+<input type="button" id="sendWork" value="sdwk">
+<p></p>
+
 <pre>
 
 共享线程--SharedWorker接口
@@ -27,20 +30,29 @@
         href //js绝对路径
         protocol //js传送的协议
         host //
-    close() //终止子线程的执行
-    onerror
+    close() //终止子线程的执行 主流浏览器实现差异大 例SharedWorker
+    onerror //
     onoffline
     ononlie
-    importScripts()
-    navigator
+    importScripts(n个js脚本绝对路经) //WorkerUtils中继承 在子线程中导入js脚本 支持跨域操作 例Worker
+    navigator //Navigator接口 测试与浏览器有关的信息
+        onLine
+        appName
+        appVersion
+        platform
+        userAgent
 
 
+专用子线程接口--DedicatedWorkerGlobalScope接口
+    postMessage(消息体，转移序列)  //从一个消息端口向另一个传递数据 第二个参数目前无实际意义
+    onmessage  //表示当主线程消息端口向专用线程消息端口传递数据时触发 与Worker接口属性类似
 
+
+共享子线程接口--SharedWorkerGlobalScope接口  可以实现多个网页通信
+    name //标识名
+    applicationCache //ApplicationCache对象
+    onconnect //建立连接
 </pre>
-
-
-<input type="button" id="sendWork" value="sdwk">
-<p></p>
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
