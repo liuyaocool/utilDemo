@@ -27,7 +27,8 @@
             worker = new SharedWorker("../../static/js/h5/worker/sharedworker.js", "mySharedWorker");
             //port 即实例化对象，表示主线程中的消息端口
 
-            worker.port.start();
+            worker.port.start();//初始化主线程消息端口，
+            // 若要使用此方法监听onmessage事件，就必须在之前调用start()方法
             worker.port.addEventListener("message",getMessage, false);
             worker.port.addEventListener("error",errorMsg, false);
             $("#sendWork").click(sendWork);
