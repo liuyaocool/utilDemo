@@ -10,7 +10,8 @@
 
 </head>
 <body>
-
+<input type="button" id="sendWork" value="sdwk">
+<p></p>
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
@@ -26,8 +27,9 @@
              */
             worker = new Worker("../../static/js/h5/worker/worker.js");//DedicateWorker接口构造方法
             worker.addEventListener("message",getMessage, false);
+            worker.addEventListener("error",errorMsg, false);
 
-
+            $("#sendWork").click(sendWork);
         } else {
             console.log("不支持Worker")
         }
@@ -37,10 +39,26 @@
         }else {
             console.log("不支持共享worker")
         }
-    })
+    });
+
+    function sendWork(ev) {
+        worker.postMessage({
+            a:"a",
+            b:"b",
+            c:"c"
+        });
+    }
     
     function getMessage(ev) {
-        document.write("传回的数据:" + ev.data);
+        $("p").append("<br/>传回的数据:" + ev.data);
+
+        if (ev.data > 10) worker.terminate();//终止专用子线程的执行
+    }
+
+    function errorMsg(ev) {
+        $("p").text("异常信息：" + ev.data);
+        $("p").append("<br/>异常行号：" + ev.lineno);
+        $("p").append("<br/>异常文件：" + ev.filename);
     }
 
 </script>
