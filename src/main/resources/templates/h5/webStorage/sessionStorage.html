@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+<pre>
+    SessionStorage本地存储对应SessionLocalStorage接口，存在Storage接口的sessionStorage属性
+
+</pre>
+
+username:<input type="text" id="username"><br/>
+realname:<input type="text" id="realname"><br/>
+<input type="button" onclick="setStor()" value="setStro">
+<input type="button" onclick="getStor()" value="getStro">
+<script src="../../../static/js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+
+    var seStor;
+    $(function () {
+        if (typeof (window.sessionStorage)){
+            seStor = window.sessionStorage;
+            console.log("支持sessionStorage");
+        } else {
+            console.log("不支持sessionStorage");
+        }
+    });
+
+    function setStor() {
+        seStor.setItem("username", $("#username").val());
+        seStor.setItem("realname", $("#realname").val());
+    }
+    function getStor() {
+        console.log(seStor.length + "/" + seStor.getItem("username") + "/" + seStor.getItem("realname"));
+    }
+
+
+
+</script>
+</body>
+</html>
