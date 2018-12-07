@@ -38,6 +38,10 @@ realname:<input type="text" id="realname"><br/>
         seStor.setItem("realname", $("#realname").val());
     }
     function getStor() {
+        for (i in seStor){
+            // console.log(i);
+        }
+        console.log(seStor);
         console.log(seStor.length + "/" + seStor.getItem("username") + "/" + seStor.getItem("realname"));
     }
 
