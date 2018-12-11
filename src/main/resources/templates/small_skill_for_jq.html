@@ -37,10 +37,9 @@
 <script src="../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
     $(function () {
-        $("stab").click(stabSelected);
+        $("stab").click(radioSelected);
     });
-    //大气稳定度选中事件
-    function stabSelected(ev) {
+    function radioSelected(ev) {
         var val = $(this).find("input").val();
         //设置checked属性应该用此方法
         $(this).find("input").prop("checked", "checked");

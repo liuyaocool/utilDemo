@@ -69,6 +69,11 @@ $(function () {
     <fieldset>
         <legend>项</legend>
         输入域：<input type="text" list="dataLi" required="required">
+        <datalist id="dataLi">
+            <option value="aaa" label="top1"></option>
+            <option value="bbb" label="top2"></option>
+            <option value="ccc" label="top3"></option>
+        </datalist>
         <br/>
         密钥：<keygen name="security"></keygen>
     </fieldset>
@@ -86,11 +91,6 @@ $(function () {
     </fieldset>
     <input type="submit">
 </form>
-<datalist id="dataLi">
-    <option value="aaa" label="top1"></option>
-    <option value="bbb" label="top2"></option>
-    <option value="ccc" label="top3"></option>
-</datalist>
 
 <select style="width: 100px" multiple>
     <optgroup label="制服">
