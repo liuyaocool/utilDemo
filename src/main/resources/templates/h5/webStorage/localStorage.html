@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>LocalStorage</title>
 
     <style>
 
@@ -13,8 +13,10 @@
 
 <pre>
 
-    存储以键值对(也称Item)的形式存在
+    可在多个标签页或多个窗口中共享本地数据(只需将sessionStorage.html中换成localStorage即可测试)
+    存储以键值对(也称Item)的形式存在，值可以存储JSO格式字符串数据
     LocalStorage本地存储对应WindowLocalStorage接口，存在Storage接口的localStorage属性
+    长久存在，只要不手动删除，则本地存储将一直存在
 
     Storage接口的属性和方法
         length

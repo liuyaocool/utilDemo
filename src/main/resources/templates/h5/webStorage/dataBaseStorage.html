@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>DataBaseStorage</title>
+
+    <style>
+        span{
+            color: green;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<pre>
+
+    chrome在Application中查看，包括缓存等
+
+    DataBase Storage -- 前端数据库(同步、异步)
+    弥补其他两种存储不支持<b><u>关系型数据</u></b>的不足
+
+    WindowDataBase接口： -- Window接口继承实现了此接口
+
+    openDataBase() : 返回一个DataBase实例
+    参数：
+        name (必选)：数据库名称 区分大小写
+        version (必选)：数据库版本号(0.1~~1.0)
+        displayName (必选)：数据库描述
+        estimatedSize (必选)：数据库大小
+        creationCallback (可选)：回调
+
+    DataBase接口：
+        transaction()  //读写
+        readTransaction()  //只读 使用同上
+        version  //版本号
+        changeversion(oldVersion,newVersion,callback) //修改数据库版本号 目前主流浏览器只支持1.0，so实际意义不大
+
+    SQLResult接口：
+
+
+</pre>
+
+<input type="button" onclick="insert()" value="insert">
+<input type="button" onclick="update()" value="update">
+<input type="button" onclick="deleteData()" value="delete">
+<input type="button" onclick="search()" value="search">
+
+<script src="../../../static/js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+
+    var dbStor;
+    var dbName = "lyDb";
+    var dbVer = "1.0";
+    var dsplName = "my test sb";
+    var dbSize = "1024*1024*5";
+    var createDbSql = "CREATE TABLE IF NOT EXISTS lydb(id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+        "name VARCHAR NOT NULL,sex VARCHAR NOT NULL,age INTEGET NOT NULL)";
+    $(function () {
+        if (typeof (window.openDatabase)){
+            dbStor = window.openDatabase(dbName,dbVer,dsplName,dbSize,dbCallback);
+            dbStor.transaction(function (transaction) {
+                transaction.executeSql(createDbSql);//执行sql语句
+                console.log("创建数据库成功。");
+            });
+            console.log("支持DataBase Storage");
+        } else {
+            console.log("不支持DataBase Storage");
+        }
+
+    });
+
+    //回调函数 （DataBase实例）
+    function dbCallback(database) {
+
+    }
+
+    function insert() {
+        var insertSql = "insert into lydb(name,sex,age) Values(?,?,?)";
+        dbStor.transaction(function (transaction) {
+            var SQLResult = transaction.executeSql(insertSql,["liuyao","man","18"]);
+            console.log("插入数据成功。");
+        });
+    }
+    function update() {
+        var updateSql = "UPDATE lydb SET sex=?,age=? WHERE name=?";
+        dbStor.transaction(function (transaction) {
+            transaction.executeSql(updateSql,["woman","20","liuyao"]);
+            console.log("修改数据成功。");
+        });
+    }
+    function deleteData() {
+        var delSql = "";
+        dbStor.transaction(function (transaction) {
+            transaction.executeSql(delSql,["woman","20","liuyao"]);
+            console.log("删除数据成功。");
+        });
+    }
+    function search() {
+        var searcjSql = "";
+        dbStor.transaction(function (transaction) {
+            transaction.executeSql(searcjSql,["woman","20","liuyao"]);
+            console.log("查询数据成功。");
+        });
+    }
+
+
+</script>
+</body>
+</html>
