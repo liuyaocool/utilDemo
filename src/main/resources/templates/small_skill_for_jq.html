@@ -42,6 +42,7 @@
     function radioSelected(ev) {
         var val = $(this).find("input").val();
         //设置checked属性应该用此方法
+        //或者放在label标签内，label标签点击事件封装了input获得点击事件
         $(this).find("input").prop("checked", "checked");
     }
 
