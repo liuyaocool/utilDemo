@@ -18,16 +18,36 @@
             width: 300px;
             height: 300px;
         }
+
+        #div1,#div2 {width:198px; height:66px;padding:10px;border:1px solid #aaaaaa;}
     </style>
 
 </head>
 <body>
+
+<pre>
+
+    拖动什么 - ondragstart 和 setData()
+    放到何处 - ondragover
+    进行放置 - ondrop
+        调用 preventDefault() 来避免浏览器对数据的默认处理（drop 事件的默认行为是以链接形式打开）
+        通过 dataTransfer.getData("Text") 方法获得被拖的数据。该方法将返回在 setData() 方法中设置为相同类型的任何数据。
+        被拖数据是被拖元素的 id ("drag1")
+        把被拖元素追加到放置元素（目标元素）中
+
+</pre>
 <div id="drag" class="drag">
     <div draggable="true" dropzone="link">1</div>
     <div draggable="true" dropzone="move">2</div>
     <div draggable="true" dropzone="copy">3</div>
     <div draggable="true" dropzone="move">4</div>
 </div>
+
+
+<p>请把 W3School 的图片拖放到矩形中：</p>
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<img src="img_logo.gif" draggable="true" ondragstart="drag(event)" id="drag1" />
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
@@ -40,7 +60,23 @@
             // console.log("aa");
         })
 
-    })
+    });
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        //拖动什么 ondragstart 和 setData()
+        //此方法设置被拖动的数据类型和值(此处为元素id)
+        ev.dataTransfer.setData("Text",ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data=ev.dataTransfer.getData("Text");
+        console.log(data);
+        ev.target.appendChild(document.getElementById(data));
+    }
 </script>
 </body>
 </html>
