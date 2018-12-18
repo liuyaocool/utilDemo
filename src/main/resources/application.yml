@@ -12,3 +12,4 @@ spring:
       additional-paths: src/main/java
       #设置不重启目录
       exclude: src/main/resources/**
+
