@@ -9,6 +9,6 @@ spring:
       #热部署生效
       enabled: true
       #设置重启目录
-      additional-paths: src/main/resources
+      additional-paths: src/main/java
       #设置不重启目录
-      exclude: data/**
+      exclude: src/main/resources/**

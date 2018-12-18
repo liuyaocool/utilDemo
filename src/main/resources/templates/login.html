@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Title</title>
+    <title>login</title>
 </head>
 <body>
 
@@ -22,8 +24,16 @@
 
 <form method="post" action="/systemFile/upWord" enctype="multipart/form-data">
     <input type="file" name="word"/>
-    <input type="submit" value="word"/>word
+    <input type="submit" value="word"/>word123
 </form>
 
+<pre>
+    優先級
+    META-INF/resources > resources > static > public
+</pre>
+
+<!--注意開頭斜杠-->
+<script type="text/javascript"th:src="@{/js/jquery-1.12.2.min.js}"></script>
+<!--<script type="text/javascript" th:src="@{js/jquery-1.12.2.min.js}"></script>-->
 </body>
 </html>
