@@ -67,7 +67,7 @@
              * （文件，标识名）
              * 可以被多个页面访问 多个关联页面都关闭才会关闭
              */
-            work = new SharedWorker("../../static/js/h5/worker/sharedworker.js", "mySharedWorker");
+            work = new SharedWorker("../../../static/js/h5/worker/sharedworker.js", "mySharedWorker");
             //port 即实例化对象，表示主线程中的消息端口 子线程的一个消息端口
             worker = work.port;
             worker.start();//初始化主线程消息端口，

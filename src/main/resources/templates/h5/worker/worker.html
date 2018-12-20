@@ -41,7 +41,7 @@
              * 页面关闭 线程结束
              * 数据包括 普通文本 二进制数据块 JSON XML格式
              */
-            worker = new Worker("../../static/js/h5/worker/worker.js");//DedicateWorker接口构造方法
+            worker = new Worker("../../../static/js/h5/worker/worker.js");//DedicateWorker接口构造方法
             worker.addEventListener("message",getMessage, false);
             worker.addEventListener("error",errorMsg, false);
 
