@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+
+<script src="../../static/js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        var o1 = Object.create({x:1,y:2})
+
+        var o2 = {
+            $n : 3
+        };
+        Object.defineProperty(o2, "x", {value:2,writable:true,enumerable: false,configurable:true});
+        Object.defineProperty(o2, "x", {writable:false});//设置x属性不可写
+        o2.x = 3;
+        console.log(o2.x);
+    })
+
+</script>
+</body>
+</html>

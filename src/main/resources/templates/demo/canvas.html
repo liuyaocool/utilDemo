@@ -14,7 +14,7 @@
 </head>
 <body>
 
-<canvas id="mycan" width="300px" height="300px" onclick="cgSize(300)">
+<canvas id="mycan" width="300px" height="300px" onload="drawXY()">
     此处为画布内容，浏览器不支持H5画布！
 </canvas>
 
@@ -66,6 +66,10 @@ Canvas路径：
     var myCan = document.getElementById("mycan");
     var context = myCan.getContext("2d");//2d  3d -- 获得canvas接口
 
+    function drawXY() {
+        
+    }
+    
     function lineDrawClose() {
         context.lineWidth = 5;
         context.beginPath();
