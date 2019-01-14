@@ -2,6 +2,7 @@ package com.liuyao.demo.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateFormatUtil{
@@ -101,4 +102,21 @@ public class DateFormatUtil{
         return "0";
     }
 
+    /**
+     * 已知日期字符串，获得小时数
+     */
+    public static void getHour(String dateStr){
+
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH");
+        try {
+            Date date = format.parse(dateStr);
+            Calendar c1 = Calendar.getInstance();
+            c1.setTime(date);
+            double hour24 = c1.get(Calendar.HOUR_OF_DAY);//24小时制
+            double hour12 = c1.get(Calendar.HOUR);//12小时制
+        } catch (Exception e){
+
+        }
+    }
 }
+
