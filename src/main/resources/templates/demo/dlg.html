@@ -36,6 +36,10 @@
             padding: 10px;
         }
 
+        .comboo{
+
+        }
+
         /*居中样式*/
         .point{position:absolute;left:50%; top:50%;}
         .pop{width:500px; height:500px; position:absolute;left:-250px; top:-250px; border:2px solid red; }
@@ -53,7 +57,26 @@
     <!--</div>-->
 
 <div class="point">
-    <div class="pop"></div>
+    <div class="pop">
+        <select class="comboo">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select><br/>
+
+        <input type="text" name="combo1" id="combo1" list="combo1List">
+
+        <datalist id="combo1List">
+            <option label="">111</option>
+            <option label="">112</option>
+            <option label="">113</option>
+            <option label="">114</option>
+        </datalist><br/>
+        <input type="button" onclick="alert($('#combo1').val())" value="aaa">
+
+    </div>
 </div>
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
