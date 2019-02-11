@@ -1,0 +1,15 @@
+server:
+  port: 8083
+spring:
+  thymeleaf:
+    #禁用模版缓存
+    cache: false
+  devtools:
+    restart:
+      #热部署生效
+      enabled: true
+      #设置重启目录
+      additional-paths: src/main/java
+      #设置不重启目录
+      exclude: src/main/resources/**
+
