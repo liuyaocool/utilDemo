@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <style>
+
+        .main{
+            width: 200px;
+            height: 200px;
+            background: rosybrown;
+            float: right;
+        }
+
+
+        .showTips{
+            border: 1px solid black;
+            position: absolute;
+            z-index: 999;
+            background-color: lightyellow;
+            border-radius: 5px;
+            padding: 9px;
+            font-size: 15px;
+            display: none;
+            transition: all 0.1s;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<pre>
+
+
+</pre>
+
+<div class="main">sdfghjklKJGKJGHKJHJKHGKJGJH</div>
+
+<div class="showTips" style="z-index:9999999;"></div>
+
+<script src="../../static/js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $(".main").mouseout(function () {
+            $(".showTips").hide();
+        }).mousemove(showTips);
+    })
+
+
+    //小窗口展示
+    function showTips(ev) {
+        var content = $(this).text();
+        $(".showTips").html(content).show();
+        var X = ev.pageX;
+        var Y = ev.pageY;
+        var wdHeight = $(window).height();
+        var wdWidth = $(window).width();
+        var tipHeight = $(".showTips").height();
+        var tipWidth = $(".showTips").width();
+
+        var size = 20;
+        if (wdHeight-Y < tipHeight){
+            $(".showTips").css("top", "");
+            $(".showTips").css("bottom", wdHeight-Y+size);
+        }else {
+            $(".showTips").css("bottom", "");
+            $(".showTips").css("top", Y+size);
+        }
+        if (wdWidth-X < tipWidth){
+            $(".showTips").css("left", "");
+            $(".showTips").css("right", wdWidth-X+size);
+        }else {
+            $(".showTips").css("right", "");
+            $(".showTips").css("left", X+size);
+        }
+    }
+
+</script>
+</body>
+</html>
