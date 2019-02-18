@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>正则</title>
+
+    <style>
+
+    </style>
+
+</head>
+<body>
+
+<pre>
+        ECMAScript 通过 RegExp 类型来支持正则表达式。使用下面类似 Perl 的语法，就可以创建一个正
+    则表达式。
+        var expression = / pattern / flags ;
+        其中的模式（pattern）部分可以是任何简单或复杂的正则表达式，可以包含字符类、限定符、分组、
+    向前查找以及反向引用。每个正则表达式都可带有一或多个标志（flags） ，用以标明正则表达式的行为。
+    正则表达式的匹配模式支持下列 3 个标志。
+         g：表示全局（global）模式，即模式将被应用于所有字符串，而非在发现第一个匹配项时立即
+            停止；
+         i：表示不区分大小写（case-insensitive）模式，即在确定匹配项时忽略模式与字符串的大小写；
+         m：表示多行（multiline）模式，即在到达一行文本末尾时还会继续查找下一行中是否存在与模
+            式匹配的项。
+    例如：
+        var pattern1 = /at/g;       //匹配字符串中所有"at"的实例
+        var pattern2 = /[bc]at/i;   //匹配第一个"bat"或"cat"，不区分大小写
+        var pattern3 = /.at/gi;     //匹配所有以"at"结尾的 3 个字符的组合，不区分大小写
+
+        与其他语言中的正则表达式类似， 模式中使用的所有元字符都必须转义。 正则表达式中的元字符包括：
+        ( [ { \ ^ $ | ) ? * + .]}
+
+        这些元字符在正则表达式中都有一或多种特殊用途，因此如果想要匹配字符串中包含的这些字符，
+    就必须对它们进行转义。下面给出几个例子。
+
+        var pattern1 = /[bc]at/i;   //匹配第一个"bat"或"cat"，不区分大小写
+        var pattern2 = /\[bc\]at/i; //匹配第一个" [bc]at"，不区分大小写
+        var pattern3 = /.at/gi;     //匹配所有以"at"结尾的 3 个字符的组合，不区分大小写
+        var pattern4 = /\.at/gi;    // 匹配所有".at"，不区分大小写
+
+</pre>
+
+<script src="../static/js/jquery-1.12.2.min.js"></script>
+<script type="text/javascript">
+
+
+</script>
+</body>
+</html>
