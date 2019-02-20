@@ -37,15 +37,15 @@
 
 </pre>
 <div id="drag" class="drag">
-    <div draggable="true" dropzone="link">1</div>
-    <div draggable="true" dropzone="move">2</div>
-    <div draggable="true" dropzone="copy">3</div>
-    <div draggable="true" dropzone="move">4</div>
+    <div id="1" draggable="true" dropzone="link" ondragstart="drag(event,this)">1</div>
+    <div id="2" draggable="true" dropzone="move" ondragstart="drag(event)">2</div>
+    <div id="3" draggable="true" dropzone="copy" ondragstart="drag(event)">3</div>
+    <div id="4" draggable="true" dropzone="move" ondragstart="drag(event)">4</div>
 </div>
 
 
 <p>请把 W3School 的图片拖放到矩形中：</p>
-<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)" class="drag"></div>
 <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 <img src="img_logo.gif" draggable="true" ondragstart="drag(event)" id="drag1" />
 

@@ -6,24 +6,24 @@
 
     <style>
 
-        .main{
-            width: 200px;
-            height: 200px;
-            background: rosybrown;
-            float: right;
-        }
+        html,body{height: 100%; margin: 0px}
 
+        .main{
+            width: 100%;
+            height: 100%;
+            background: rosybrown;
+        }
 
         .showTips{
             border: 1px solid black;
             position: absolute;
-            z-index: 999;
             background-color: lightyellow;
             border-radius: 5px;
             padding: 9px;
             font-size: 15px;
             display: none;
             transition: all 0.1s;
+            z-index:9999999;"
         }
 
     </style>
@@ -31,14 +31,9 @@
 </head>
 <body>
 
-<pre>
-
-
-</pre>
-
 <div class="main">sdfghjklKJGKJGHKJHJKHGKJGJH</div>
 
-<div class="showTips" style="z-index:9999999;"></div>
+<div class="showTips"></div>
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
@@ -48,7 +43,6 @@
             $(".showTips").hide();
         }).mousemove(showTips);
     })
-
 
     //小窗口展示
     function showTips(ev) {
@@ -62,14 +56,16 @@
         var tipWidth = $(".showTips").width();
 
         var size = 20;
-        if (wdHeight-Y < tipHeight){
+        //判断是需要减去未被计算出来的div宽高，如padding border
+        // 或使用嵌套div即可获得真是宽度
+        if (wdHeight-Y-size-20 < tipHeight){
             $(".showTips").css("top", "");
             $(".showTips").css("bottom", wdHeight-Y+size);
         }else {
             $(".showTips").css("bottom", "");
             $(".showTips").css("top", Y+size);
         }
-        if (wdWidth-X < tipWidth){
+        if (wdWidth-X-size-20 < tipWidth){
             $(".showTips").css("left", "");
             $(".showTips").css("right", wdWidth-X+size);
         }else {
