@@ -235,6 +235,12 @@
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
 
+    $(function () {
+        console.log("调用");
+        bbaa();
+        console.log(aabb);
+    });
+
     var factorial = (function f(num){
         if (num <= 1){
             return 1;
@@ -280,6 +286,20 @@
         console.log(arguments);
         alert(object.getNameFunc()());
     }
+
+    var bbaa = (function ($, window) {
+        console.log("bbaa");
+    });
+    //定义匿名函数 并立即调用
+    (function ($, window) {
+        console.log("aabb");
+        window.aabb = "aaabbb";
+    }($, window));
+    (function ($, window) {
+        console.log("cc");
+    })($, window)
+
+
 </script>
 </body>
 </html>
