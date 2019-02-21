@@ -2,7 +2,15 @@ package com.liuyao.demo.entity;
 
 import com.liuyao.demo.anno.MyAnno;
 
-public class Hero {
+import java.io.Serializable;
+
+/**
+ * 实现序列化的作用
+ * 两个java程序之间通信,文字可以但不可以传对象
+ * 当序列化之后,对象被序列化成一种类似文字流的东西,传过去之后,再用相同的序列化规则解析成对象,则是先传对象
+ * (类似于调制 解调)
+ */
+public class Hero implements Serializable {
 
     private String id;
     private String name;
