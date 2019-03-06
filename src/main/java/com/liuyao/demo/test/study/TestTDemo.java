@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class TestDemo{
+public class TestTDemo{
 	
 	public static void main(String[] args) {
 		Test_T_fanXing<Integer> inte = new Test_T_fanXing<Integer>(77);
