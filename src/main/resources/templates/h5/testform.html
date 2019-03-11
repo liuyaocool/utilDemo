@@ -29,6 +29,14 @@
         数字<input type="number" min="18" name="num" oninput="loadNum(this)"><br/>
         6位<input type="password" min="6" max="6"><br/>
     </form>
+
+    <form name="submitForm" action="www.baidu.com">
+        用户名:<input type="text" name="username" pattern="/^[a-zA-Z]$/" maxlength="10" autocomplete="off"><br/>
+        <!--autocomplete="new-password": 解决设置为off后chrome失效问题-->
+        密码<input type="password" name="password" autocomplete="new-password"><br/>
+        确认密码<input type="password" name="rePwd" autocomplete="new-password"><br/>
+        <input type="submit" value="submit">
+    </form>
 </form>
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
