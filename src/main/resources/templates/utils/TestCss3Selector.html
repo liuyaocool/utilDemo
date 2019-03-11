@@ -182,6 +182,14 @@
             z-index:10
         }
 
+        overly{
+            width: 75px;
+            padding: 2px;
+            white-space: nowrap;  /*强制span不换行*/
+            display: block;  /*将span当做块级元素对待*/
+            overflow: hidden;  /*超出宽度部分隐藏*/
+            text-overflow: ellipsis;  /*超出部分以点号代替*/
+        }
     </style>
 </head>
 <body>
@@ -206,12 +214,14 @@
     <hr/>
     <h3>高级动画设置Animation</h3>
 
-
     <div class="angle"><--</div>
 
-<hr/>
+<overly>
+    阿斯顿发大水法大师傅士大夫的撒法速度发送打法发大多数阿斯蒂阿斯蒂埃塞打算
+</overly>
+    <hr/>
     <div class="find-div-body">
-
+    </div>
 
 </body>
 </html>
