@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   thymeleaf:
-    #禁用模版缓存
+    #禁用模版缓存: chrome没有LiveReload插件
     cache: false
   devtools:
     restart:
