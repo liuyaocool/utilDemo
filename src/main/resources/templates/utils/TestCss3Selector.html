@@ -137,6 +137,21 @@
             animation-direction: alternate;/*播放方向， nomal: 正方向； alternate：偶正 奇反*/
 
         }
+        .addAngle{
+            /*width: 100px;height: 50px; background: blue;*/
+            animation-name: angle;
+            animation-duration: 2s; /*定义播放时间*/
+            animation-delay: 0s; /*定义播放延迟时间*/
+            transition-timing-function: ease-in-out;/*过度效果*/
+
+            -webkit-animation-iteration-count: infinite;/*播放次数 无限次 可以改为数字*/
+            -moz-animation-iteration-count: infinite;/*播放次数*/
+            -o-animation-iteration-count: infinite;/*播放次数*/
+            animation-iteration-count: infinite;/*播放次数*/
+
+            animation-direction: alternate;/*播放方向， nomal: 正方向； alternate：偶正 奇反*/
+
+        }
 
         .find-div-body{
             position: relative;
@@ -219,6 +234,9 @@
     <h3>高级动画设置Animation</h3>
 
     <div class="angle"><--</div>
+    <div id="addAngle" style="width: 100px;height: 50px; background: blue;" onclick="rmvAngle()"></div>
+    <input type="button" value="动态添加效果" onclick="addAngle()">
+    <input type="button" value="移除添加效果" onclick="rmvAngle()">
 
     <div class="allchild">
         <div>匹配子类所有</div>
@@ -233,4 +251,15 @@
     </div>
 
 </body>
+
+<script type="text/javascript" src="../../static/js/jquery-1.12.2.min.js"></script>
+<script>
+    function addAngle() {
+        $("#addAngle").addClass("addAngle");
+    }
+    function rmvAngle() {
+        $("#addAngle").removeClass("addAngle");
+    }
+
+</script>
 </html>

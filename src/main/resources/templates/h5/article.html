@@ -5,10 +5,11 @@
     <title>Title</title>
 
     <style>
+        input{position: relative;}
         input:invalid{
             background-color: gray;
         }
-        input:hover:after{
+        input::after{
             content: "情书";
             background-color: #FFFFFF;
             width: fit-content;
@@ -18,7 +19,8 @@
             position: absolute;
             padding: 2px 5px;
             z-index: 99;
-            left: 500px;
+            right: -50px;
+            display: block;
             /* bottom: 27px; */
         }
         input:valid{
@@ -65,7 +67,7 @@
         <br/>
         密钥：<keygen name="security"></keygen>
     </fieldset>
-    <fieldset>
+    <input>
         <legend>新增项</legend>
         number<input type="number" max="200" min="18" step="3"><br/>
         url<input type="url" placeholder="输入url"><br/>

@@ -20,8 +20,11 @@
 <form method="post" action="#">
     <input type="button" onclick="setEmail()" value="设置email">
     onpropertychange 是ie上的方法 == oninput<br/>
-    email：<input type="email" name="ema" id="email" maxlength="20" pattern="^\d{3}$" onpropertychange="loadEmail()" oninput="loadEmail(this)" onchange="console.log('onchange');" required="required"><span></span><br/>
-    number：<input type="number" min="15" id="number" oninput="loadNum(this)" required="required"><span></span>
+    email：<input type="email" name="ema" id="email" maxlength="20" onpropertychange="loadEmail()" oninput="loadEmail(this)" onchange="console.log('onchange');" required="required"><span></span><br/>
+    number：<input type="number" min="15" id="number" oninput="loadNum(this)" required="required"><span></span><br/>
+    reg：<input type="text" oninput="valPattern(this)" maxlength="20" pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" placeholder="大小写+数字+8位"><span></span><br/>
+    reg：<input type="text" oninput="valPattern(this)" maxlength="20" pattern="^(?=.*\d)(?=.*[a-zA-Z]).{6,}" placeholder="字母+数字+6位"><span></span><br/>
+
     <hr/>
     <form onsubmit="" name="myform">
         只输入英文<input type="text" pattern="/^[a-zA-Z]$/" maxlength="10"><br/>
@@ -94,6 +97,25 @@
             ev.preventDefault();
             $(jsObj).next("span").text("内容不能为空");
         }
+    }
+
+    function valPattern(dom) {
+        var t = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
+        if (dom.validity.patternMismatch){
+            $(dom).next("span").text("强度太低。");
+        } else {
+            $(dom).next("span").text("");
+        }
+    }
+
+    function checkInut(dom) {
+        if (dom.validity.valueMissing || dom.validity.typeMismatch || dom.validity.tooLong || dom.validity.stepMismatch
+            || dom.validity.rangeUnderflow || dom.validity.rangeOverflow || dom.validity.patternMismatch || !dom.validity.valid){
+            console.log("不符合规则");
+            return false;
+        }
+        console.log("符合规则");
+        return true;
     }
 
 </script>
