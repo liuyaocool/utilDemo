@@ -20,6 +20,13 @@ import java.util.*;
  */
 public class FileIOUtil {
 
+    public static void createFolder(String folder){
+        File targetFile = new File(folder);
+        if(!targetFile.exists()){
+            targetFile.mkdirs();
+        }
+    }
+
     public static String upLoadFile(MultipartFile multipartFile, HttpServletRequest request, String path) throws IOException {
 
         InputStream is = multipartFile.getInputStream();
