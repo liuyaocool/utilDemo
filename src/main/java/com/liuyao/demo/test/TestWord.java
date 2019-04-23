@@ -21,8 +21,8 @@ public class TestWord {
         FileIOUtil.createFolder(path);
 
         Tbl table = createApprove();
+        createTableWithContent();
 
-        wordMLPackage.getMainDocumentPart().addObject(table);
         wordMLPackage.save(new java.io.File(path+"HelloWord1.docx"));
     }
 
@@ -58,6 +58,7 @@ public class TestWord {
         wordMLPackage.getMainDocumentPart().addStyledParagraphOfText("Subtitle","This is a subtitle!"); //小标题
 
         Tbl table = factory.createTbl();
+        wordMLPackage.getMainDocumentPart().addObject(table);
         Tr tableRow = factory.createTr();
 
         addTableCell(tableRow, "Field 1");
@@ -70,12 +71,9 @@ public class TestWord {
         table.getContent().add(tableRow);
         addBorders(table);
 
-        table.getContent().add(tableRow);
-
-        addBorders(table);
         addTableRowWithMergedCells("Heading 1", "Heading 1.1",
                 "Field 1", table);
-        addTableRowWithMergedCells(null, "Heading 1.2", "Field 2", table);
+        addTableRowWithMergedCells(null, "Heading 1.2", null, table);
 
         addTableRowWithMergedCells("Heading 2", "Heading 2.1",
                 "Field 3", table);
@@ -228,7 +226,7 @@ public class TestWord {
      *  如果给定的宽度大于0, 将这个宽度设置到单元格.
      *  最后, 将单元格添加到行中.
      */
-    private static void addTableCellWithWidth(Tr row, String content, int width){
+    public static void addTableCellWithWidth(Tr row, String content, int width){
         Tc tableCell = factory.createTc();
         tableCell.getContent().add(
                 wordMLPackage.getMainDocumentPart().createParagraphOfText(
@@ -260,16 +258,19 @@ public class TestWord {
      */
     private static Tbl createApprove(){
         Tbl table = factory.createTbl();
-
+        wordMLPackage.getMainDocumentPart().addObject(table);
         Tr tr = factory.createTr();
         addTableCellWithWidth(tr, "Field 1", 10000);
         table.getContent().add(tr);
 
         Tr tr1 = factory.createTr();
         addTableCellWithWidth(tr1, "Field 2", 10000);
+        Tr tr2 = factory.createTr();
+        addTableCellWithWidth(tr2, "Field 2", 10000);
         Br br = factory.createBr();
 //        br.
         table.getContent().add(tr1);
+        table.getContent().add(tr2);
         table.getContent().add(br);
 
         addBorders(table);

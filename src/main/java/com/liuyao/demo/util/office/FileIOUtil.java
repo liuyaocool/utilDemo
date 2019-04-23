@@ -142,7 +142,7 @@ public class FileIOUtil {
 
                 XWPFDocument document = new XWPFDocument(is);
                 XWPFWordExtractor word = new XWPFWordExtractor(document);
-                return word.getText();
+//                return word.getText();
             }
         }catch (Exception e){
             e.printStackTrace();

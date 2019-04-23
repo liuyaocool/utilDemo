@@ -21,6 +21,10 @@ import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
 import org.docx4j.relationships.Relationship;
 import org.docx4j.wml.CTAltChunk;
 
+
+/**
+ * word 文档合并
+ */
 public class MargeDoc {
 
     public void mergeDocx(List<String> list, String path) {
