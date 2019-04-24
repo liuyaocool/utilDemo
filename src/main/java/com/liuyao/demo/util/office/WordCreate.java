@@ -8,13 +8,10 @@ import org.docx4j.wml.*;
 
 import javax.xml.bind.JAXBElement;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+@SuppressWarnings("all")
 public class WordCreate {
 
     private static ObjectFactory factory = Context.getWmlObjectFactory();
@@ -39,21 +36,12 @@ public class WordCreate {
     }
 
     /**
-     * 创建表格
-     */
-    public Tbl createTable(){
-        Tbl table = factory.createTbl();
-        wordMLPackage.getMainDocumentPart().addObject(table);
-        return table;
-    }
-
-    /**
      * 获得模板并添加
      */
     public Tbl addFromModel(String path) throws Docx4JException {
         this.wordMLPackage = getModel(path);
-        List<Tbl> tbs = getTbs(wordMLPackage);
-        return tbs.size() < 1 ? factory.createTbl() : tbs.get(0);
+        List<Object> tbs = getElements(this.wordMLPackage.getMainDocumentPart(),Tbl.class);
+        return tbs.size() < 1 ? factory.createTbl() : (Tbl) tbs.get(tbs.size()-1);
     }
 
     /**
@@ -63,22 +51,14 @@ public class WordCreate {
         File file = new File(filePath);
         return WordprocessingMLPackage.load(file);
     }
+
     /**
-     * 获得tbl的List 逆向
+     * 创建表格
      */
-    public List<Tbl> getTbs(WordprocessingMLPackage work) throws Docx4JException {
-        List<Tbl> tbs = new ArrayList<>();
-        List<Object> docs = work.getMainDocumentPart().getContent();
-        JAXBElement aa;
-        for (int i = docs.size()-1; i >= 0 ; i--) {
-            if (docs.get(i) instanceof JAXBElement){
-                aa = (JAXBElement) docs.get(i);
-                if (aa.getValue() instanceof Tbl){
-                    tbs.add((Tbl) aa.getValue());
-                }
-            }
-        }
-        return tbs;
+    public Tbl createTable(){
+        Tbl table = factory.createTbl();
+        wordMLPackage.getMainDocumentPart().addObject(table);
+        return table;
     }
 
     /**
@@ -93,6 +73,11 @@ public class WordCreate {
     /**
      * 创建单元格
      */
+    public Tc createTc(Tr tr){
+        Tc tc = factory.createTc();
+        tr.getContent().add(tc);
+        return tc;
+    }
     public Tc createTc(Tr tr, List<String> cons){
         Tc tc = factory.createTc();
         tr.getContent().add(tc);
@@ -109,57 +94,19 @@ public class WordCreate {
     }
 
     /**
-     * 获得tr的list 逆向
+     * 创建段落
      */
-    public List<Tr> getTrs(Tbl table){
-        List<Tr> trs = new ArrayList<>();
-        List<Object> os = table.getContent();
-        for (int i = os.size()-1; i >= 0; i--) {
-            if (os.get(i) instanceof Tr){
-                trs.add((Tr) os.get(i));
-            }
+    public P createP(Tc tc, String content){
+        P para = factory.createP();
+        if (content != null) {
+            Text t = factory.createText();
+            t.setValue(content);
+            R run = factory.createR();
+            run.getContent().add(t);
+            para.getContent().add(run);
         }
-        return trs;
-    }
-    /**
-     * 获得tc的list 正向
-     */
-    public List<Tc> getTcs(Tr tr){
-        List<Tc> tcs = new ArrayList<>();
-        List<Object> os = tr.getContent();
-        JAXBElement aa;
-        for (int i = 0; i < os.size(); i++) {
-            if (os.get(i) instanceof JAXBElement){
-                aa = (JAXBElement) os.get(i);
-                if (aa.getValue() instanceof Tc){
-                    tcs.add((Tc) aa.getValue());
-                }
-            }
-        }
-        return tcs;
-    }
-
-    /**
-     * 获得单元格段落 正向
-     */
-    public List<P> getPs(Tc tc){
-        List<P> ps = new ArrayList<>();
-        List<Object> os = tc.getContent();
-        for (int i = 0; i < os.size(); i++) {
-            if (os.get(i) instanceof P){
-                ps.add((P) os.get(i));
-            }
-        }
-        return ps;
-    }
-
-    /**
-     * 替换单元格占位符
-     */
-    public void replaceAll(Tc tc, Map<String, String> params){
-        for (String key: params.keySet()) {
-
-        }
+        tc.getContent().add(para);
+        return para;
     }
 
     /**
@@ -195,7 +142,7 @@ public class WordCreate {
      * @param toSearch 查询的类型
      * @return
      */
-    private static List<Object> getElements(Object obj, Class<?> toSearch) {
+    public static List<Object> getElements(Object obj, Class<?> toSearch) {
         List<Object> result = new ArrayList<Object>();
         if (obj instanceof JAXBElement) obj = ((JAXBElement<?>) obj).getValue();
 
@@ -210,34 +157,186 @@ public class WordCreate {
         return result;
     }
 
+    /**
+     * 横向合并
+     * @param tr 要合并的行
+     * @param start 从第start开始 1，2，3，。。。
+     * @param count 跨几列
+     */
+    public void colspan(Tr tr, int start, int count){
+        start--;
+        int end = start + count - 1;
+        List<Object> tcList = getElements(tr, Tc.class);
+        for (int i = start, len = Math.min(tcList.size() - 1, end); i <= len; i++) {
+            Tc tc = (Tc) tcList.get(i);
+            TcPr tcPr = getTcPr(tc);
+            TcPrInner.HMerge hMerge = tcPr.getHMerge();
+            if (hMerge == null) {
+                hMerge = new TcPrInner.HMerge();
+                tcPr.setHMerge(hMerge);
+            }
+            if (i == start) {
+                hMerge.setVal("restart");
+            } else {
+                hMerge.setVal("continue");
+            }
+        }
+    }
 
-        /**
+    /**
+     * 纵向合并
+     * @param trs 要合并的行的集合
+     * @param start 集合中开始下标 0，1，2，。。。
+     * @param count 跨几行
+     * @param y 第y列 1，2，3，。。。
+     */
+    public void rowspan(List<Object> trs, int startIndex, int count, int y){
+        if (startIndex < 0 || count < 2 || y < 1) {
+            return;
+        }
+        List<Object> tcs;
+        for (int i = 0; i < Math.min(count, trs.size()-startIndex); i++) {
+            tcs = getElements(trs.get(startIndex+i), Tc.class);
+            if (tcs.size() < y) {break;}
+            Tc tc = (Tc) tcs.get(y-1);
+            TcPr tcPr = getTcPr(tc);
+            TcPrInner.VMerge vMerge = tcPr.getVMerge();
+            if (vMerge == null) {
+                vMerge = new TcPrInner.VMerge();
+                tcPr.setVMerge(vMerge);
+            }
+            if (i == 0) {
+                vMerge.setVal("restart");
+            } else {
+                vMerge.setVal("continue");
+            }
+        }
+    }
+
+    private TcPr getTcPr(Tc tc) {
+        TcPr tcPr = tc.getTcPr();
+        if (tcPr == null) {
+            tcPr = new TcPr();
+            tc.setTcPr(tcPr);
+        }
+        return tcPr;
+    }
+
+    /**
+     * 设置单元格垂直对齐方式  对齐需在合并后进行，否则将被覆盖
+     */
+    public Tc setTcVAlign(Tc tc, STVerticalJc vAlignType) {
+        if (vAlignType != null) {
+            TcPr tcPr = getTcPr(tc);
+            CTVerticalJc vAlign = new CTVerticalJc();
+            vAlign.setVal(vAlignType);
+            tcPr.setVAlign(vAlign);
+        }
+        return tc;
+    }
+
+    /**
+     * 行垂直对齐
+     */
+    public Tr setTcVAlign(Tr tr, STVerticalJc vAlignType) {
+        List<Object> tcs = getElements(tr, Tc.class);
+        for (Object tc : tcs) {
+            setTcVAlign((Tc) tc, vAlignType);
+        }
+        return tr;
+    }
+
+    /**
+     * 单元格水平对齐
+     */
+    public Tc setTcJcAlign(Tc tc, JcEnumeration jcType) {
+        if (jcType != null) {
+            List<Object> pList = getElements(tc, P.class);
+            for (Object p : pList) {
+                setParaJcAlign((P) p, jcType);
+            }
+        }
+        return tc;
+    }
+
+    /**
+     * 行水平对齐
+     */
+    public Tr setTcJcAlign(Tr tr, JcEnumeration jcType) {
+        List<Object> tcs = getElements(tr, Tc.class);
+        for (Object tc : tcs) {
+            setTcJcAlign((Tc) tc, jcType);
+        }
+        return tr;
+    }
+
+    /**
+     * 段落水平对齐
+     */
+    public P setParaJcAlign(P paragraph, JcEnumeration hAlign) {
+        if (hAlign != null) {
+            PPr pprop = paragraph.getPPr();
+            if (pprop == null) {
+                pprop = new PPr();
+                paragraph.setPPr(pprop);
+            }
+            Jc align = new Jc();
+            align.setVal(hAlign);
+            pprop.setJc(align);
+        }
+        return paragraph;
+    }
+
+
+    /**
          *
          */
     public static void main(String[] args) throws Docx4JException {
-        WordCreate wordCreate = new WordCreate("C:/Users/61/Desktop/doc/","aaa.doc");
-        Tbl table = wordCreate.addFromModel("C:/Users/61/Desktop/doc/3.xml");
-//        List<String[]> aa = new ArrayList<>();
-//        aa.add(new String[] {"aa","aa1"});
-//        aa.add(new String[] {"bb","bb1"});
-//        aa.add(new String[] {"cc","cc1"});
-//        aa.add(new String[] {"dd","dd1"});
-        List<Tr> trs = wordCreate.getTrs(table);
-        List<Tc> tcs = wordCreate.getTcs(trs.get(0));
-        List<P> ps = wordCreate.getPs(tcs.get(0));
-//        wordCreate.replace(ps.get(0),"","");
-        System.out.println(wordCreate.getText(ps.get(0)));
-        wordCreate.replace(ps.get(0),"title", "aaa");
+//        WordCreate wordCreate = new WordCreate("C:/Users/61/Desktop/doc/","aaa.doc");
+//        Tbl table = wordCreate.addFromModel("C:/Users/61/Desktop/doc/report.xml");
+//
+//        List<Object> trs = new ArrayList<>();
 //        Tr tr = wordCreate.createTr(table);
-//        Tc tc = wordCreate.createTc(tr,"组长");
-//        Tc tc2 = wordCreate.createTc(tr,"张三");
-//        Tc tc3 = wordCreate.createTc(tr,"AAA333");
-//        wordCreate.createTc(tr,"AAA333");
-//        Tc tc = factory.createTc();
-//        tc.getContent().add( "");
-//        tr.getContent().add(tc);
-        wordCreate.createFile();
+//        wordCreate.createTc(tr,"组长");
+//        wordCreate.createTc(tr,"张三");
+//        wordCreate.createTc(tr,"张三");
+//        wordCreate.createTc(tr,"AAA111");
+//        wordCreate.colspan(tr, 2,2);
+//        trs.add(tr);
+//        Tr tr1 = wordCreate.createTr(table);
+//        wordCreate.createTc(tr1, "职能");
+//        wordCreate.createTc(tr1, "职能");
+//        wordCreate.createTc(tr1, "做饭");
+//        wordCreate.createTc(tr1, "做饭");
+////        wordCreate.colspan(tr1, 1,2);
+////        wordCreate.colspan(tr1, 3,2);
+//        trs.add(tr1);
+//        Tr tr2 = wordCreate.createTr(table);
+//        wordCreate.createTc(tr2, "职能");
+//        wordCreate.createTc(tr2, "职能");
+//        wordCreate.createTc(tr2, "做饭");
+//        wordCreate.createTc(tr2, "做饭");
+////        wordCreate.colspan(tr1, 1,2);
+////        wordCreate.colspan(tr1, 3,2);
+//        trs.add(tr2);
+//        Tr tr3 = wordCreate.createTr(table);
+//        wordCreate.createTc(tr3, "职能");
+//        wordCreate.createTc(tr3, "职能");
+//        wordCreate.createTc(tr3, "做饭");
+//        wordCreate.createTc(tr3, "做饭");
+////        wordCreate.colspan(tr1, 1,2);
+////        wordCreate.colspan(tr1, 3,2);
+//        trs.add(tr3);
+//        wordCreate.rowspan(trs,0,3,1);
+//        wordCreate.rowspan(trs,1,2,2);
+//        wordCreate.rowspan(trs,2,2,3);
+//        wordCreate.setTcVAlign(tr,STVerticalJc.CENTER);
+//        wordCreate.setTcJcAlign(tr,JcEnumeration.CENTER);
+//        wordCreate.createFile();
 
+        int i = 0;
+        System.out.println(++i);
+        System.out.println(i);
         System.out.println("============");
 
     }

@@ -87,7 +87,7 @@ public class ReflectTest {
             System.out.println(hero.getClass() == clazz);
 
 
-        }catch (Exception e){
+        }catch (ReflectiveOperationException e){
 
             e.printStackTrace();
         }
