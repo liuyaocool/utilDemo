@@ -8,6 +8,7 @@ import org.docx4j.wml.*;
 
 import javax.xml.bind.JAXBElement;
 import java.io.File;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,12 +97,13 @@ public class WordCreate {
     /**
      * 创建段落
      */
-    public P createP(Tc tc, String content){
+    public P createP(Tc tc, String content, RPr rPr){
         P para = factory.createP();
         if (content != null) {
             Text t = factory.createText();
             t.setValue(content);
             R run = factory.createR();
+            run.setRPr(rPr);
             run.getContent().add(t);
             para.getContent().add(run);
         }
@@ -289,6 +291,81 @@ public class WordCreate {
 
 
     /**
+     *
+     * @param obj 添加样式的位置
+     * @param blod 加粗
+     * @param fontSize 大小
+     * @param fontColor 颜色
+     * @param fontStyle 字体
+     * @param ind 缩进
+     */
+    public  void addStyle(Object obj, boolean blod, int fontSize, String fontColor, String fontStyle, int ind){
+        List<Object> rs = getElements(obj, R.class);
+        for (Object o : rs) {
+            ((R) o).setRPr(getRpr(blod,fontSize,fontColor, fontStyle));
+        }
+        List<Object> ps = getElements(obj, P.class);
+        for (Object o : ps) {
+            ((P) o).setPPr(getPpr(ind));
+        }
+    }
+
+    /**
+     * 字体样式
+     * @param blod 加粗
+     * @param fontSize 尺寸
+     * @param fontColor 颜色
+     * @param fontStyle 字体
+     * @return
+     */
+    public RPr getRpr(boolean blod, int fontSize, String fontColor, String fontStyle){
+        RPr rPr = factory.createRPr();
+        if (fontSize > 4){
+            //大小
+            HpsMeasure size = new HpsMeasure();
+            size.setVal(new BigInteger(String.valueOf(fontSize)));
+            rPr.setSz(size);
+            rPr.setSzCs(size);
+        }
+        if (null != fontStyle && fontStyle.trim().length() > 1){
+            //字体
+            RFonts style = new RFonts();
+            style.setAscii(fontStyle);
+            style.setHAnsi(fontStyle);
+            rPr.setRFonts(style);
+        }
+        if (null != fontColor && fontColor.trim().length() > 1){
+            //颜色
+            Color color = new Color();
+            color.setVal(fontColor);
+            rPr.setColor(color);
+        }
+        //加粗
+        if (blod){
+            BooleanDefaultTrue b = new BooleanDefaultTrue();
+            b.setVal(true);
+            rPr.setB(b);
+        }
+        return rPr;
+    }
+
+    /**
+     * 设置段落样式
+     * @param ind 缩进
+     * @return
+     */
+    public PPr getPpr(int ind){
+        PPr pPr = factory.createPPr();
+        if (ind > 0){
+            //缩进
+            PPrBase.Ind ind1 = new PPrBase.Ind();
+            ind1.setFirstLineChars(new BigInteger(String.valueOf(ind)));
+            pPr.setInd(ind1);
+        }
+        return pPr;
+    }
+
+    /**
          *
          */
     public static void main(String[] args) throws Docx4JException {
@@ -337,6 +414,7 @@ public class WordCreate {
         int i = 0;
         System.out.println(++i);
         System.out.println(i);
+        System.out.println(new BigInteger("12"));
         System.out.println("============");
 
     }
