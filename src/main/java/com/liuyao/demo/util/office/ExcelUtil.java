@@ -89,7 +89,7 @@ public class ExcelUtil {
                 cell = row.createCell(i);
                 cell.setCellValue(item[i]);
                 if (bo) {
-					cs.setAlignment(HorizontalAlignment.CENTER);
+//					cs.setAlignment(HorizontalAlignment.CENTER);
 					if (i==9) {
 						sheet.setColumnWidth(i,50 * 256);
 					}else if (i==3||i==4||i==11) {
@@ -280,9 +280,9 @@ public class ExcelUtil {
         if (null == cell) return "";
         System.out.println(cell.toString());
 
-        if (!(CellType.NUMERIC.getCode() == cell.getCellType())) {
-            return cell.toString();
-        }
+//        if (!(CellType.NUMERIC.getCode() == cell.getCellType())) {
+//            return cell.toString();
+//        }
         if ((!HSSFDateUtil.isCellDateFormatted(cell))){
             return cell.toString();
         }
@@ -300,12 +300,12 @@ public class ExcelUtil {
     public static CellStyle setTitleStyle(Workbook workbook) {
         CellStyle css = workbook.createCellStyle();
 
-        css.setBorderBottom(BorderStyle.THIN); // 下边框
-        css.setBorderLeft(BorderStyle.THIN);// 左边框
-        css.setBorderTop(BorderStyle.THIN);// 上边框
-        css.setBorderRight(BorderStyle.THIN);// 右边框
-        css.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
-        css.setAlignment(HorizontalAlignment.CENTER ); // 居中
+//        css.setBorderBottom(BorderStyle.THIN); // 下边框
+//        css.setBorderLeft(BorderStyle.THIN);// 左边框
+//        css.setBorderTop(BorderStyle.THIN);// 上边框
+//        css.setBorderRight(BorderStyle.THIN);// 右边框
+//        css.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
+//        css.setAlignment(HorizontalAlignment.CENTER ); // 居中
         // 设置字体:
         Font font = workbook.createFont();
         font.setFontName("黑体");
@@ -324,11 +324,11 @@ public class ExcelUtil {
     public static CellStyle setSimpleCellStyle(Workbook wb) {
         CellStyle cs = wb.createCellStyle();
 
-        cs.setBorderBottom(BorderStyle.THIN); // 下边框
-        cs.setBorderLeft(BorderStyle.THIN);// 左边框
-        cs.setBorderTop(BorderStyle.THIN);// 上边框
-        cs.setBorderRight(BorderStyle.THIN);// 右边框
-        cs.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
+//        cs.setBorderBottom(BorderStyle.THIN); // 下边框
+//        cs.setBorderLeft(BorderStyle.THIN);// 左边框
+//        cs.setBorderTop(BorderStyle.THIN);// 上边框
+//        cs.setBorderRight(BorderStyle.THIN);// 右边框
+//        cs.setVerticalAlignment(VerticalAlignment.CENTER);//垂直居中
         cs.setWrapText(true);//自动换行
         XSSFDataFormat format =  (XSSFDataFormat) wb.createDataFormat();//设置文本格式样式
         cs.setDataFormat(format.getFormat("@"));

@@ -170,9 +170,9 @@ public class FileIOUtil {
     public static String getCellValue(Cell cell, String format) {
         System.out.println(cell.toString());
 
-        if (!(CellType.NUMERIC == cell.getCellTypeEnum())) {
-            return cell.toString();
-        }
+//        if (!(CellType.NUMERIC == cell.getCellTypeEnum())) {
+//            return cell.toString();
+//        }
          if ((!HSSFDateUtil.isCellDateFormatted(cell))){
             return cell.toString();
         }
