@@ -28,7 +28,8 @@ public class DemoApplication extends WebMvcConfigurationSupport {
 
         //打開static訪問攔截器
         registry.addResourceHandler("/**")
-                .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/");
+                .addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX + "/static/")
+                .addResourceLocations("file:C:/chemic/course/");
         super.addResourceHandlers(registry);
     }
 }

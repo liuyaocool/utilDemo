@@ -5,11 +5,14 @@ spring:
     #禁用模版缓存
     cache: false
   devtools:
-    restart:
+#    restart:
       #热部署生效
-      enabled: true
+#      enabled: true
       #设置重启目录
-      additional-paths: src/main/java
+#      additional-paths: src/main/java
       #设置不重启目录
-      exclude: src/main/resources/**
+#      exclude: src/main/resources/**
+  resources:
+  #    无效，因为被拦截器覆盖了
+    static-locations: file:C:\chemic\course\,classpath:/static/
 
