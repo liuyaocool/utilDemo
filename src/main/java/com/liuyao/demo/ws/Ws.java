@@ -1,5 +1,6 @@
 package com.liuyao.demo.ws;
 
+import com.liuyao.demo.util.LyLogUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -24,11 +25,12 @@ import java.util.Map;
 public class Ws {
 
     /**
-     *单笔请求方法
+     * 单笔请求方法
      * @return
      */
-    public String doPostSingle(String url, Map<String, String> header,
+    public static String doPostSingle(String url, Map<String, String> header,
                                       String contentType, String encoding, String wsdl){
+        LyLogUtil.logInfo("开始调用接口：" + url);
         CloseableHttpClient client = HttpClients.createDefault();
         String result = null;
         CloseableHttpResponse response = null;
@@ -57,7 +59,6 @@ public class Ws {
             HttpEntity entity = response.getEntity();
             if(entity!=null && response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
                 result = EntityUtils.toString(entity);
-                System.out.println(result);
             }
             EntityUtils.consume(entity);
         } catch (Exception e) {
@@ -66,63 +67,91 @@ public class Ws {
             try { response.close(); } catch (IOException e) { e.printStackTrace(); }
             try { client.close(); } catch (IOException e) { e.printStackTrace(); }
         }
+        LyLogUtil.logInfo("调用接口成功，即将返回数据。");
         return result;
-
     }
 
-    /**
-     * 调用接口并返回数据
-     * @param methodName
-     * @return
-     * @throws Exception
-     */
-    public List<Map<String, String>> listApiData(String methodName) throws Exception {
-        String url = "http://10.206.1.81:8006/AppService.asmx" + "/" + methodName;
-        String xmlStr =  doPostSingle(url, null, null, null, null);
-        Document document = getDocumentByStr(xmlStr);
-        return analysisXmlFile(document);
-    }
-
-    /**
-     * 解析xml
-     */
-    public List<Map<String, String>> analysisXmlFile(Document document) throws Exception {
-
-        Element root = document.getRootElement();
-        List<Element> keys = root.getChildren();
-        for (int i = 0; i < 7; i++) {
-            keys = keys.get(0).getChildren();
-        }
-        List<Element> dataEles = root.getChildren().get(1).getChildren().get(0).getChildren();
-        List<Element> data;
-        List<Map<String, String>> datas = new ArrayList<>();
-        for (int i = 0; i < dataEles.size(); i++) {
-            data = dataEles.get(i).getChildren();
-            Map<String, String> dd = new HashMap<>();
-            for (int j = 0; j < data.size(); j++) {
-                dd.put(data.get(j).getName(), data.get(j).getValue());
-            }
-            datas.add(dd);
-        }
-        return datas;
-    }
-
-    public Document getDocumentByXml(String filePath) throws Exception {
+    //通过文件获得文档
+    public static Document getDocumentByFile(String filePath) throws Exception {
         SAXBuilder builder = new SAXBuilder();
         return builder.build(new File(filePath));
     }
 
-    public Document getDocumentByStr(String xml) throws JDOMException, IOException {
+    //通过xml字符串获得文档
+    public static Document getDocumentByStr(String xml) throws JDOMException, IOException {
         SAXBuilder builder = new SAXBuilder();
         Document doc = builder.build(new StringReader(xml));
         return doc;
     }
 
+    //从Doc对象集合中获得数据
+    public static List<Map<String, String>> gatherData(List<Element> elements){
+        List<Map<String, String>> data = new ArrayList<>();
+        for (int j = 0; j < elements.size(); j++) {
+            data.add(gatherData(elements.get(j)));
+        }
+        return data;
+    }
+
+    //从Doc对象集合中获得数据
+    public static Map<String, String> gatherData(Element element){
+        List<Element> elements = element.getChildren();
+        Map<String, String> data = new HashMap<>();
+        for (int j = 0; j < elements.size(); j++) {
+            data.put(elements.get(j).getName(), elements.get(j).getValue());
+        }
+        return data;
+    }
+
+    /**
+     * 通过标签名获得列表
+     * @param doc 支持List<Element> Document Element
+     * @param tagName
+     * @return
+     */
+    public static List<Element> listByTagName(Object doc, String tagName){
+        List<Element> elements = null;
+        if (null == doc || null == tagName || "".equals(tagName.trim())){
+            return new ArrayList<>();
+        }else if (doc instanceof Document){
+            elements = ((Document) doc).getRootElement().getChildren();
+        } else if (doc instanceof Element){
+            elements = ((Element) doc).getChildren();
+        } else if (doc instanceof List){
+            List a = (List) doc;
+            if (a.size() > 0 && a.get(0) instanceof Element){
+                elements = (List) doc;
+            } else {
+                return new ArrayList<>();
+            }
+        } else {
+
+        }
+
+        List<Element> result = new ArrayList<>();
+        for (int i = 0; i < elements.size(); i++) {
+            if (tagName.equals(elements.get(i).getName())){
+                result.add(elements.get(i));
+            } else {
+                result.addAll(listByTagName(elements.get(i), tagName));
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         String[] methodNames = {"GetProject","GeProjectPlan","GetEmployee","GetEnterprise"};
+
+        String url = "http://10.206.1.81:8006/AppService.asmx" + "/" + methodNames[0];
+        String xmlStr =  doPostSingle(url, null, null, null, null);
+        Document document = null;
         try {
-            new Ws().listApiData(methodNames[3]);
-        } catch (Exception e) {
+            document = getDocumentByStr(xmlStr);
+            List<Map<String, String>> data = gatherData(document.getRootElement().getChildren());
+
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
