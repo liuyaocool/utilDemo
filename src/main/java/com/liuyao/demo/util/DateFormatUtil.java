@@ -19,8 +19,18 @@ public class DateFormatUtil{
 
     public static void main(String[] args){
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2019, 0, 1, 12, 12, 12);
+        System.out.println(sdf.format(calendar.getTime()));
+        calendar.add(Calendar.DATE, -7);
+        String queryDate = sdf.format(calendar.getTime());
+        System.out.println(queryDate);
+
         String dateStr = getDateFormat(new Date(), "yyyy-MM-dd HH:mm:ss");
         System.out.println(dateStr);
+
+
 
     }
 
