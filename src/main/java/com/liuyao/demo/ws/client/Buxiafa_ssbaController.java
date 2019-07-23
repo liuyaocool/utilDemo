@@ -1,4 +1,4 @@
-package com.liuyao.demo.ws;
+package com.liuyao.demo.ws.client;
 
 import org.apache.axis.client.Call;
 import org.apache.axis.encoding.XMLType;

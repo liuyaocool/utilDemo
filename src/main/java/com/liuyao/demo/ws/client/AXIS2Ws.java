@@ -1,4 +1,4 @@
-package com.liuyao.demo.ws;
+package com.liuyao.demo.ws.client;
 
 import org.apache.axiom.om.OMElement;
 import org.apache.axis2.AxisFault;

@@ -1,4 +1,4 @@
-package com.liuyao.demo.ws;
+package com.liuyao.demo.ws.client;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
