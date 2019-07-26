@@ -2,10 +2,17 @@ package com.liuyao.demo.test;
 
 import com.liuyao.demo.entity.Hero;
 import com.liuyao.demo.util.FileIOUtil;
+import com.liuyao.demo.util.LyLogUtil;
 
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
 
 public class ReflectTest {
 
@@ -94,8 +101,72 @@ public class ReflectTest {
 
     }
 
+    //获得实例中的某个属性值
+    private static Object getResult(Object fieldName, Object goodsVO) {
+        try {
+            Class<?> aClass = goodsVO.getClass();
+            Field declaredField = aClass.getDeclaredField(fieldName.toString());
+            declaredField.setAccessible(true);
+            PropertyDescriptor pd = new PropertyDescriptor(declaredField.getName(), aClass);
+            Method readMethod = pd.getReadMethod();
+
+            return readMethod.invoke(goodsVO);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IntrospectionException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static void aaa(int i){
 
         System.out.println(i);
+    }
+
+
+    /**
+     * map 转实体类
+     * @param clazz
+     * @param map
+     * @param <T>
+     * @return
+     */
+    public static <T> T mapToBean(Class<T> clazz, Map map) {
+        if (null == map || null == clazz) {
+            return null;
+        }
+        T obj = null;
+        try {
+            BeanInfo beanInfo = Introspector.getBeanInfo(clazz);
+            // 给 JavaBean 对象的属性赋值
+            PropertyDescriptor[] propertyDescriptors = beanInfo.getPropertyDescriptors();
+            for (int i = 0; i < propertyDescriptors.length; i++) {
+                PropertyDescriptor descriptor = propertyDescriptors[i];
+                String propertyName = descriptor.getName();
+                if (map.containsKey(propertyName)) {
+                    Object value = map.get(propertyName);
+                    if ("".equals(value)) {
+                        value = null;
+                    }
+                    Object[] args = new Object[1];
+                    args[0] = value;
+                    try {
+                        descriptor.getWriteMethod().invoke(obj, args);
+                    } catch (IllegalAccessException e) {
+                        LyLogUtil.logInfo("实例化JavaBean失败 Error{}");
+                    } catch (InvocationTargetException e) {
+                        LyLogUtil.logInfo("字段映射失败 Error{}");
+                    }
+                }
+            }
+        } catch (IntrospectionException e) {
+            LyLogUtil.logInfo("分析类属性失败 Error{}");
+        }
+        return obj;
     }
 }

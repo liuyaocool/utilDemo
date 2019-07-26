@@ -1,4 +1,4 @@
-package com.liuyao.demo.test.study;
+package com.liuyao.demo.test;
 
 import java.io.Serializable;
 import java.util.ArrayList;
