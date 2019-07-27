@@ -7,63 +7,33 @@ import org.apache.axis2.client.Options;
 import org.apache.axis2.rpc.client.RPCServiceClient;
 
 import javax.xml.namespace.QName;
+import java.util.Map;
 
-public class AXIS2Ws {
+public class Axis2Ws {
 
-    public static void main(String[] args) throws AxisFault {
+    //该种方式缺点是客户端实体类路径即包名必须与服务端实体类路径相同！！！
+    // 但该方式可以调任何方式编写的接口！！！！
+    public static String axis2(String url, String namespace, String method,
+                               Map<String, Object> params) throws AxisFault {
 
-        String value = "";
-        String wsdlUrl = "";
-        String nameSpace = "";
-        String methodName = "";
-        String returnStr = "" ;// 返回参数
         // 使用RPC方式调用WebService  
-        RPCServiceClient rpcServiceClient = new RPCServiceClient();
-        Options options = rpcServiceClient.getOptions();
-        OMElement om = null;
-        // 指定调用WebService的URL  
-        EndpointReference to = new EndpointReference(wsdlUrl);
-        options.setTo(to);
-        // 指定方法返回值的数据类型的Class对象  
-        Class[] classes = new Class[]{String.class};
-        // 指定要调用的方法及WSDL文件的命名空间  
-        QName opAddEntry = new QName(nameSpace, methodName);
-        // 指定getGreeting方法的参数值  
-        Object[] opAddEntryArgs = new Object[]{value};
-        om = rpcServiceClient.invokeBlocking(opAddEntry, opAddEntryArgs);
+        RPCServiceClient client = new RPCServiceClient();
+        Options options = client.getOptions();
+        EndpointReference point = new EndpointReference(url);
+        options.setTo(point);
 
+        QName qName = new QName(namespace, method);
 
-        returnStr = om.toString();
-        System.out.println(returnStr);
+        Object[] wsParams = new Object[params.size()];
+        int i = 0;
+        for (String key : params.keySet()) {
+            wsParams[i++] = params.get(key);
+        }
+        //返回类型
+        Class<?>[] classes = new Class[] { Boolean.class };
+
+//        Object[] o = client.invokeBlocking(qName, wsParams, classes);
+        OMElement om = client.invokeBlocking(qName, wsParams);
+        return om.toString();
     }
-
-//    public static String invokeGetGreeting(String value , String wsdlUrl , String nameSpace , String methodName) throws AxisFault
-//    {  
-//      String returnStr = "" ;  // 返回参数
-//     
-//      // 使用RPC方式调用WebService  
-//         RPCServiceClient rpcServiceClient = new RPCServiceClient();  
-//         Options options = rpcServiceClient.getOptions();  
-//        
-//         OMElement om = null;
-//        
-//         // 指定调用WebService的URL  
-//         EndpointReference to = new EndpointReference(wsdlUrl);  
-//         options.setTo(to);  
-//        
-//         // 指定方法返回值的数据类型的Class对象  
-//         Class[] classes = new Class[]{String.class};  
-//        
-//         // 指定要调用的方法及WSDL文件的命名空间  
-//         QName opAddEntry = new QName(nameSpace, methodName);
-//        
-//         // 指定getGreeting方法的参数值  
-//         Object[] opAddEntryArgs = new Object[]{value}; 
-//        
-//         om = rpcServiceClient.invokeBlocking(opAddEntry, opAddEntryArgs);
-//
-//         returnStr = om.toString();
-//        
-//         return returnStr ;
-//    }  
 }
