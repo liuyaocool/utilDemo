@@ -20,38 +20,9 @@
 
     <properties>
 
-        <!--以下两项需要如果不配置，解析themleaft 会有问题-->
-        <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
-        <thymeleaf-layout-dialect.version>2.0.5</thymeleaf-layout-dialect.version>
-
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-
-        <quartz.version>2.3.0</quartz.version>
-        <shiro.version>1.3.2</shiro.version>
-        <kaptcha.version>0.0.9</kaptcha.version>
-        <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
-        <aliyun.oss.version>2.5.0</aliyun.oss.version>
-        <qcloud.cos.version>4.4</qcloud.cos.version>
-        <swagger.version>2.7.0</swagger.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
-        <junit.version>4.12</junit.version>
-        <jedis.version>2.9.0</jedis.version>
-        <druid.version>1.1.9</druid.version>
-        <mybatisplus.version>2.1.9</mybatisplus.version>
-        <mybatisplus.spring.boot.version>1.0.5</mybatisplus.spring.boot.version>
-        <mysql.version>5.1.38</mysql.version>
-        <mssql.version>4.0</mssql.version>
-        <oracle.version>11.2.0.3</oracle.version>
-        <commons.lang.version>2.6</commons.lang.version>
         <commons.fileupload.version>1.3.3</commons.fileupload.version>
         <commons.io.version>2.5</commons.io.version>
-        <commons.codec.version>1.10</commons.codec.version>
-        <fastjson.version>1.2.45</fastjson.version>
-        <joda.time.version>2.9.9</joda.time.version>
+        <cxf>3.3.2</cxf>
 
     </properties>
 
@@ -158,11 +129,11 @@
         <!--</dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.apache.axis2.wso2/axis2 -->
-        <!--<dependency>-->
-        <!--<groupId>org.apache.axis2.wso2</groupId>-->
-        <!--<artifactId>axis2</artifactId>-->
-        <!--<version>1.6.1-wso2v37</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.apache.axis2.wso2</groupId>
+            <artifactId>axis2</artifactId>
+            <version>1.6.1-wso2v37</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.ws.commons.axiom/axiom-api -->
         <dependency>
             <groupId>org.apache.ws.commons.axiom</groupId>
@@ -290,6 +261,131 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http-jetty</artifactId>
             <version>3.1.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf</artifactId>
+            <version>3.0.7</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            <version>3.0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>3.0.7</version>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.4.0</version>
+        </dependency>
+
+        <!--cxf需要用到的包-->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-core
+            </artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-bindings-soap
+            </artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-databinding-jaxb
+            </artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws
+            </artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-simple
+            </artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-udp</artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-ws-addr
+            </artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-wsdl
+            </artifactId>
+            <version>${cxf}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.neethi</groupId>
+            <artifactId>neethi
+            </artifactId>
+            <version>3.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api
+            </artifactId>
+            <version>1.7.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>stax2-api
+            </artifactId>
+            <version>3.1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>woodstox-core-asl
+            </artifactId>
+            <version>4.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j
+            </artifactId>
+            <version>1.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wss4j</groupId>
+            <artifactId>wss4j-bindings
+            </artifactId>
+            <version>2.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.xmlschema</groupId>
+            <artifactId>xmlschema-core
+            </artifactId>
+            <version>2.1.0</version>
         </dependency>
 
     </dependencies>
