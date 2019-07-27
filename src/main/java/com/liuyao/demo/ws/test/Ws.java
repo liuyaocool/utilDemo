@@ -1,4 +1,4 @@
-package com.liuyao.demo.ws.client;
+package com.liuyao.demo.ws.test;
 
 import com.liuyao.demo.util.LyLogUtil;
 import org.apache.http.HttpEntity;
