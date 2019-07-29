@@ -1,4 +1,4 @@
-package com.liuyao.demo.ws;
+package com.liuyao.demo.ws.des;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -38,6 +38,10 @@ public class DES {
         System.out.println("密文:" + str2);
         //DES解密
         System.out.println("明文:" + deStr);
+
+        //
+        String cRes = "+eYpFtf5PPQs6we48ch4Hdq5ar0s/sb67O4BbgRqt/3Qgxh91AbXe2FBF7UaRjv6Gv6mJ0N0BZo=";
+
 
     }
 

@@ -19,6 +19,10 @@ public class WbSvcImpl implements com.liuyao.demo.ws.server.WbSvc {
         return "asdfghjkl";
     }
 
+    /**
+     * 此发布方法只能在java7下
+     * @param args
+     */
     public static void main(String[] args) {
         Endpoint endpoint = Endpoint.create(new WbSvcImpl());
         endpoint.setExecutor(Executors.newScheduledThreadPool(100));
