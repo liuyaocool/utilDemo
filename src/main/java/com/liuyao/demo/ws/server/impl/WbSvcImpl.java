@@ -24,10 +24,10 @@ public class WbSvcImpl implements com.liuyao.demo.ws.server.WbSvc {
      * @param args
      */
     public static void main(String[] args) {
-        Endpoint endpoint = Endpoint.create(new WbSvcImpl());
-        endpoint.setExecutor(Executors.newScheduledThreadPool(100));
+//        Endpoint endpoint = Endpoint.create(new WbSvcImpl());
+//        endpoint.setExecutor(Executors.newScheduledThreadPool(100));
 
-        endpoint.publish(url);
+//        endpoint.publish(url);
 
 //        Endpoint.publish(url, new WbSvcImpl());
     }

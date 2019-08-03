@@ -142,7 +142,7 @@ public class Ws {
     public static void main(String[] args) {
         String[] methodNames = {"GetProject","GeProjectPlan","GetEmployee","GetEnterprise"};
 
-        String url = "http://10.206.1.81:8006/AppService.asmx" + "/" + methodNames[0];
+        String url = "http://172.23.125.250:8980/common/testIp";
         String xmlStr =  doPostSingle(url, null, null, null, null);
         Document document = null;
         try {

@@ -22,12 +22,13 @@ public class MyRunner1 implements ApplicationRunner {
 
 //        Endpoint.publish("http://127.0.0.1:9090/wbsvc", new WbSvcImpl());
 
-        WbSvc wbSvc = new WbSvcImpl();
-        JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
-        factory.setServiceClass(WbSvc.class);
-        factory.setAddress("http://localhost:9090/wbsvc");
-        factory.setServiceBean(wbSvc);
-        factory.create();
-        System.out.println("Server start...");
+        //发布webserice 仅jdk7可用
+//        WbSvc wbSvc = new WbSvcImpl();
+//        JaxWsServerFactoryBean factory = new JaxWsServerFactoryBean();
+//        factory.setServiceClass(WbSvc.class);
+//        factory.setAddress("http://localhost:9090/wbsvc");
+//        factory.setServiceBean(wbSvc);
+//        factory.create();
+//        System.out.println("Server start...");
     }
 }

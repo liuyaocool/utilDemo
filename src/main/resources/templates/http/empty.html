@@ -11,6 +11,7 @@
 </head>
 <body>
 
+<input type="button" onclick="ajaxCross()" value="ajaxCross">
 <pre>
     TCP/IP通信协议
 
@@ -76,15 +77,40 @@
 
 </pre>
 
-<script src="../static/js/jquery-1.12.2.min.js"></script>
+<script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
 
     $(function () {
         var aa = ["aa","bb","cc"];
-        aa.clear();//没有
+        // aa.clear();//没有
         console.log(aa);
 
     })
+
+    //ajax跨域
+    function ajaxCross() {
+
+        $.ajax('http://172.23.125.250:8980/common/testIp', {
+            dataType: 'jsonp',
+            jsonp:'callback',
+            jsonpCallback:"successCallback",
+            crossDomain: true,
+            success: function (data) {
+                if(data.data==1){
+                }else{
+                }
+            },
+            //打印失败问题
+            error: function (XMLHttpReuqest, textStautus, errothrown) {
+                console.log(XMLHttpRequest.status);
+                console.log(XMLHttpReuqest.readyState);
+                console.log(XMLHttpRequest.responseText);
+                console.log(textStautus);
+                console.log(errothrown);
+            }
+        });
+
+    }
 
 </script>
 </body>

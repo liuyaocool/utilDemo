@@ -62,9 +62,10 @@ public class SoapUtil {
     public static void main(String[] args) {
         // TODO Auto-generated method stub
         StringBuffer sendSoapString = new StringBuffer();
-        String pwd = Ws.doPostSingle("http://172.23.121.147:8110/Handler1.ashx",
-                null, null, null, null);
-        String aa =
+        String pwd = null;
+//                Ws.doPostSingle("http://172.23.121.147:8110/Handler1.ashx",
+//                null, null, null, null);
+        String soap =
                 "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
                 "  <soap:Header>\n" +
                 "    <AuthorSoapHeader xmlns=\"http://tempuri.org/\">\n" +
@@ -97,14 +98,19 @@ public class SoapUtil {
         sendSoapString.append("      </tes:getSum>");
         sendSoapString.append("   </soapenv:Body>");
         sendSoapString.append("</soapenv:Envelope>");
+        soap = "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                "  <soap:Body>\n" +
+                "    <GetIP xmlns=\"http://tempuri.org/\" />\n" +
+                "  </soap:Body>\n" +
+                "</soap:Envelope>";
 
         String url = "http://sdsapi.nrcc.com.cn/DataExtractService.asmx";
         String namespace = "http://tempuri.org/";
         int timeout = 0;
-        String method = "GetIdentityList";
+        String method = "GetIP";
 
         try {
-            String ret= getWebServiceAndSoap(url,"",method, aa);
+            String ret= getWebServiceAndSoap(url,"",method, soap);
             System.out.println(ret);
         } catch (IOException e) {
             // TODO Auto-generated catch block

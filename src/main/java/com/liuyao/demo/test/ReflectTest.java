@@ -169,4 +169,9 @@ public class ReflectTest {
         }
         return obj;
     }
+
+    //通过class 转换类型
+    public static Object castVal(Object value, Class claz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        return claz.getConstructor(value.getClass()).newInstance(value);
+    }
 }
