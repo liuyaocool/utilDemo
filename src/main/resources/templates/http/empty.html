@@ -75,6 +75,118 @@
     GET方式需要使用Request.QueryString来取得变量的值，而POST方式通过Request.Form来获取变量的值。
 
 
+CORS跨域
+
+    名词解释：跨域资源共享（Cross-Origin Resource Sharing）
+    概念：是一种跨域机制、规范、标准，怎么叫都一样，但是这套标准是针对服务端的，而浏览器端只要支持HTML5即可。
+    作用：可以让服务端决定哪些请求源可以进来拿数据，所以服务端起主导作用（所以出了事找后台程序猿，无关前端^ ^）
+
+        要实现CORS跨域其实非常简单，说白了就是在服务端设置一系列的HTTP头，主要分为请求头和响应头，在请求和响应时加上这些HTTP头即可轻松实现CORS
+    请求头和响应头信息都是在服务端设置好的，一般在Filter阶段设置，浏览器端不用关心，唯一要设置的地方就是：跨域时是否要携带cookie
+    HTTP请求头：
+
+     #请求域
+     2Origin: ”http://localhost:8000“
+     3#这两个属性只出现在预检请求中，即OPTIONS请求
+     4Access-Control-Request-Method: ”POST“
+     5Access-Control-Request-Headers: ”content-type“
+
+    HTTP响应头：
+
+     #允许向该服务器提交请求的URI，*表示全部允许，在SpringMVC中，如果设成*，会自动转成当前请求头中的Origin
+     Access-Control-Allow-Origin: ”http://localhost:8000“
+     #允许访问的头信息
+     Access-Control-Expose-Headers: "Set-Cookie"
+     #预检请求的缓存时间（秒），即在这个时间段里，对于相同的跨域请求不会再预检了
+     Access-Control-Max-Age: ”1800”
+     #允许Cookie跨域，在做登录校验的时候有用
+     Access-Control-Allow-Credentials: “true”
+     #允许提交请求的方法，*表示全部允许
+     Access-Control-Allow-Methods:GET,POST,PUT,DELETE,PATCH
+
+初始项目准备
+
+补充一下，对于简单跨域和非简单跨域，可以这么理解：简单跨域就是GET，HEAD和POST请求，但是POST请求的"Content-Type"只能是application/x-www-form-urlencoded, multipart/form-data 或 text/plain反之，就是非简单跨域，此跨域有一个预检机制，说直白点，就是会发两次请求，一次OPTIONS请求，一次真正的请求
+
+SpringMVC项目配置支持CORS解决方案：
+
+1.pom.xml配置：
+
+ 1<!-- https://mvnrepository.com/artifact/com.thetransactioncompany/cors-filter -->
+ 2          <dependency>
+ 3              <groupId>com.thetransactioncompany</groupId>
+ 4              <artifactId>cors-filter</artifactId>
+ 5              <version>2.6</version>
+ 6          </dependency>
+ 7          <!-- https://mvnrepository.com/artifact/com.thetransactioncompany/java-property-utils -->
+ 8          <dependency>
+ 9              <groupId>com.thetransactioncompany</groupId>
+10              <artifactId>java-property-utils</artifactId>
+11              <version>1.13</version>
+12          </dependency>
+2.web.xml中配置filter，如果项目中使用了多个filter,注意这个filter的配置位置 最好放在 其他filter前面。
+
+ 1<!--CORS 跨域资源访问-->
+ 2   <filter>
+ 3       <filter-name>CORS</filter-name>
+ 4       <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+ 5       <init-param>
+ 6           <param-name>cors.allowGenericHttpRequests</param-name>
+ 7           <param-value>true</param-value>
+ 8       </init-param>
+ 9       <init-param>
+10           <param-name>cors.allowOrigin</param-name>
+11           <param-value>*</param-value>
+12       </init-param>
+13       <init-param>
+14           <param-name>cors.allowSubdomains</param-name>
+15           <param-value>false</param-value>
+16       </init-param>
+17       <init-param>
+18           <param-name>cors.supportedMethods</param-name>
+19           <param-value>GET, HEAD, POST, OPTIONS</param-value>
+20       </init-param>
+21       <init-param>
+22           <param-name>cors.supportedHeaders</param-name>
+23           <param-value>*</param-value>
+24       </init-param>
+25       <init-param>
+26           <param-name>cors.exposedHeaders</param-name>
+27           <param-value>Test-1, Test-2</param-value>
+28       </init-param>
+29       <init-param>
+30           <param-name>cors.supportsCredentials</param-name>
+31           <param-value>true</param-value>
+32       </init-param>
+33       <init-param>
+34           <param-name>cors.maxAge</param-name>
+35           <param-value>3600</param-value>
+36       </init-param>
+37   </filter>
+38   <filter-mapping>
+39       <filter-name>CORS</filter-name>
+40       <url-pattern>/*</url-pattern>
+41   </filter-mapping>
+42  <filter>
+3.在DispatcherServlet中增加dispatchOptionsRequest配置，相当于支持options访问的支持。
+
+ 1  <servlet>
+ 2    <servlet-name>springmvc</servlet-name>
+ 3    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+ 4    <init-param>
+ 5      <param-name>contextConfigLocation</param-name>
+ 6      <param-value>classpath:springmvc-servlet.xml</param-value>
+ 7    </init-param>
+ 8    <init-param>
+ 9          <param-name>dispatchOptionsRequest</param-name>
+10          <param-value>true</param-value>
+11     </init-param>
+12    <load-on-startup>1</load-on-startup>
+13  </servlet>
+以上配置即可实现SpringMVC支持CORS协议，
+
+注意点：SpringMVC为了安全默认是不开启CORS的，所以，当你的程序开启了支持CORS协议，您的程序最好需要经过安全的评估才可在生产环境下使用。
+
 </pre>
 
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
