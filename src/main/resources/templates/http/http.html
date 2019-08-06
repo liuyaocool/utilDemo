@@ -12,13 +12,42 @@
 <body>
 
 <input type="button" onclick="ajaxCross()" value="ajaxCross">
+
+<h2>Http请求的过程与原理</h2>
+
+<pre>
+    <img src="img01.png">
+    首先作为发送端的客户端在应用层（HTTP协议）发出一个想看某个web也页面的HTTP请求。
+    接着，为了传输方便，在传输层（TCP协议）把从应用层处收到的数据（HTTP请求报文）进行分割，
+并在各个报文上打上标记序号及端口号后转发给网络层。
+    在网络层（IP协议），增加作为通信目的地的MAC地址后转发给链路层。这样一来，发往网络的通信
+请求就准备齐全了。
+    接收端的服务器在链路层接收到数据，按序往上层发送，一直到应用层。当传输层到应用层才能算真
+正接收到由客户端发送来的HTTP请求。注：   
+
+    1. IP协议----负责传输
+    <img src="img02.png">
+
+    2.TCP协议 ---- 确保可靠性（三次握手，四次挥手）
+    <img src="img03.png">
+
+    3.DNS服务 ---- 负责域名解析
+    <img src="img04.png">
+
+    4.各种协议与HTTP协议之间的关系
+    <img src="img05.png">
+</pre>
+<span>========================================================================</span>
+
 <pre>
     TCP/IP通信协议
 
     GET: 使用GET提交数据可能会造成Cross-site request forgery攻击
 
     HTTP工作原理
-    HTTP协议定义Web客户端如何从Web服务器请求Web页面，以及服务器如何把Web页面传送给客户端。HTTP协议采用了请求/响应模型。客户端向服务器发送一个请求报文，请求报文包含请求的方法、URL、协议版本、请求头部和请求数据。服务器以一个状态行作为响应，响应的内容包括协议的版本、成功或者错误代码、服务器信息、响应头部和响应数据。
+        HTTP协议定义Web客户端如何从Web服务器请求Web页面，以及服务器如何把Web页面传送给客户端。HTTP协议采用了请求/响应模型。客户
+    端向服务器发送一个请求报文，请求报文包含请求的方法、URL、协议版本、请求头部和请求数据。服务器以一个状态行作为响应，响应的内容包
+    括协议的版本、成功或者错误代码、服务器信息、响应头部和响应数据。
 
     以下是 HTTP 请求/响应的步骤：
 
@@ -104,88 +133,90 @@ CORS跨域
      #允许提交请求的方法，*表示全部允许
      Access-Control-Allow-Methods:GET,POST,PUT,DELETE,PATCH
 
-初始项目准备
+    初始项目准备
 
-补充一下，对于简单跨域和非简单跨域，可以这么理解：简单跨域就是GET，HEAD和POST请求，但是POST请求的"Content-Type"只能是application/x-www-form-urlencoded, multipart/form-data 或 text/plain反之，就是非简单跨域，此跨域有一个预检机制，说直白点，就是会发两次请求，一次OPTIONS请求，一次真正的请求
+        补充一下，对于简单跨域和非简单跨域，可以这么理解：简单跨域就是GET，HEAD和POST请求，但是POST请求的"Content-Type"只能
+    是application/x-www-form-urlencoded, multipart/form-data 或 text/plain反之，就是非简单跨域，此跨域有一个预检机制，
+    说直白点，就是会发两次请求，一次OPTIONS请求，一次真正的请求
 
-SpringMVC项目配置支持CORS解决方案：
+    SpringMVC项目配置支持CORS解决方案：
 
-1.pom.xml配置：
+    1.pom.xml配置：
 
- 1<!-- https://mvnrepository.com/artifact/com.thetransactioncompany/cors-filter -->
- 2          <dependency>
- 3              <groupId>com.thetransactioncompany</groupId>
- 4              <artifactId>cors-filter</artifactId>
- 5              <version>2.6</version>
- 6          </dependency>
- 7          <!-- https://mvnrepository.com/artifact/com.thetransactioncompany/java-property-utils -->
- 8          <dependency>
- 9              <groupId>com.thetransactioncompany</groupId>
-10              <artifactId>java-property-utils</artifactId>
-11              <version>1.13</version>
-12          </dependency>
-2.web.xml中配置filter，如果项目中使用了多个filter,注意这个filter的配置位置 最好放在 其他filter前面。
+     1<!-- https://mvnrepository.com/artifact/com.thetransactioncompany/cors-filter -->
+     2          <dependency>
+     3              <groupId>com.thetransactioncompany</groupId>
+     4              <artifactId>cors-filter</artifactId>
+     5              <version>2.6</version>
+     6          </dependency>
+     7          <!-- https://mvnrepository.com/artifact/com.thetransactioncompany/java-property-utils -->
+     8          <dependency>
+     9              <groupId>com.thetransactioncompany</groupId>
+    10              <artifactId>java-property-utils</artifactId>
+    11              <version>1.13</version>
+    12          </dependency>
+    2.web.xml中配置filter，如果项目中使用了多个filter,注意这个filter的配置位置 最好放在 其他filter前面。
 
- 1<!--CORS 跨域资源访问-->
- 2   <filter>
- 3       <filter-name>CORS</filter-name>
- 4       <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
- 5       <init-param>
- 6           <param-name>cors.allowGenericHttpRequests</param-name>
- 7           <param-value>true</param-value>
- 8       </init-param>
- 9       <init-param>
-10           <param-name>cors.allowOrigin</param-name>
-11           <param-value>*</param-value>
-12       </init-param>
-13       <init-param>
-14           <param-name>cors.allowSubdomains</param-name>
-15           <param-value>false</param-value>
-16       </init-param>
-17       <init-param>
-18           <param-name>cors.supportedMethods</param-name>
-19           <param-value>GET, HEAD, POST, OPTIONS</param-value>
-20       </init-param>
-21       <init-param>
-22           <param-name>cors.supportedHeaders</param-name>
-23           <param-value>*</param-value>
-24       </init-param>
-25       <init-param>
-26           <param-name>cors.exposedHeaders</param-name>
-27           <param-value>Test-1, Test-2</param-value>
-28       </init-param>
-29       <init-param>
-30           <param-name>cors.supportsCredentials</param-name>
-31           <param-value>true</param-value>
-32       </init-param>
-33       <init-param>
-34           <param-name>cors.maxAge</param-name>
-35           <param-value>3600</param-value>
-36       </init-param>
-37   </filter>
-38   <filter-mapping>
-39       <filter-name>CORS</filter-name>
-40       <url-pattern>/*</url-pattern>
-41   </filter-mapping>
-42  <filter>
-3.在DispatcherServlet中增加dispatchOptionsRequest配置，相当于支持options访问的支持。
+     1<!--CORS 跨域资源访问-->
+     2   <filter>
+     3       <filter-name>CORS</filter-name>
+     4       <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+     5       <init-param>
+     6           <param-name>cors.allowGenericHttpRequests</param-name>
+     7           <param-value>true</param-value>
+     8       </init-param>
+     9       <init-param>
+    10           <param-name>cors.allowOrigin</param-name>
+    11           <param-value>*</param-value>
+    12       </init-param>
+    13       <init-param>
+    14           <param-name>cors.allowSubdomains</param-name>
+    15           <param-value>false</param-value>
+    16       </init-param>
+    17       <init-param>
+    18           <param-name>cors.supportedMethods</param-name>
+    19           <param-value>GET, HEAD, POST, OPTIONS</param-value>
+    20       </init-param>
+    21       <init-param>
+    22           <param-name>cors.supportedHeaders</param-name>
+    23           <param-value>*</param-value>
+    24       </init-param>
+    25       <init-param>
+    26           <param-name>cors.exposedHeaders</param-name>
+    27           <param-value>Test-1, Test-2</param-value>
+    28       </init-param>
+    29       <init-param>
+    30           <param-name>cors.supportsCredentials</param-name>
+    31           <param-value>true</param-value>
+    32       </init-param>
+    33       <init-param>
+    34           <param-name>cors.maxAge</param-name>
+    35           <param-value>3600</param-value>
+    36       </init-param>
+    37   </filter>
+    38   <filter-mapping>
+    39       <filter-name>CORS</filter-name>
+    40       <url-pattern>/*</url-pattern>
+    41   </filter-mapping>
+    42  <filter>
+    3.在DispatcherServlet中增加dispatchOptionsRequest配置，相当于支持options访问的支持。
 
- 1  <servlet>
- 2    <servlet-name>springmvc</servlet-name>
- 3    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
- 4    <init-param>
- 5      <param-name>contextConfigLocation</param-name>
- 6      <param-value>classpath:springmvc-servlet.xml</param-value>
- 7    </init-param>
- 8    <init-param>
- 9          <param-name>dispatchOptionsRequest</param-name>
-10          <param-value>true</param-value>
-11     </init-param>
-12    <load-on-startup>1</load-on-startup>
-13  </servlet>
-以上配置即可实现SpringMVC支持CORS协议，
+     1  <servlet>
+     2    <servlet-name>springmvc</servlet-name>
+     3    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+     4    <init-param>
+     5      <param-name>contextConfigLocation</param-name>
+     6      <param-value>classpath:springmvc-servlet.xml</param-value>
+     7    </init-param>
+     8    <init-param>
+     9          <param-name>dispatchOptionsRequest</param-name>
+    10          <param-value>true</param-value>
+    11     </init-param>
+    12    <load-on-startup>1</load-on-startup>
+    13  </servlet>
+    以上配置即可实现SpringMVC支持CORS协议，
 
-注意点：SpringMVC为了安全默认是不开启CORS的，所以，当你的程序开启了支持CORS协议，您的程序最好需要经过安全的评估才可在生产环境下使用。
+    注意点：SpringMVC为了安全默认是不开启CORS的，所以，当你的程序开启了支持CORS协议，您的程序最好需要经过安全的评估才可在生产环境下使用。
 
 </pre>
 
@@ -221,6 +252,16 @@ SpringMVC项目配置支持CORS解决方案：
                 console.log(errothrown);
             }
         });
+
+    }
+
+    //非简单请求
+    function hardRequest() {
+        var url = 'http://api.alice.com/cors';
+        var xhr = new XMLHttpRequest();
+        xhr.open('PUT', url, true);
+        xhr.setRequestHeader('X-Custom-Header', 'value');
+        xhr.send();
 
     }
 

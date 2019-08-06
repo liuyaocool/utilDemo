@@ -1,4 +1,4 @@
-package com.liuyao.demo.ws.des;
+package com.liuyao.demo.util.des;
 
 
 import java.security.Key;

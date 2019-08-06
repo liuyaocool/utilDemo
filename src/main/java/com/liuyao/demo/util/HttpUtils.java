@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 
 public class HttpUtils {
 
-    private static final String[] IP_HEADERS = {"x-forwarded-for","Proxy-Client-IP","WL-Proxy-Client-IP",""};
+    private static final String[] IP_HEADERS = {"x-forwarded-for","Proxy-Client-IP","WL-Proxy-Client-IP"};
 
     public static String getRemoteAddr() {
         HttpServletRequest request = ServletUtils.getRequest();

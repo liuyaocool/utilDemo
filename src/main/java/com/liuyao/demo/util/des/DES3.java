@@ -1,4 +1,4 @@
-package com.liuyao.demo.ws.des;
+package com.liuyao.demo.util.des;
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
