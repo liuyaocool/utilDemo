@@ -168,3 +168,35 @@ function timeOut(fun, time) {
         fun();
     }, time*1);
 }
+
+/**
+ * 日期方法
+ * @param date 日期对象
+ * @param day 增加的天数
+ * @param format 日期格式
+ * @returns {*}
+ */
+function dateFormat(date, day, format) {
+    if (typeof date != "object"){ date = new Date(); }
+    if (!format){ format = "yyyy-MM-dd"; }
+    var timeNum = date.getTime();
+    if (day){
+        timeNum += parseFloat(day) * 86400000;
+    }
+    date = new Date(timeNum);
+    var year = date.getFullYear(),
+        month = date.getMonth() + 1,
+        day = date.getDate(),
+        h24 = date.getHours(),
+        h12 = h24 > 12 ? h24 - 12 : h24,
+        mm = date.getMinutes(),
+        ss = date.getSeconds();
+    format = format.replace("yyyy", year);
+    format = format.replace("MM", month < 10 ? "0" + month : month);
+    format = format.replace("dd", day < 10 ? "0" + day : day);
+    format = format.replace("HH", h24 < 10 ? "0" + h24 : h24);
+    format = format.replace("hh", h12 < 10 ? "0" + h12 : h12);
+    format = format.replace("mm", mm < 10 ? "0" + mm : mm);
+    format = format.replace("ss", ss < 10 ? "0" + ss : ss);
+    return format;
+}

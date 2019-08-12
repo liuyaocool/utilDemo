@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class CrossConfig extends WebMvcConfigurerAdapter {
 
     /**
-     * 添加全局跨域请求 不好使
+     * 添加全局跨域请求 不好使 此继承类即将过时
      * @param registry
      */
 //    @Override

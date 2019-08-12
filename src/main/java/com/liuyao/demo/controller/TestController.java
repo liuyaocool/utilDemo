@@ -22,7 +22,7 @@ public class TestController {
         return "login";
     }
 
-    //跨域通信 可加在类上
+    //跨域通信 可加在类上 不加参数所有可通过
 //    @CrossOrigin(origins = {"http://localhost:8980","null"})
     @RequestMapping(value = "/testIp", method = RequestMethod.POST)
     @ResponseBody
