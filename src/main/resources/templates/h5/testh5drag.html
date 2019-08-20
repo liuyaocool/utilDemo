@@ -20,6 +20,16 @@
         }
 
         #div1,#div2 {width:198px; height:66px;padding:10px;border:1px solid #aaaaaa;}
+
+        .drag_move{
+            background: red;
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: move;
+        }
     </style>
 
 </head>
@@ -49,6 +59,7 @@
 <div id="div2" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 <img src="img_logo.gif" draggable="true" ondragstart="drag(event)" id="drag1" />
 
+<div class="drag_move" onmousedown="move(this)"> 可移动 </div>
 <script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
 
@@ -76,6 +87,37 @@
         var data=ev.dataTransfer.getData("Text");
         console.log(data);
         ev.target.appendChild(document.getElementById(data));
+    }
+
+    function move(dom, target) {
+        //判断js对象
+        if (!target) {
+            target = dom;
+        } else if (jQuery && target instanceof jQuery && target[0]) {
+            target = target[0]; // 转换为js对象
+        } else if (typeof target == "string") {
+            target = $(target)[0];// 转换为js对象
+        } else if (target instanceof HTMLElement) {
+        } else { return; }
+        var l = target.offsetLeft,
+            t = target.offsetTop,
+            msl, mst;
+
+        dom.onmousemove = function (ev) {
+            if (!msl){
+                msl = ev.offsetX;
+                mst = ev.offsetY;
+                return;
+            }
+            l += ev.offsetX - msl;
+            t += ev.offsetY - mst;
+
+            target.style.top = t + "px";
+            target.style.left = l + "px";
+        };
+        dom.onmouseup = function () {
+            dom.onmousemove = null;
+        }
     }
 </script>
 </body>
