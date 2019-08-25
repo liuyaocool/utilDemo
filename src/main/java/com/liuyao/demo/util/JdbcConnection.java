@@ -1,7 +1,5 @@
 package com.liuyao.demo.util;
 
-import com.microsoft.sqlserver.jdbc.SQLServerResultSet;
-
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,6 +51,7 @@ public class JdbcConnection {
                         rs.getMetaData().getColumnClassName(i));
             }
             while (rs.next()){
+                System.out.println(rs.getString("name"));
 
             }
             System.out.println();
@@ -72,9 +71,9 @@ public class JdbcConnection {
     public static void main(String[] args) throws SQLException {
         JdbcConnection connection = new JdbcConnection(
                 "com.microsoft.sqlserver.jdbc.SQLServerDriver",
-                "jdbc:sqlserver://zhuolutech.net:9010;DatabaseName=CHEMISTRY",
+                "jdbc:sqlserver://zhuolutech.net:9010;DatabaseName=Chemical_CardInfo",
                 "zhuolu","asdfg12345");
-        ResultSet rs = connection.excuteSql("select * from js_config", Map.class);
+        ResultSet rs = connection.excuteSql("select IDEN_DATA_ID id,CHEM_CAS cas from CHEM_IDENTITY_DATA where CHEM_NAME like '%脱轻碳五%'", Map.class);
         System.out.println();
 
 

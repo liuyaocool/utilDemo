@@ -413,11 +413,19 @@
         </dependency>
 
         <!--sqlserver驱动-->
+        <!--<dependency>-->
+            <!--<groupId>com.microsoft.sqlserver</groupId>-->
+            <!--<artifactId>sqljdbc4</artifactId>-->
+            <!--<version>1.0</version>-->
+            <!--&lt;!&ndash;<scope>test</scope>&ndash;&gt;-->
+        <!--</dependency>-->
+
         <dependency>
-            <groupId>com.microsoft.sqlserver</groupId>
-            <artifactId>sqljdbc4</artifactId>
-            <version>1.0</version>
-            <!--<scope>test</scope>-->
+            <groupId>gdal</groupId>
+            <artifactId>gdal</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/sqljdbc4-1.0.jar</systemPath>
         </dependency>
 
     </dependencies>
