@@ -13,3 +13,5 @@ spring:
       #设置不重启目录
       exclude: src/main/resources/**
 
+config:
+  version: 0.1

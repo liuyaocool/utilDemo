@@ -16,3 +16,7 @@ spring:
   #    无效，因为被拦截器覆盖了
     static-locations: file:C:\chemic\course\,classpath:/static/
 
+
+config:
+  version: 0.1
+

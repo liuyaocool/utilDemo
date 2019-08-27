@@ -3,15 +3,17 @@ package com.liuyao.demo.ws.client;
 import com.liuyao.demo.ws.User;
 import com.liuyao.demo.ws.test.Ws;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.io.*;
 import java.net.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SoapUtil {
+public class SoapConncet {
+
+    private String url = "http://172.23.121.147:8081/DataExtractService.asmx";
+    private String host = "172.23.121.147";
+    private String contentType = "text/xml; charset=utf-8";
+    private String nameSpace = "http://tempuri.org/"; // SOAPAction = nameSpace+method
 
     /*
      * 远程访问SOAP协议接口
@@ -26,21 +28,20 @@ public class SoapUtil {
      * @备注：有四种请求头格式1、SOAP 1.1； 2、SOAP 1.2 ； 3、HTTP GET； 4、HTTP POST
      * 参考---》http://www.webxml.com.cn/WebServices/WeatherWebService.asmx?op=getWeatherbyCityName
      */
-    public static String getWebServiceAndSoap(String url,String isClass,String isMethod,String soap) throws IOException {
+    public String fire(String method,String soap) throws IOException {
         if (soap == null) {
             return null;
         }
-        URL soapUrl = new URL(url);
+        URL soapUrl = new URL(this.url);
         URLConnection conn = soapUrl.openConnection();
         conn.setUseCaches(false);
         conn.setDoInput(true);
         conn.setDoOutput(true);
-        conn.setRequestProperty("Host","sdsapi.nrcc.com.cn");
-        conn.setRequestProperty("Content-Length",
-                Integer.toString(soap.length()));
-        conn.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+        conn.setRequestProperty("Host",this.host);
+        conn.setRequestProperty("Content-Length", String.valueOf(soap.length()));
+        conn.setRequestProperty("Content-Type", this.contentType);
         // 调用的接口方法是
-        conn.setRequestProperty("SOAPAction", "http://tempuri.org/" + isMethod);
+        conn.setRequestProperty("SOAPAction", this.nameSpace + method);
         OutputStream os = conn.getOutputStream();
         OutputStreamWriter osw = new OutputStreamWriter(os, "utf-8");
         osw.write(soap);
@@ -48,15 +49,26 @@ public class SoapUtil {
         osw.close();
         // 获取webserivce返回的流
         InputStream is = conn.getInputStream();
-        if (is!=null) {
-            byte[] bytes = new byte[0];
-            bytes = new byte[is.available()];
-            is.read(bytes);
-            String str = new String(bytes);
-            return str;
-        }else {
-            return null;
+        InputStreamReader isr = new InputStreamReader(is);
+        BufferedReader br = new BufferedReader(isr);
+
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null){
+            sb.append(line);
         }
+        System.out.println(sb.toString());
+
+//        if (is!=null) {
+//            byte[] bytes = new byte[0];
+//            bytes = new byte[is.available()];
+//            is.read(bytes);
+//            String str = new String(bytes);
+//            return str;
+//        }else {
+//            return null;
+//        }
+        return sb.toString();
     }
 
     public static void main(String[] args) {
@@ -104,13 +116,29 @@ public class SoapUtil {
                 "  </soap:Body>\n" +
                 "</soap:Envelope>";
 
-        String url = "http://sdsapi.nrcc.com.cn/DataExtractService.asmx";
+        String url = "http://172.23.121.147:8081/DataExtractService.asmx";
         String namespace = "http://tempuri.org/";
         int timeout = 0;
-        String method = "GetIP";
+        String method = "GetChemIdentity";
 
         try {
-            String ret= getWebServiceAndSoap(url,"",method, soap);
+            SoapConncet conncet = new SoapConncet();
+            String ret= conncet. fire(method,
+                    "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                            "<soap:Envelope xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
+                            "  <soap:Header>\n" +
+                            "    <AuthorSoapHeader xmlns=\"http://tempuri.org/\">\n" +
+                            "      <Secretkey>123123</Secretkey>\n" +
+                            "    </AuthorSoapHeader>\n" +
+                            "  </soap:Header>\n" +
+                            "  <soap:Body>\n" +
+                            "    <GetChemIdentity xmlns=\"http://tempuri.org/\">\n" +
+                            "      <searchModel>\n" +
+                            "        <IDEN_DATA_ID>B3672D6B-B1AB-45F3-B46A-04E1AFCAAD37</IDEN_DATA_ID>\n" +
+                            "      </searchModel>\n" +
+                            "    </GetChemIdentity>\n" +
+                            "  </soap:Body>\n" +
+                            "</soap:Envelope>");
             System.out.println(ret);
         } catch (IOException e) {
             // TODO Auto-generated catch block
