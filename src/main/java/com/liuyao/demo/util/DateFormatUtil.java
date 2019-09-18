@@ -1,6 +1,7 @@
 package com.liuyao.demo.util;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -95,21 +96,22 @@ public class DateFormatUtil{
      * 日期添加多少天 '年-月-日'
      * @return
      */
-    public static String add_days(String date, int days) {
+    public static String addDay(String date, int days, String format) {
+        format = null == format || "".equals(format.trim()) ? "yyyy-MM-dd" : format;
 
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        DateFormat df = new SimpleDateFormat(format);
         long daysTime = days*1000*60*60*24;
-        long newTime = 0;
-        Date date2 = new Date();
+        long newTime;
         try {
             long time = df.parse(date).getTime();
             newTime = daysTime + time;
+            Date date2 = new Date();
             date2.setTime(newTime);
             return df.format(date2);
-        } catch (Exception exception) {
+        } catch (ParseException exception) {
             exception.printStackTrace();
         }
-        return "0";
+        return "1970-01-01";
     }
 
     /**

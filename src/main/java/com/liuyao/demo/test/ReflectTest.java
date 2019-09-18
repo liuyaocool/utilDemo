@@ -12,6 +12,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Map;
 
 public class ReflectTest {
@@ -156,6 +158,7 @@ public class ReflectTest {
                     Object[] args = new Object[1];
                     args[0] = value;
                     try {
+                        //如果obj为空则此处空指针
                         descriptor.getWriteMethod().invoke(obj, args);
                     } catch (IllegalAccessException e) {
                         LyLogUtil.logInfo("实例化JavaBean失败 Error{}");
@@ -169,9 +172,68 @@ public class ReflectTest {
         }
         return obj;
     }
+    public static <T> T mapToBeanNew(Class<T> clazz, Map map) {
+        if (null == map || null == clazz) {
+            return null;
+        }
+        try {
+            T obj = clazz.newInstance();
+            for (Object key : map.keySet()) {
+                try {
+                    PropertyDescriptor pd = new PropertyDescriptor(String.valueOf(key), clazz);
+                    Method writeMethod = pd.getWriteMethod();
+                    String name = writeMethod.getParameterTypes()[0].getName();
+                    Object[] args = {map.get(key)};
+                    if("java.util.Date".equals(name)){
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                        args[0] = sdf.parse(args[0].toString());
+                    }else if (!name.equals(args[0].getClass().getName())){
+                        //如果传入的参数与需要的参数不匹配 转换类型
+                        args[0] = Class.forName(name).getConstructor(String.class)
+                                .newInstance(String.valueOf(args[0]));
+                    }
+                    writeMethod.invoke(obj, args);
+                } catch (ReflectiveOperationException e) {
+//                    log.info("字段写入失败："+e.getMessage());
+                } catch (IntrospectionException e) {
+//                    log.info("字段映射失败："+e.getMessage());
+                } catch (ParseException e) {
+//                    log.info("字段类型转换失败："+e.getMessage());
+                }
+            }
+            return obj;
+        } catch (ReflectiveOperationException e) {
+//            log.info("反射实例画失败："+e.getMessage());
+        }
+        return null;
+    }
 
     //通过class 转换类型
     public static Object castVal(Object value, Class claz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         return claz.getConstructor(value.getClass()).newInstance(value);
+    }
+
+    //向实体写入值
+    private boolean writeValue(Object bean, String attrName, Object value) {
+        try {
+            Class claz = bean.getClass();
+            PropertyDescriptor pd = new PropertyDescriptor(attrName, claz);
+            Method writeMethod = pd.getWriteMethod();
+            String name = writeMethod.getParameterTypes()[0].getName();
+            if("java.util.Date".equals(name)){
+                SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+                value=sdf.parse(value.toString());
+            }else if (!name.equals(value.getClass().getName())){
+                //如果传入的参数与需要的参数不匹配 转换类型
+                value = Class.forName(name).getConstructor(String.class)
+                        .newInstance(String.valueOf(value));
+            }
+            Object[] args = {value};
+            writeMethod.invoke(bean, args);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }
