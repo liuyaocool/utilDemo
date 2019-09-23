@@ -29,7 +29,7 @@
     </style>
 
 </head>
-<body>
+<body style="width: 9000px;">
 
 <div class="main">sdfghjklKJGKJGHKJHJKHGKJGJH</div>
 
@@ -46,6 +46,9 @@
 
     //小窗口展示
     function showTips(ev) {
+        // console.log(window.event.clientX);//鼠标关于浏览器定位
+        // console.log(window.event.layerX);//鼠标关于上一级元素位置
+        // console.log(window.event.pageX);//鼠标关于body元素位置
         var content = $(this).text();
         $(".showTips").html(content).show();
         var X = ev.pageX;

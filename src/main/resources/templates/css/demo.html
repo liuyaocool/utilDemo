@@ -234,6 +234,14 @@
             background: repeating-radial-gradient(circle at 20% 40%,#99CCCC 20px, #7171B7 40px, #CCCC99 60px, #4F9C9C 80px, #99CCCC 100px)
                 no-repeat fixed;
         }
+        @-webkit-keyframes bling_ani { 0%{opacity: 0;} 50%{opacity: 1;} 100%{opacity: 0;} }
+        .bling{
+            animation-name: bling_ani;animation-duration: 0.3s; /*定义播放时间*/
+            -webkit-animation-iteration-count: infinite;/*播放次数 无限次 可以改为数字*/
+            -moz-animation-iteration-count: infinite;/*播放次数*/
+            -o-animation-iteration-count: infinite;/*播放次数*/
+            animation-iteration-count: infinite;/*播放次数*/
+        }
     </style>
 </head>
 <body>
@@ -265,7 +273,8 @@
     <h3>高级动画设置Animation</h3>
 
     <div class="angle"><--</div>
-    <div id="addAngle" style="width: 100px;height: 50px; background: blue;" onclick="rmvAngle()"></div>
+    <div id="addAngle" style="width: 100px;height: 50px; background: blue;" class="bling" onclick="rmvAngle()"></div>
+    <div style="width: 100px;height: 50px; background: red;" class="bling"></div>
     <input type="button" value="动态添加效果" onclick="addAngle()">
     <input type="button" value="移除添加效果" onclick="rmvAngle()">
 
