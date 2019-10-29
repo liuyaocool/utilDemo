@@ -248,3 +248,48 @@ function gradient (startColor,endColor,step, index){
         )
     }
 }
+
+/**
+ * cookie方法
+ * @param method set/get/clear
+ * @param cookieKey 浏览器中的key
+ * @param key cookieKey中的key
+ * @param value 值
+ * @returns {string}
+ */
+function kjpsCookie(method, cookieKey, key, value) {
+    var path = "kjps";
+    var ck = document.cookie;
+    ck = ck.substring(ck.indexOf(cookieKey) + cookieKey.length + 1);
+    ck = ck.substring(0, ck.indexOf(";"));
+    switch (method){
+        case "set":
+            if (!ck || document.cookie.indexOf(cookieKey+"=") < 0){
+                ck = key + "=" + value;
+            } else if (ck.indexOf(key + "=") >= 0) {
+                ck = ck.replace(key + "=" + getCk(), key + "=" + value);
+            } else {
+                ck += "&" + key + "=" + value;
+            }
+            document.cookie = cookieKey+"=" + ck + "; path=/"+path;
+            break;
+        case "get":
+            if (ck && ck.indexOf(key + "=") >= 0) {
+                return getCk();
+            }else {
+                return "";
+            }
+        case "clear":
+            document.cookie = cookieKey+"=; path=/"+path;
+            break;
+        default: break;
+    }
+
+    function getCk() {
+        var val = ck.substring(ck.indexOf(key) + (key.length + 1));
+        if (val.indexOf("&") < 0){
+            return val;
+        }
+        return val.substring(0, val.indexOf("&"));
+    }
+}

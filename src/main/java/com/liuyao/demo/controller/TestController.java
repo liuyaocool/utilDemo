@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
+@CrossOrigin
 @Controller
 @RequestMapping("/system")
 public class TestController {
@@ -23,7 +24,7 @@ public class TestController {
     }
 
     //跨域通信 可加在类上 不加参数所有可通过
-//    @CrossOrigin(origins = {"http://localhost:8980","null"})
+    @CrossOrigin(origins = {"http://localhost:8980","null"})
     @RequestMapping(value = "/testIp", method = RequestMethod.POST)
     @ResponseBody
     public String ttt(HttpServletRequest request, HttpServletResponse response) {

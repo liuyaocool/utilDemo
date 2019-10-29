@@ -33,6 +33,8 @@
 <input type="button" value="画线2" onclick="lineDraw2()">
 <input type="button" value="画线3" onclick="lineDraw3()">
 <input type="button" value="画线 闭合" onclick="lineDrawClose()">
+<input type="button" value="移动的线" onclick="moveLine()">
+<input type="button" value="云朵" onclick="cloud()">
 
 <br/>
 <pre>
@@ -180,6 +182,43 @@ Canvas路径：
         context.fillRect(10,1,50,50);
         console.log(myCan.getContext("2d"));
         console.log(myCan.getContext("3d"));
+    }
+
+    function moveLine() {
+        
+    }
+    
+    function cloud(size, position, text) {
+        text = text ? text : "文本";
+        size = parseInt(size) >= 0 ? r : 80;
+        position = [100,100];//云中心点坐标
+        /**
+         第一个参数：圆点x坐标；
+         第二个参数:圆点y轴坐标；
+         第三个参数：半径；
+         第四个参数：起始角度；
+         Math.PI*2是JS计算方法，是圆
+         第六个参数：是否按照顺时针
+         */
+        var rounds = [
+            {r: 0.2 * size,x: position[0]-size*0.33, y:position[1]+size*0.05},
+            {r: 0.115 * size,x: position[0]-size*0.2, y:position[1]-size*0.15},
+            {r: 0.25 * size,x: position[0]+size*0.1, y:position[1]-size*0.07},
+            {r: 0.18 * size,x: position[0]+size*0.3, y:position[1]+size*0.07},
+        ];
+        context.fillStyle = "green";
+        for (var i = 0; i < rounds.length; i++) {
+            context.arc(rounds[i].x, rounds[i].y, rounds[i].r, 0, 2*Math.PI);
+        }
+        context.strokeStyle = "black";//边框
+        context.rect(rounds[0].x, rounds[0].y, rounds[3].x - rounds[0].x, rounds[0].r);
+        context.stroke();
+        context.fill();
+        context.fillStyle = "white";
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.font = 'bold '+size/5+'px Microsoft YaHei';
+        context.fillText(text, position[0], position[1]);
     }
 
 </script>
