@@ -7,6 +7,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.Validate;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -315,5 +316,29 @@ public class ServletUtils {
         }
 
         return true;
+    }
+
+
+    public String getHeader(String headerName){
+        HttpServletRequest request = getRequest();
+        return request.getHeader(headerName);
+    }
+
+    /**
+     * 获得远端IP地址，考虑到Nginx反向代理的情况
+     * @return
+     */
+    public String getRemoteAddress(){
+        HttpServletRequest request = getRequest();
+        String rd = null;
+        //如果经过了Nginx代理，则从请求头中获取远端地址
+        String xf = getHeader("x-forwarded-for");
+        String xrip = getHeader("X-Real-IP");
+        if(!StringUtils.isEmpty(xf)){
+            rd = xf.split(",")[0].trim();
+        }else if(!StringUtils.isEmpty(xrip)){
+            rd = xrip;
+        }
+        return rd == null ? request.getRemoteAddr() : rd;
     }
 }

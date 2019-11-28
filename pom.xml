@@ -434,6 +434,10 @@
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/sqljdbc4-1.0.jar</systemPath>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
