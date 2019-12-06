@@ -1,4 +1,4 @@
-package com.liuyao.demo.util;
+package com.liuyao.demo.utils;
 
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public class LyLogUtil {
     }
 
 
-    public static void logError(Exception ex){
+    public static void logError(String message, Exception... ex){
         StringBuilder msg = new StringBuilder();
 
         //获得方法的调用者信息
@@ -33,15 +33,18 @@ public class LyLogUtil {
             StackTraceElement ste = new Exception().getStackTrace()[1];
             Class claz = Class.forName(ste.getClassName());
             msg.append(ste.getMethodName())
-                    .append("(").append(ste.getLineNumber()).append("): \n");
-            LoggerFactory.getLogger(claz).error(msg.toString(), ex);
+                    .append("(")
+                    .append(ste.getLineNumber()).append("): ")
+                    .append(message);
+            LoggerFactory.getLogger(claz).error(msg.toString(), ex[0]);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        logInfo("aaa");
+
+        logError("aaa", new Exception("test"));
     }
 
 }
