@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+xmlns="http://www.w3.org/1999/xhtml"
+xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>login</title>
+</head>
+<body>
+
+<form method="post" action="/systemFile/import" enctype="multipart/form-data">
+    EXCEL导入:<input type="file" name="file"/>
+    <input type="submit"/>
+</form>
+
+<form method="post" action="/systemFile/upload" enctype="multipart/form-data">
+    文件上传:<input type="file" name="file"/>
+    <input type="submit"/>
+</form>
+<form method="post" action="/systemFile/upLoad" enctype="multipart/form-data">
+    <input type="file" name="file"/>
+    <input type="submit"/>
+</form>
+
+<form method="post" action="/systemFile/upWord" enctype="multipart/form-data">
+    <input type="file" name="word"/>
+    <input type="submit" value="word"/>
+</form>
+
+<pre>
+    優先級
+    META-INF/resources > resources > static > public
+</pre>
+
+<a href="C:/Users/61/Desktop/doc/别动这条数据_201904251800.docx">别冻着人挑数据</a>
+<!--<img src="C:\Users\61\Desktop\taskkill.png">-->
+
+<video controls="controls" th:src="@{/超级英雄来了.mp4}"></video>
+
+<!--注意開頭斜杠 thymeleaf模板寫法-->
+<script type="text/javascript" th:src="@{/js/jquery-1.12.2.min.js(v=${ver},b=${ver})}"></script>
+<!--<script type="text/javascript" th:src="@{js/jquery-1.12.2.min.js}"></script>-->
+</body>
+</html>

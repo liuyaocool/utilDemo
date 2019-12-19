@@ -217,6 +217,30 @@ function hexToRgb(hex){
 }
 
 /**
+ * 计算渐变过渡色
+ * 例([0,0,0], [255,255,255], 100) 取100个:(]
+ */
+function gradient_rgb (sColor, eColor, step){
+    // 计算R\G\B每一步的差值
+    var stepOne = [
+        (eColor[0] - sColor[0]) / step,
+        (eColor[1] - sColor[1]) / step,
+        (eColor[2] - sColor[2]) / step
+    ]
+    //获得结果集
+    var colorArr = [];
+    for(var i = 1; i <= step; i++){
+        colorArr.push([
+            stepOne[0]*i+sColor[0],
+            stepOne[1]*i+sColor[1],
+            stepOne[2]*i+sColor[2],
+        ]);
+    }
+    return colorArr;
+}
+
+
+/**
  * 计算渐变过渡色('#ec9089', '#c12927', 100, 24) 取100个:[) 第24个
  */
 function gradient (startColor,endColor,step, index){
@@ -293,3 +317,53 @@ function kjpsCookie(method, cookieKey, key, value) {
         return val.substring(0, val.indexOf("&"));
     }
 }
+
+
+var HtmlUtil = {
+    /*1.用浏览器内部转换器实现html转码*/
+    htmlEncode:function (html){
+        //1.首先动态创建一个容器标签元素，如DIV
+        var temp = document.createElement ("div");
+        //2.然后将要转换的字符串设置为这个元素的innerText(ie支持)或者textContent(火狐，google支持)
+        (temp.textContent != undefined ) ? (temp.textContent = html) : (temp.innerText = html);
+        //3.最后返回这个元素的innerHTML，即得到经过HTML编码转换的字符串了
+        var output = temp.innerHTML;
+        temp = null;
+        return output;
+    },
+    /*2.用浏览器内部转换器实现html解码*/
+    htmlDecode:function (text){
+        //1.首先动态创建一个容器标签元素，如DIV
+        var temp = document.createElement("div");
+        //2.然后将要转换的字符串设置为这个元素的innerHTML(ie，火狐，google都支持)
+        temp.innerHTML = text;
+        //3.最后返回这个元素的innerText(ie支持)或者textContent(火狐，google支持)，即得到经过HTML解码的字符串了。
+        var output = temp.innerText || temp.textContent;
+        temp = null;
+        return output;
+    },
+    /*3.用正则表达式实现html转码*/
+    htmlEncodeByRegExp:function (str){
+        var s = "";
+        if(str.length == 0) return "";
+        s = str.replace(/&/g,"&amp;");
+        s = s.replace(/</g,"&lt;");
+        s = s.replace(/>/g,"&gt;");
+        s = s.replace(/ /g,"&nbsp;");
+        s = s.replace(/\'/g,"&#39;");
+        s = s.replace(/\"/g,"&quot;");
+        return s;
+    },
+    /*4.用正则表达式实现html解码*/
+    htmlDecodeByRegExp:function (str){
+        var s = "";
+        if(str.length == 0) return "";
+        s = str.replace(/&amp;/g,"&");
+        s = s.replace(/&lt;/g,"<");
+        s = s.replace(/&gt;/g,">");
+        s = s.replace(/&nbsp;/g," ");
+        s = s.replace(/&#39;/g,"\'");
+        s = s.replace(/&quot;/g,"\"");
+        return s;
+    }
+};
