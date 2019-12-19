@@ -1,8 +1,7 @@
 package com.liuyao.demo.test;
 
 import com.liuyao.demo.entity.Hero;
-import com.liuyao.demo.util.FileIOUtil;
-import com.liuyao.demo.util.LyLogUtil;
+import com.liuyao.demo.utils.LogUtil;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -161,14 +160,14 @@ public class ReflectTest {
                         //如果obj为空则此处空指针
                         descriptor.getWriteMethod().invoke(obj, args);
                     } catch (IllegalAccessException e) {
-                        LyLogUtil.logInfo("实例化JavaBean失败 Error{}");
+                        LogUtil.info("实例化JavaBean失败 Error{}");
                     } catch (InvocationTargetException e) {
-                        LyLogUtil.logInfo("字段映射失败 Error{}");
+                        LogUtil.info("字段映射失败 Error{}");
                     }
                 }
             }
         } catch (IntrospectionException e) {
-            LyLogUtil.logInfo("分析类属性失败 Error{}");
+            LogUtil.info("分析类属性失败 Error{}");
         }
         return obj;
     }

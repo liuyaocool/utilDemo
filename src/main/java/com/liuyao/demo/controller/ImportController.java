@@ -1,7 +1,7 @@
 package com.liuyao.demo.controller;
 
-import com.liuyao.demo.util.FileIOUtil;
-import com.liuyao.demo.util.MyFileIOUtil;
+import com.liuyao.demo.util.office.ExcelUtil2;
+import com.liuyao.demo.utils.IOUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,10 +16,10 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("systemFile")
+@RequestMapping("/file")
 public class ImportController {
 
-    @GetMapping("/login")
+    @GetMapping("/page")
     public String login(){
         return "login";
     }
@@ -40,17 +40,17 @@ public class ImportController {
         columns.put(5, "hobby");
         columns.put(7, "beizhu");
 
-        return FileIOUtil.importExcel(file, columns, "yyyy-MM-dd HH:mm:ss", 3);
+        return ExcelUtil2.importExcel(file, columns, "yyyy-MM-dd HH:mm:ss", 3);
     }
     @PostMapping("/upload")
     public String fileUpload(@PathVariable("file") MultipartFile file, HttpServletRequest request){
-        return MyFileIOUtil.upload(request.getSession(), file, "c:/java/upload");
+        return IOUtil.upload(file, "c:/java/upload");
     }
 
     @PostMapping("/upWord")
     public String upWord (HttpServletRequest request, @PathVariable("word") MultipartFile word) throws IOException {
 
-        return FileIOUtil.getWordBook(word);
+        return ExcelUtil2.getWordBook(word);
     }
 
 }

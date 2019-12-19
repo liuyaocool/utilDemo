@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch3.conditional;
+package com.liuyao.demo.test.conditional;
 
 //2-1
 public interface ListService {

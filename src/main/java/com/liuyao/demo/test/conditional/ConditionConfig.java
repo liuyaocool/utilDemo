@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch3.conditional;
+package com.liuyao.demo.test.conditional;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;

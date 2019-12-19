@@ -1,6 +1,4 @@
-package com.liuyao.demo.exception;
-
-import com.liuyao.demo.enums.ResultEnum;
+package com.liuyao.demo.handle;
 
 //可以在service 中抛出此异常
 public class BeautyException extends RuntimeException{

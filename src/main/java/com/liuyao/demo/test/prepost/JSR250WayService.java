@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch2.prepost;
+package com.liuyao.demo.test.prepost;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

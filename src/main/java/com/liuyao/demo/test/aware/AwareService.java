@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch3.aware;
+package com.liuyao.demo.test.aware;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.BeanNameAware;

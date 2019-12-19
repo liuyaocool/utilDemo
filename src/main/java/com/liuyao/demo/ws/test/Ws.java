@@ -1,6 +1,6 @@
 package com.liuyao.demo.ws.test;
 
-import com.liuyao.demo.util.LyLogUtil;
+import com.liuyao.demo.utils.LogUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -30,7 +30,7 @@ public class Ws {
      */
     public static String doPostSingle(String url, Map<String, String> header,
                                       String contentType, String encoding, String wsdl){
-        LyLogUtil.logInfo("开始调用接口：" + url);
+        LogUtil.info("开始调用接口：" + url);
         CloseableHttpClient client = HttpClients.createDefault();
         String result = null;
         CloseableHttpResponse response = null;
@@ -67,7 +67,7 @@ public class Ws {
             try { response.close(); } catch (IOException e) { e.printStackTrace(); }
             try { client.close(); } catch (IOException e) { e.printStackTrace(); }
         }
-        LyLogUtil.logInfo("调用接口成功，即将返回数据。");
+        LogUtil.info("调用接口成功，即将返回数据。");
         return result;
     }
 

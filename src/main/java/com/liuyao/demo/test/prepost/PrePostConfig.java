@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch2.prepost;
+package com.liuyao.demo.test.prepost;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;

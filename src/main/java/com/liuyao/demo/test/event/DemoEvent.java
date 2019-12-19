@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch2.event;
+package com.liuyao.demo.test.event;
 
 import org.springframework.context.ApplicationEvent;
 

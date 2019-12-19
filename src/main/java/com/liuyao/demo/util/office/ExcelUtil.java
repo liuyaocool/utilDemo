@@ -1,6 +1,6 @@
 package com.liuyao.demo.util.office;
 
-import com.liuyao.demo.util.DateFormatUtil;
+import com.liuyao.demo.utils.DateUtil;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.*;
@@ -287,7 +287,7 @@ public class ExcelUtil {
             return cell.toString();
         }
         Date date = cell.getDateCellValue();
-        return DateFormatUtil.getTimeFormat(date, format);
+        return DateUtil.format(date, format);
     }
 
     /**

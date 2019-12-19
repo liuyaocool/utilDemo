@@ -1,6 +1,7 @@
 package com.liuyao.demo.filter;
 
 import com.liuyao.demo.config.SysConfig;
+import com.liuyao.demo.utils.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +15,9 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * 拦截器需要两个注解
- */
 @Component
-@WebFilter(urlPatterns = {"/systemFile/*"},filterName = "normalFilter")
-public class NormalFiler implements Filter {
+//@WebFilter(urlPatterns = {"/systemFile/*"},filterName = "normalFilter") 不管用
+public class LogFiler implements Filter {
 
     @Autowired
     private SysConfig sysConfig;
@@ -30,16 +28,18 @@ public class NormalFiler implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
-                         FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpServletResponse response = (HttpServletResponse) servletResponse;
-        request.setAttribute("serverPath", request.getContextPath());
-        request.setAttribute("ver", sysConfig.getVersion());
-        System.out.println("normalfilter");
-        //继续请求
-        filterChain.doFilter(servletRequest, servletResponse);
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain) throws IOException, ServletException {
 
+        HttpServletRequest httpReq = (HttpServletRequest) request;
+        String uri = httpReq.getRequestURI();
+        MyRequestWrapper requestWrapper = new MyRequestWrapper(httpReq);
+        String body = requestWrapper.getBody();
+        LogUtil.info("=====================数据接入请求数据:\n" + body);
+        MyResponseWrapper responseWrapper = new MyResponseWrapper((HttpServletResponse) response);
+        chain.doFilter(requestWrapper, responseWrapper);
+        LogUtil.info("=====================数据接入请求数据:\n" + body);
+        chain.doFilter(request, response);
     }
 
     @Override

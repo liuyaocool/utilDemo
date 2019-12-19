@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch3.taskexecutor;
+package com.liuyao.demo.test.taskexecutor;
 
 import org.springframework.aop.interceptor.AsyncUncaughtExceptionHandler;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,7 +13,7 @@ import java.util.concurrent.Executor;
 @Configuration
 @ComponentScan("com.wisely.highlight_spring4.ch3.taskexecutor")
 @EnableAsync // 用此注解开启异步任务支持
-public class TaskExecutorConfig implements AsyncConfigurer{
+public class TaskExecutorConfig implements AsyncConfigurer {
 
     @Override
     public Executor getAsyncExecutor() { // 获得一个基于线程池TaskExecutor

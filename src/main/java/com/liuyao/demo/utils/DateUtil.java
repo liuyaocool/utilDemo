@@ -45,5 +45,16 @@ public class DateUtil {
         return dateLy.getDate(format);
     }
 
+    public static void main(String[] args) {
+        System.out.println(new DateLy().getDate("yyyy"));
+        System.out.println(new DateLy().getDate("MM"));
+        System.out.println(new DateLy().getDate("hh"));
+        System.out.println(new DateLy().add(DateLy.FMT.DAY, 2).getDate(DateLy.DATETIME));
+        System.out.println(new DateLy().add(DateLy.FMT.MONTH, -20).getDate());
+        System.out.println(new DateLy(2019, 12, 2, 23,2,3).getDate(DateLy.DATETIME));
+        System.out.println(new DateLy("20190001 121212", "yyyyMMdd HHmmss").getDate(DateLy.DATETIME));
+
+    }
+
 
 }

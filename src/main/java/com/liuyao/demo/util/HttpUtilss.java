@@ -1,5 +1,6 @@
 package com.liuyao.demo.util;
 
+import com.liuyao.demo.utils.ServletUtil;
 import net.sf.json.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +68,7 @@ public class HttpUtilss{
     }
 
     public HttpUtilss() {
-        HttpServletRequest request = ServletUtils.getRequest();
+        HttpServletRequest request = ServletUtil.getRequest();
         StringBuilder sb = new StringBuilder(request.getScheme());
         sb.append("://").append(request.getLocalAddr()).append(":")
                 .append(request.getLocalPort()).append("/");

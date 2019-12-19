@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-public class LyLogUtil {
+public class LogUtil {
 
     //日志打印方法
-    public static void logInfo(Object msg){
+    public static void info(Object msg){
 
         //获得方法的调用者信息
         try {
@@ -25,7 +25,7 @@ public class LyLogUtil {
     }
 
 
-    public static void logError(String message, Exception... ex){
+    public static void error(String message, Exception... ex){
         StringBuilder msg = new StringBuilder();
 
         //获得方法的调用者信息
@@ -36,7 +36,11 @@ public class LyLogUtil {
                     .append("(")
                     .append(ste.getLineNumber()).append("): ")
                     .append(message);
-            LoggerFactory.getLogger(claz).error(msg.toString(), ex[0]);
+            if (ex.length > 0){
+                LoggerFactory.getLogger(claz).error(msg.toString(), ex[0]);
+            }else {
+                LoggerFactory.getLogger(claz).error(msg.toString());
+            }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
@@ -44,7 +48,9 @@ public class LyLogUtil {
 
     public static void main(String[] args) {
 
-        logError("aaa", new Exception("test"));
+        LogUtil.error("aaa");
+        LogUtil.error("aaa", new Exception("bbb"));
+
     }
 
 }

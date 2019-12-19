@@ -1,4 +1,4 @@
-package com.liuyao.demo.enums;
+package com.liuyao.demo.handle;
 
 //保存异常码和信息
 public enum ResultEnum {

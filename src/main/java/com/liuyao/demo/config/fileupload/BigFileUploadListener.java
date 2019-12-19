@@ -1,6 +1,5 @@
 package com.liuyao.demo.config.fileupload;
 
-import com.liuyao.demo.util.ConstUtil;
 import org.apache.commons.fileupload.ProgressListener;
 
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +32,7 @@ public class BigFileUploadListener implements ProgressListener {
         String progress=format.format(percent);
 
         //将信息存入session
-        session.setAttribute(ConstUtil.FILE_STATE, progress);
+        session.setAttribute("fileUploadProcess", progress);
 
         //打印消息到控制台
         System.out.println("pBytesRead===>"+pBytesRead);

@@ -1,12 +1,8 @@
 
 //字符串前自动补零  ly 2018/06/21
 String.prototype.lyPadStart = function (size, pad){
-    if(typeof(pad) != "string"){
-        pad += "";
-    }
-    if(typeof(size) != "number"){
-        size *= 1;
-    }
+    pad += "";
+    size *= 1;
     var pads ="";
     for(var i = 0; i < (size-this.length); i++){
         pads += pad;

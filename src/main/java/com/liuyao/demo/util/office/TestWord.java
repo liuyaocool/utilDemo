@@ -1,7 +1,6 @@
 package com.liuyao.demo.util.office;
 
-import com.liuyao.demo.util.FileIOUtil;
-import com.liuyao.demo.util.office.WordCreate;
+import com.liuyao.demo.utils.IOUtil;
 import org.apache.commons.lang.StringUtils;
 import org.docx4j.TextUtils;
 import org.docx4j.XmlUtils;
@@ -23,15 +22,9 @@ import java.util.List;
 import javax.xml.bind.JAXBElement;
 
 import org.apache.commons.io.IOUtils;
-import org.docx4j.TextUtils;
-import org.docx4j.XmlUtils;
 import org.docx4j.dml.wordprocessingDrawing.Inline;
 import org.docx4j.model.properties.table.tr.TrHeight;
-import org.docx4j.openpackaging.packages.OpcPackage;
-import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.docx4j.openpackaging.parts.WordprocessingML.BinaryPartAbstractImage;
-import org.docx4j.openpackaging.parts.WordprocessingML.MainDocumentPart;
-import org.docx4j.openpackaging.parts.relationships.Namespaces;
 import org.docx4j.wml.BooleanDefaultTrue;
 import org.docx4j.wml.Br;
 import org.docx4j.wml.CTBackground;
@@ -55,7 +48,6 @@ import org.docx4j.wml.Jc;
 import org.docx4j.wml.JcEnumeration;
 import org.docx4j.wml.ObjectFactory;
 import org.docx4j.wml.P;
-import org.docx4j.wml.P.Hyperlink;
 import org.docx4j.wml.PPr;
 import org.docx4j.wml.PPrBase.Ind;
 import org.docx4j.wml.PPrBase.PBdr;
@@ -95,12 +87,6 @@ import org.docx4j.wml.Tr;
 import org.docx4j.wml.TrPr;
 import org.docx4j.wml.U;
 import org.docx4j.wml.UnderlineEnumeration;
-import javax.xml.bind.JAXBElement;
-import java.io.File;
-import java.io.StringWriter;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
 
 public class TestWord {
 
@@ -112,7 +98,7 @@ public class TestWord {
         factory = Context.getWmlObjectFactory();
 
         String path = "src/main/resources/static/file/";
-        FileIOUtil.createFolder(path);
+        IOUtil.newFolder(path);
 
 //        Tbl table = createApprove();
         createTableWithContent();

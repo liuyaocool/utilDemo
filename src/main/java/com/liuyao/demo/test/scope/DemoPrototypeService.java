@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch2.scope;
+package com.liuyao.demo.test.scope;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;

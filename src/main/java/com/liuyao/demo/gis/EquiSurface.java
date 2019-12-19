@@ -1,32 +1,23 @@
-package net.zhuolutech.geotoolsdemo.contour.services;
+package com.liuyao.demo.gis;
 
 
-
-
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.vividsolutions.jts.geom.Geometry;
-
-import net.zhuolutech.geotoolsdemo.contour.Utils.FileUtil;
-import org.geotools.data.FeatureSource;
-import org.geotools.data.simple.SimpleFeatureCollection;
-import org.geotools.feature.FeatureCollection;
-import org.geotools.feature.FeatureIterator;
-import org.opengis.feature.Feature;
-import org.opengis.feature.simple.SimpleFeature;
 import wcontour.Contour;
+import wcontour.Interpolate;
 import wcontour.global.Border;
 import wcontour.global.PointD;
 import wcontour.global.PolyLine;
 import wcontour.global.Polygon;
-import wcontour.Interpolate;
 
-import javax.json.JsonArray;
-import javax.json.JsonObject;
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -44,14 +35,9 @@ public class EquiSurface {
      * @param dataInterval 数据间隔
      * @param size         大小，宽，高
      * @param brounds      边界
-     * @param isclip       是否裁剪
      * @return
      */
-    public String calEquiSurface(double[][] trainData,
-                                 double[] dataInterval,
-                                 int[] size,
-                                 double[] brounds,
-                                 boolean isclip) {
+    public String calEquiSurface(double[][] trainData, double[] dataInterval, int[] size, double[] brounds) {
         String geojsonpogylon = "";
         try {
             double _undefData = -9999.0;
@@ -108,79 +94,7 @@ public class EquiSurface {
         return geojsonpogylon;
     }
 
-//    private FeatureSource clipFeatureCollection(FeatureCollection fc,
-//                                                SimpleFeatureCollection gs) {
-//        FeatureSource cs = null;
-//        try {
-//            List<Map<String, Object>> values = new ArrayList<Map<String, Object>>();
-//            FeatureIterator contourFeatureIterator = gs.features();
-//            FeatureIterator dataFeatureIterator = fc.features();
-//            while (dataFeatureIterator.hasNext()) {
-//                Feature dataFeature = dataFeatureIterator.next();
-//                Geometry dataGeometry = (Geometry) dataFeature.getProperty(
-//                        "the_geom").getValue();
-//                while (contourFeatureIterator.hasNext()) {
-//                    Feature contourFeature = contourFeatureIterator.next();
-//                    Geometry contourGeometry = (Geometry) contourFeature
-//                            .getProperty("geometry").getValue();
-//                    double lv = (Double) contourFeature.getProperty("lvalue")
-//                            .getValue();
-//                    double hv = (Double) contourFeature.getProperty("hvalue")
-//                            .getValue();
-//                    if (dataGeometry.intersects(contourGeometry)) {
-//                        Geometry geo = dataGeometry
-//                                .intersection(contourGeometry);
-//                        Map<String, Object> map = new HashMap<String, Object>();
-//                        map.put("the_geom", geo);
-//                        map.put("lvalue", lv);
-//                        map.put("hvalue", hv);
-//                        values.add(map);
-//                    }
-//
-//                }
-//
-//            }
-//
-//            contourFeatureIterator.close();
-//            dataFeatureIterator.close();
-//
-//            SimpleFeatureCollection sc = FeaureUtil
-//                    .creatSimpleFeatureByFeilds(
-//                            "polygons",
-//                            "crs:4326,the_geom:MultiPolygon,lvalue:double,hvalue:double",
-//                            values);
-//            cs = FeaureUtil.creatFeatureSourceByCollection(sc);
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return cs;
-//        }
-//
-//        return cs;
-//    }
-//
-    private String getPolygonGeoJson(FeatureCollection fc) {
-//        FeatureJSON fjson = new FeatureJSON();
-        StringBuffer sb = new StringBuffer();
-        try {
-            sb.append("{\"type\": \"FeatureCollection\",\"features\": ");
-            FeatureIterator itertor = fc.features();
-            List<String> list = new ArrayList<String>();
-            while (itertor.hasNext()) {
-                SimpleFeature feature = (SimpleFeature) itertor.next();
-                StringWriter writer = new StringWriter();
-//                fjson.writeFeature(feature, writer);
-                System.out.println(feature.toString());
-                list.add(writer.toString());
-            }
-            itertor.close();
-            sb.append(list.toString());
-            sb.append("}");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
-    }
+
 //
     private String getPolygonGeoJson(List<Polygon> cPolygonList) {
 
@@ -296,48 +210,5 @@ public class EquiSurface {
         }
 
 
-    }
-
-    public static void main(String[] args) {
-        long start = System.currentTimeMillis();
-
-        EquiSurface equiSurface = new EquiSurface();
-//        CommonMethod cm = new CommonMethod();
-
-        double[] bounds = {114.65302633361816, 37.96665276184082,
-                114.68662210644531, 37.987079333496094};
-
-        double[][] trainData = new double[3][30000];
-//        File srcDatafile = new File("I:\\WorkSource\\turfjs_demo\\srcdata.json");
-       String jsonStr = FileUtil.ReadFile("I:\\WorkSource\\turfjs_demo\\srcdata.json");
-        JSONArray jsonArray =  JSONObject.parseArray(jsonStr);
-        JSONObject js ;
-        for (int i = 0; i < jsonArray.size(); i++) {
-            js = jsonArray.getJSONObject(i);
-//            double x = bounds[0] + new Random().nextDouble() * (bounds[2] - bounds[0]),
-//                    y = bounds[1] + new Random().nextDouble() * (bounds[3] - bounds[1]),
-//                    v = 0 + new Random().nextDouble() * (45 - 0);
-            trainData[0][i] = js.getDouble("x");
-            trainData[1][i] = js.getDouble("x");
-            trainData[2][i] = js.getDouble("x");
-        }
-
-        double[] dataInterval = new double[]{10,20, 25, 30, 35, 40, 45,50};
-
-
-        int[] size = new int[]{1000, 1000};
-
-        boolean isclip = true;
-
-        try {
-//            String strJson =
-             String strJson =  equiSurface.calEquiSurface(trainData, dataInterval, size, bounds, isclip);
-            String strFile = "I:\\WorkSource\\turfjs_demo\\data.json";
-//            cm.append2File(strFile, strJson);
-            write2File(strFile,strJson);
-            System.out.println("差值成功, 共耗时" + (System.currentTimeMillis() - start) + "ms");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

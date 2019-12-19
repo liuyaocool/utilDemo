@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch3.aware;
+package com.liuyao.demo.test.aware;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

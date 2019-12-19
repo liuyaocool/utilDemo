@@ -1,6 +1,5 @@
 package com.liuyao.demo.util.office;
 
-import com.liuyao.demo.util.DateFormatUtil;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hwpf.HWPFDocument;
 import org.apache.poi.hwpf.extractor.WordExtractor;
@@ -22,7 +21,7 @@ import java.util.*;
 /**
  * 文件工具类
  */
-public class FileIOUtil {
+public class ExceUtil3 {
 
     /**
      * 解析word

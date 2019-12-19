@@ -1,12 +1,9 @@
-package net.zhuolutech.geotoolsdemo.contour.services;
+package com.liuyao.demo.gis;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import java.awt.geom.Point2D;
 import java.util.*;
-
-import static com.alibaba.fastjson.JSON.toJSON;
 
 /**
  * @author Lyu

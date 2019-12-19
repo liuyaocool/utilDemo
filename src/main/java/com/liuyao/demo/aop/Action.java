@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.chi.aop;
+package com.liuyao.demo.aop;
 
 import java.lang.annotation.*;
 

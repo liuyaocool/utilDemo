@@ -1,5 +1,8 @@
 package com.liuyao.demo.util;
 
+import com.alibaba.fastjson.JSONArray;
+import com.liuyao.demo.utils.IOUtil;
+import com.liuyao.demo.utils.ServletUtil;
 import net.sf.json.JSONObject;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -13,7 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
-public class HttpUtilsss {
+public class HttpUtilsss extends IOUtil {
 
     private String host;
     private String url;
@@ -29,7 +32,7 @@ public class HttpUtilsss {
     }
 
     public HttpUtilsss() {
-        HttpServletRequest request = ServletUtils.getRequest();
+        HttpServletRequest request = ServletUtil.getRequest();
         StringBuilder sb = new StringBuilder(request.getScheme());
         sb.append("://").append(request.getLocalAddr()).append(":")
                 .append(request.getLocalPort()).append("/");
@@ -180,14 +183,6 @@ public class HttpUtilsss {
         return result;
     }
 
-    public static void close(AutoCloseable obj){
-        try {
-            if (null != obj) { obj.close(); }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public static String jsonData(Map<String, String> params){
         JSONObject json = new JSONObject();
         if (null != params && params.size() > 0) {
@@ -225,6 +220,86 @@ public class HttpUtilsss {
 
         String result = EntityUtils.toString(response.getEntity());// 返回json格式：
         return result;
+    }
+
+    public static void upLoadFilePost(String actionUrl, Map<String, File> files) throws IOException {
+        System.out.println("=========================请求=================================");
+        System.out.println(actionUrl);
+        String BOUNDARY = java.util.UUID.randomUUID().toString();
+        String PREFIX = "--", LINEND = "\r\n";
+        String MULTIPART_FROM_DATA = "multipart/form-data";
+        String CHARSET = "UTF-8";
+        URL uri = new URL(actionUrl);
+        HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
+//        conn.setReadTimeout(5 * 1000);
+        conn.setDoInput(true);// 允许输入
+        conn.setDoOutput(true);// 允许输出
+        conn.setUseCaches(false);
+        conn.setRequestMethod("POST"); // Post方式
+        conn.setRequestProperty("connection", "keep-alive");
+        conn.setRequestProperty("Charsert", "UTF-8");
+        conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA + ";boundary=" + BOUNDARY);
+
+        for (String k : conn.getRequestProperties().keySet()) {
+            for (int i = 0; i < conn.getRequestProperties().get(k).size(); i++) {
+                System.out.println(k + ":" + conn.getRequestProperties().get(k).get(i));
+            }
+        }
+        DataOutputStream outStream = new DataOutputStream(conn.getOutputStream());
+        System.out.println("---------------------------------------------------");
+
+        // 发送文件数据
+        if (files != null)
+            for (Map.Entry<String, File> file : files.entrySet()) {
+                StringBuilder sb1 = new StringBuilder();
+                sb1.append(PREFIX);
+                sb1.append(BOUNDARY);
+                sb1.append(LINEND);
+                sb1.append("Content-Disposition: form-data; name=\"files\"; filename=\"" + file.getKey() + "\"" + LINEND);
+                sb1.append("Content-Type: application/octet-stream; charset=" + CHARSET + LINEND);
+                sb1.append(LINEND);
+                System.out.println(sb1);
+                outStream.write(sb1.toString().getBytes());
+                InputStream is = new FileInputStream(file.getValue());
+                byte[] buffer = new byte[1024];
+                int len;
+                while ((len = is.read(buffer)) != -1) {
+                    outStream.write(buffer, 0, len);
+                }
+
+                is.close();
+                outStream.write(LINEND.getBytes());
+            }
+        System.out.println("-------------------------------");
+
+        // 请求结束标志
+        byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
+        outStream.write(end_data);
+        outStream.flush();
+
+        System.out.println("=========================响应=================================");
+        // 得到响应码
+        System.out.println("responseCode："+conn.getResponseCode());
+        if (conn.getResponseCode() == 200) {
+            InputStream in = conn.getInputStream();
+            InputStreamReader isReader = new InputStreamReader(in);
+            BufferedReader bufReader = new BufferedReader(isReader);
+            String line;StringBuilder sb = new StringBuilder();
+            while ((line = bufReader.readLine()) != null) {
+                sb.append(line);
+            }
+            com.alibaba.fastjson.JSONObject datas = com.alibaba.fastjson.JSONObject.parseObject(sb.toString());
+            System.out.println(datas.getInteger("code"));
+            System.out.println(datas.getString("message"));
+            JSONArray res = datas.getJSONArray("data");
+            for (int i = 0; i < res.size(); i++) {
+                System.out.println(res.get(i));
+            }
+            outStream.close();
+            conn.disconnect();
+        }
+        outStream.close();
+        conn.disconnect();
     }
 
 }

@@ -66,7 +66,8 @@ public class ServletUtil extends RequestContextHolder{
     //使用代理，则获取第一个IP地址
     private static String getFirstIp(String ip){
         //对于通过多个代理的情况，第一个IP为客户端真实IP,多个IP按照','分割
-        if(null != ip && ip.length()>15 && ip.indexOf(",")>0){ //"***.***.***.***".length() = 15
+        if(null != ip && ip.length() > 15 && ip.indexOf(",") > 0){
+            //"***.***.***.***".length() = 15
             ip = ip.split(",")[0];
         }
         return ip;

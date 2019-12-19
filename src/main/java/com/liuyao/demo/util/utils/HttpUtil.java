@@ -133,7 +133,7 @@ public class HttpUtil {
         return resultString;
     }
     
-    public static void main(String[] args) {
-    	System.out.println(doGet(Constant.HARDWARE_URL));
-	}
+//    public static void main(String[] args) {
+//    	System.out.println(doGet(Constant.HARDWARE_URL));
+//	}
 }

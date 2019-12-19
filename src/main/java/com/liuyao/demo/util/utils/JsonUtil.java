@@ -9,8 +9,6 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
 
-import com.anxin.modules.pad.entity.EcsPadHardwareRespEntity;
-
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,12 +100,12 @@ public class JsonUtil
      * @param object
      * @return
      */
-    public static Collection toCollection(Object object)
-    {
-        JSONArray jsonArray = JSONArray.fromObject(object);
-
-        return JSONArray.toCollection(jsonArray);
-    }
+//    public static Collection toCollection(Object object)
+//    {
+//        JSONArray jsonArray = JSONArray.fromObject(object);
+//
+//        return JSONArray.toCollection(jsonArray);
+//    }
 
     /***
      * 将对象转换为JSON对象数组
@@ -373,41 +371,41 @@ public class JsonUtil
 
     public static void main(String[] args) {
 
-    	EcsPadHardwareRespEntity resp1 = new EcsPadHardwareRespEntity();
-    	EcsPadHardwareRespEntity resp2 = new EcsPadHardwareRespEntity();
-    	List<EcsPadHardwareRespEntity> list1 = new ArrayList<>();
-    	List<EcsPadHardwareRespEntity> list2 = new ArrayList<>();
-    	resp1.setID("18820024");
-    	resp1.set时间("2018-07-16 09:20:52");
-    	resp1.set气体1("CH");
-    	resp1.set报警值1("25,50,75");
-    	resp1.set浓度1("0.0");
-    	resp1.set气体2("H2S");
-    	resp1.set报警值2("7,15,60");
-    	resp1.set浓度2("0.0");
-    	resp1.set经度("120.499168");
-    	resp1.set纬度("36.17604");
-    	
-    	resp2.setID("18820025");
-    	resp2.set时间("2018-07-16 09:20:52");
-    	resp2.set气体1("CH");
-    	resp2.set报警值1("25,50,75");
-    	resp2.set浓度1("0.0");
-    	resp2.set气体2("H2S");
-    	resp2.set报警值2("7,15,60");
-    	resp2.set浓度2("0.0");
-    	resp2.set经度("120.4991");
-    	resp2.set纬度("36.17681");
-    	
-    	list1.add(resp1);
-    	list1.add(resp2);
-    	
-    	System.out.println(toJSONArray(list1));
-    	list2 = toList(toJSONArray(list1),EcsPadHardwareRespEntity.class);
-
-        redisUtils.set("test4",list2);
-
-    	System.out.println(list2.get(0).getID());
-    	System.out.println(list2.get(1).getID());
+//    	EcsPadHardwareRespEntity resp1 = new EcsPadHardwareRespEntity();
+//    	EcsPadHardwareRespEntity resp2 = new EcsPadHardwareRespEntity();
+//    	List<EcsPadHardwareRespEntity> list1 = new ArrayList<>();
+//    	List<EcsPadHardwareRespEntity> list2 = new ArrayList<>();
+//    	resp1.setID("18820024");
+//    	resp1.set时间("2018-07-16 09:20:52");
+//    	resp1.set气体1("CH");
+//    	resp1.set报警值1("25,50,75");
+//    	resp1.set浓度1("0.0");
+//    	resp1.set气体2("H2S");
+//    	resp1.set报警值2("7,15,60");
+//    	resp1.set浓度2("0.0");
+//    	resp1.set经度("120.499168");
+//    	resp1.set纬度("36.17604");
+//
+//    	resp2.setID("18820025");
+//    	resp2.set时间("2018-07-16 09:20:52");
+//    	resp2.set气体1("CH");
+//    	resp2.set报警值1("25,50,75");
+//    	resp2.set浓度1("0.0");
+//    	resp2.set气体2("H2S");
+//    	resp2.set报警值2("7,15,60");
+//    	resp2.set浓度2("0.0");
+//    	resp2.set经度("120.4991");
+//    	resp2.set纬度("36.17681");
+//
+//    	list1.add(resp1);
+//    	list1.add(resp2);
+//
+//    	System.out.println(toJSONArray(list1));
+//    	list2 = toList(toJSONArray(list1),EcsPadHardwareRespEntity.class);
+//
+//        redisUtils.set("test4",list2);
+//
+//    	System.out.println(list2.get(0).getID());
+//    	System.out.println(list2.get(1).getID());
 	}
 }

@@ -2,6 +2,7 @@ package com.liuyao.demo.filter;
 
 import com.liuyao.demo.config.SysConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -11,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
-@WebFilter(urlPatterns = "/*",filterName = "normalFilter")
 public class NormalFiler implements Filter {
 
     @Autowired

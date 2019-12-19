@@ -1,15 +1,10 @@
 package com.liuyao.demo.config.runner;
 
-import com.liuyao.demo.util.LyLogUtil;
-import com.liuyao.demo.ws.server.WbSvc;
-import com.liuyao.demo.ws.server.impl.WbSvcImpl;
+import com.liuyao.demo.utils.LogUtil;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.apache.cxf.jaxws.JaxWsServerFactoryBean;
-
-import javax.xml.ws.Endpoint;
 
 @Component
 @Order(value = 1)
@@ -18,7 +13,7 @@ public class MyRunner1 implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        LyLogUtil.logInfo("这是自启动方法。");
+        LogUtil.info("这是自启动方法。");
 
 //        Endpoint.publish("http://127.0.0.1:9090/wbsvc", new WbSvcImpl());
 

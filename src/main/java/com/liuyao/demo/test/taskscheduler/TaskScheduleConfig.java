@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch3.taskscheduler;
+package com.liuyao.demo.test.taskscheduler;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

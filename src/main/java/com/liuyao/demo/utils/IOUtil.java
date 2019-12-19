@@ -93,7 +93,7 @@ public class IOUtil {
             reader = new BufferedReader(isr);
             String line;
             while((line = reader.readLine()) != null){
-                res.append(line);
+                res.append(line).append("\n");
             }
         }catch(IOException e){
             e.printStackTrace();
@@ -120,5 +120,11 @@ public class IOUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        IOUtil.newFolder("C:/JAVA/project/test");
+        System.out.println(IOUtil.newFile("C:/JAVA/project/test", "test.xls", false));
+
     }
 }

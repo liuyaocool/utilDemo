@@ -1,7 +1,7 @@
 package com.liuyao.demo.util.utils;
 
 
-import com.anxin.modules.pad.service.EcsPadSurveyService;
+//import com.anxin.modules.pad.service.EcsPadSurveyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,8 @@ public class SocketServer{
 
     protected Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Autowired
-    private EcsPadSurveyService ecsPadSurveyService;
+//    @Autowired
+//    private EcsPadSurveyService ecsPadSurveyService;
     //解码buffer
     private Charset cs = Charset.forName("UTF-8");
     //接受数据缓冲区
@@ -114,7 +114,7 @@ public class SocketServer{
             logger.info("接受的socket消息为："+requestMsg);
             //将数据直接存入redis，W:,D:,T:27.7,P:1.0010,H:57.4
             //插入逻辑
-            ecsPadSurveyService.setWinerInfo(requestMsg);
+//            ecsPadSurveyService.setWinerInfo(requestMsg);
 
 
 //            System.out.println(responseMsg);

@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch2.prepost;
+package com.liuyao.demo.test.prepost;
 
 //2：使用@Bean形式的Bean
 public class BeanWayService {

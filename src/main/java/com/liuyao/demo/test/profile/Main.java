@@ -1,4 +1,4 @@
-package com.wisely.highlight_spring4.ch2.profile;
+package com.liuyao.demo.test.profile;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
