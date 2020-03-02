@@ -1,5 +1,6 @@
 package com.liuyao.demo.util;
 
+import com.liuyao.demo.utils.HttpUtils;
 import com.liuyao.demo.utils.ServletUtil;
 import net.sf.json.JSONObject;
 
@@ -60,9 +61,9 @@ public class HttpUtilss{
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            close(paramout);
-            close(isr);
-            close(br);
+            HttpUtils.close(paramout);
+            HttpUtils.close(isr);
+            HttpUtils.close(br);
         }
         return result;
     }
@@ -128,13 +129,4 @@ public class HttpUtilss{
     public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
-
-    private void close(AutoCloseable obj){
-        try {
-            obj.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }
