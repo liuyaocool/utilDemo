@@ -17,10 +17,9 @@
 <body>
 
 <canvas id = "cavas" height="232">
-    您的浏览器不支持canvas标签！请尝试使用<a href="#">google浏览器</a>
+    您的浏览器不支持canvas标签！
 </canvas>
 
-<script src="../../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
 
     /*
@@ -50,19 +49,19 @@
     //
     */
 
-    var canvas = document.getElementById("cavas"),
-        ctx = canvas.getContext("2d"),
-        circleValue = {
-            x : 150,
-            y : 120,
-            radius : 86,
-            startAngle : 0,
-            endAngle : 2 * Math.PI,
-            anticlockwise : false
-        };
-
-    drowArc(ctx,0.8);
-    function drowArc(ctx,percent) {
+    drowArc();
+    function drowArc() {
+        var canvas = document.getElementById("cavas"),
+            percent = 0.8,
+            ctx = canvas.getContext("2d"),
+            circleValue = {
+                x : 150,
+                y : 120,
+                radius : 86,
+                startAngle : 0,
+                endAngle : 2 * Math.PI,
+                anticlockwise : false
+            };
 
         //打底 圆环 绘制
         ctx.lineWidth = 11;
@@ -110,6 +109,31 @@
         ctx.closePath();
         ctx.fill();
     }
+
+    (function () {
+        var canvas = document.createElement("canvas");
+        canvas.width = 200;
+        canvas.height = 200;
+        document.getElementsByTagName("body")[0].append(canvas);
+        var ctx = canvas.getContext("2d");
+
+        ctx.arc(100, 100, 50, 0, Math.PI * 2, false);
+
+        //创建一个表示放射性颜色渐变的CanvasGradient对象
+        //该对象的作用域是以(100,100)为圆心、半径为10px的内圆和以(100,100)为圆心、半径为50px的外圆之间的环状区域
+        var canvasGradient = ctx.createRadialGradient(100, 100, 5, 100, 100, 50);
+        //在offset为0的位置(即内圆的圆圈处)添加一个蓝色的渐变
+        canvasGradient.addColorStop(0, "rgba(0,0,255,1)");
+        //在offset为0.5的位置(环状区域从内到外放射50%的中间位置)添加一个绿色的渐变
+        // canvasGradient.addColorStop(0.5, "green");
+        //在offset为0的位置(即外圆的圆圈处)添加一个红色的渐变
+        canvasGradient.addColorStop(1, "rgba(0,0,255,0)");
+        //将fillStyle的属性值设为该CanvasGradient对象
+        ctx.fillStyle = canvasGradient;
+
+        ctx.fill();
+
+    })()
 
 </script>
 </body>
