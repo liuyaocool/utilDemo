@@ -91,36 +91,36 @@ public abstract class ObjectUtil {
         }else if (obj instanceof Boolean){
             return !(Boolean) obj;
         }else{
-            Class clazz = obj.getClass();
-            Field[] fields = clazz.getDeclaredFields();
-            boolean ifEmpty = true;
-            Object bean = null;
-            for (int i = 0; i < fields.length; i++) {
-                try {
-                    bean = bean == null ? clazz.getConstructor().newInstance() : bean;
-                    System.out.println(fields[i].getName());
-                    PropertyDescriptor pd = new PropertyDescriptor(fields[i].getName(), clazz);
-                    Method method = pd.getReadMethod();
-                    method.setAccessible(true);
-                    Object attrVal = method.invoke(bean);
-                    if (!isEmpty(attrVal)){
-                        ifEmpty = false;
-                    }
-                } catch (IntrospectionException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                } catch (Exception e){
-                    e.printStackTrace();
-                }
-            }
-            return ifEmpty;
+//            Class clazz = obj.getClass();
+//            Field[] fields = clazz.getDeclaredFields();
+//            boolean ifEmpty = true;
+//            Object bean = null;
+//            for (int i = 0; i < fields.length; i++) {
+//                try {
+//                    bean = bean == null ? clazz.getConstructor().newInstance() : bean;
+//                    System.out.println(fields[i].getName());
+//                    PropertyDescriptor pd = new PropertyDescriptor(fields[i].getName(), clazz);
+//                    Method method = pd.getReadMethod();
+//                    method.setAccessible(true);
+//                    Object attrVal = method.invoke(bean);
+//                    if (!isEmpty(attrVal)){
+//                        ifEmpty = false;
+//                    }
+//                } catch (IntrospectionException e) {
+//                    e.printStackTrace();
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                } catch (InvocationTargetException e) {
+//                    e.printStackTrace();
+//                } catch (NoSuchMethodException e) {
+//                    e.printStackTrace();
+//                } catch (InstantiationException e) {
+//                    e.printStackTrace();
+//                } catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+            return true;
         }
     }
 }
