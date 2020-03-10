@@ -23,7 +23,8 @@ public class ExcelCreate {
     private XSSFWorkbook workbook;
     private XSSFSheet lastSheet;//正在操作的最后一个
     private XSSFRow lastRow;//正在操作的最后一行
-    private final float H_RATIO = 21.3f;
+    private final float H_RATIO = 15f;//高度转换为像素比例
+    private final int W_RATIO = 32;//宽度转换为像素比例
 
     public ExcelCreate(HttpServletResponse response, String fileName, int defaultHeight) {
         this(response, "utf-8", fileName, defaultHeight);
@@ -142,28 +143,33 @@ public class ExcelCreate {
 
     /**
      * 合并
+     * 合并表格慢 https://blog.csdn.net/weixin_34205826/article/details/92100792
      */
     public void merge(int startRow, int endRow, int startCell, int endCell){
-        this.lastSheet.addMergedRegion(new CellRangeAddress(startRow, endRow, startCell, endCell));
+        this.lastSheet.addMergedRegionUnsafe(new CellRangeAddress(startRow, endRow, startCell, endCell));
+//        this.lastSheet.addMergedRegion(new CellRangeAddress(startRow, endRow, startCell, endCell));
     }
 
     /**
      * 设置列宽
+     * @param index 列下表
+     * @param width 像素值
      */
     public void width(int index, int width){
-        this.lastSheet.setColumnWidth(index, width * 256);
+        this.lastSheet.setColumnWidth(index, width * W_RATIO);
     }
 
     /**
      * 居中对齐样式
      */
     public XSSFCellStyle centerStyle(int borderSize, String fontStyle, int fontSize, boolean blod){
-        return style(borderSize, fontStyle, fontSize, blod, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, true);
+        return style(borderSize, fontStyle, fontSize, blod, CellStyle.ALIGN_CENTER, CellStyle.VERTICAL_CENTER, true, null, null);
     }
     /**
      * 设置样式
      */
-    public XSSFCellStyle style(int borderSize, String fontStyle, int fontSize, boolean blod, int alignX, int alignY, boolean warp) {
+    public XSSFCellStyle style(int borderSize, String fontStyle, int fontSize, boolean blod,
+                               int alignX, int alignY, boolean warp, int[] bkg, int[] color) {
         XSSFCellStyle css = this.workbook.createCellStyle();
         if (borderSize > 0){
             short bs = (short) borderSize;
@@ -176,11 +182,16 @@ public class ExcelCreate {
         if (alignX > 0) css.setAlignment((short) alignX); // 水平居中
         css.setWrapText(warp);//自动换行
         // 设置字体:
-        Font font = workbook.createFont();
-        if (null != fontStyle && !"".equals(fontStyle)) font.setFontName(fontStyle);
+        XSSFFont font = workbook.createFont();
+        if (null != fontStyle && !"".equals(fontStyle)) font.setFontName(fontStyle); //设置字体样式
         if (fontSize > 4) font.setFontHeightInPoints((short) fontSize);// 设置字体大小
+        if (null != color) font.setColor(new XSSFColor(new java.awt.Color(color[0],color[1],color[2])));//字体颜色
         font.setBold(blod);// 粗体显示
         css.setFont(font);
+        if (null != bkg){ //表格背景色
+            css.setFillForegroundColor(new XSSFColor(new java.awt.Color(bkg[0],bkg[1],bkg[2])));
+            css.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        }
 
 //        XSSFDataFormat format =  (XSSFDataFormat) workbook.createDataFormat();//设置文本格式样式
 //        css.setDataFormat(format.getFormat("@"));
@@ -188,15 +199,20 @@ public class ExcelCreate {
     }
 
 
-    public void saveFile() throws IOException {
-        setRespHeader();
-        OutputStream ops = this.response.getOutputStream();
-        this.workbook.write(ops);
-        ops.flush();
-        ops.close();
+    public void saveFile(){
+        try {
+            setRespHeader();
+            OutputStream ops = this.response.getOutputStream();
+            this.workbook.write(ops);
+            ops.flush();
+            ops.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void setRespHeader() throws UnsupportedEncodingException {
+        String fname = new String(this.fileName.getBytes(this.encoding),"iso-8859-1");
         this.fileName = this.response.encodeURL(new String(this.fileName.getBytes(),this.encoding));
         this.response.setContentType("application/octet-stream;charset=" + this.encoding);
         response.setHeader("Content-Disposition", "attachment;filename="+ this.fileName);
