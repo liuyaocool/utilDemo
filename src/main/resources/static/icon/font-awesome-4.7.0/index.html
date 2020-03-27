@@ -1,0 +1,764 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>基础控件</title>
+
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <style>
+        html, body{
+            width: 100%;
+            height: 100%;
+            margin: 0px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2 class="page-header">网页</h2>
+            <i class="fa fa-address-book" aria-hidden="true"></i> address-book<br/>
+            <i class="fa fa-address-book-o" aria-hidden="true"></i> address-book-o<br/>
+            <i class="fa fa-address-card" aria-hidden="true"></i> address-card<br/>
+            <i class="fa fa-address-card-o" aria-hidden="true"></i> address-card-o<br/>
+            <i class="fa fa-adjust" aria-hidden="true"></i> adjust<br/>
+            <i class="fa fa-american-sign-language-interpreting" aria-hidden="true"></i> american-sign-language-interpreting<br/>
+            <i class="fa fa-anchor" aria-hidden="true"></i> anchor<br/>
+            <i class="fa fa-archive" aria-hidden="true"></i> archive<br/>
+            <i class="fa fa-area-chart" aria-hidden="true"></i> area-chart<br/>
+            <i class="fa fa-arrows" aria-hidden="true"></i> arrows<br/>
+            <i class="fa fa-arrows-h" aria-hidden="true"></i> arrows-h<br/>
+            <i class="fa fa-arrows-v" aria-hidden="true"></i> arrows-v<br/>
+            <i class="fa fa-asl-interpreting" aria-hidden="true"></i> asl-interpreting <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-assistive-listening-systems" aria-hidden="true"></i> assistive-listening-systems<br/>
+            <i class="fa fa-asterisk" aria-hidden="true"></i> asterisk<br/>
+            <i class="fa fa-at" aria-hidden="true"></i> at<br/>
+            <i class="fa fa-audio-description" aria-hidden="true"></i> audio-description<br/>
+            <i class="fa fa-automobile" aria-hidden="true"></i> automobile <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-balance-scale" aria-hidden="true"></i> balance-scale<br/>
+            <i class="fa fa-ban" aria-hidden="true"></i> ban<br/>
+            <i class="fa fa-bank" aria-hidden="true"></i> bank <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-bar-chart" aria-hidden="true"></i> bar-chart<br/>
+            <i class="fa fa-bar-chart-o" aria-hidden="true"></i> bar-chart-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-barcode" aria-hidden="true"></i> barcode<br/>
+            <i class="fa fa-bars" aria-hidden="true"></i> bars<br/>
+            <i class="fa fa-bath" aria-hidden="true"></i> bath<br/>
+            <i class="fa fa-bathtub" aria-hidden="true"></i> bathtub <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-battery" aria-hidden="true"></i> battery <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-battery-0" aria-hidden="true"></i> battery-0 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-battery-1" aria-hidden="true"></i> battery-1 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-battery-2" aria-hidden="true"></i> battery-2 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-battery-3" aria-hidden="true"></i> battery-3 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-battery-4" aria-hidden="true"></i> battery-4 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-battery-empty" aria-hidden="true"></i> battery-empty<br/>
+            <i class="fa fa-battery-full" aria-hidden="true"></i> battery-full<br/>
+            <i class="fa fa-battery-half" aria-hidden="true"></i> battery-half<br/>
+            <i class="fa fa-battery-quarter" aria-hidden="true"></i> battery-quarter<br/>
+            <i class="fa fa-battery-three-quarters" aria-hidden="true"></i> battery-three-quarters<br/>
+            <i class="fa fa-bed" aria-hidden="true"></i> bed<br/>
+            <i class="fa fa-beer" aria-hidden="true"></i> beer<br/>
+            <i class="fa fa-bell" aria-hidden="true"></i> bell<br/>
+            <i class="fa fa-bell-o" aria-hidden="true"></i> bell-o<br/>
+            <i class="fa fa-bell-slash" aria-hidden="true"></i> bell-slash<br/>
+            <i class="fa fa-bell-slash-o" aria-hidden="true"></i> bell-slash-o<br/>
+            <i class="fa fa-bicycle" aria-hidden="true"></i> bicycle<br/>
+            <i class="fa fa-binoculars" aria-hidden="true"></i> binoculars<br/>
+            <i class="fa fa-birthday-cake" aria-hidden="true"></i> birthday-cake<br/>
+            <i class="fa fa-blind" aria-hidden="true"></i> blind<br/>
+            <i class="fa fa-bluetooth" aria-hidden="true"></i> bluetooth<br/>
+            <i class="fa fa-bluetooth-b" aria-hidden="true"></i> bluetooth-b<br/>
+            <i class="fa fa-bolt" aria-hidden="true"></i> bolt<br/>
+            <i class="fa fa-bomb" aria-hidden="true"></i> bomb<br/>
+            <i class="fa fa-book" aria-hidden="true"></i> book<br/>
+            <i class="fa fa-bookmark" aria-hidden="true"></i> bookmark<br/>
+            <i class="fa fa-bookmark-o" aria-hidden="true"></i> bookmark-o<br/>
+            <i class="fa fa-braille" aria-hidden="true"></i> braille<br/>
+            <i class="fa fa-briefcase" aria-hidden="true"></i> briefcase<br/>
+            <i class="fa fa-bug" aria-hidden="true"></i> bug<br/>
+            <i class="fa fa-building" aria-hidden="true"></i> building<br/>
+            <i class="fa fa-building-o" aria-hidden="true"></i> building-o<br/>
+            <i class="fa fa-bullhorn" aria-hidden="true"></i> bullhorn<br/>
+            <i class="fa fa-bullseye" aria-hidden="true"></i> bullseye<br/>
+            <i class="fa fa-bus" aria-hidden="true"></i> bus<br/>
+            <i class="fa fa-cab" aria-hidden="true"></i> cab <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-calculator" aria-hidden="true"></i> calculator<br/>
+            <i class="fa fa-calendar" aria-hidden="true"></i> calendar<br/>
+            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> calendar-check-o<br/>
+            <i class="fa fa-calendar-minus-o" aria-hidden="true"></i> calendar-minus-o<br/>
+            <i class="fa fa-calendar-o" aria-hidden="true"></i> calendar-o<br/>
+            <i class="fa fa-calendar-plus-o" aria-hidden="true"></i> calendar-plus-o<br/>
+            <i class="fa fa-calendar-times-o" aria-hidden="true"></i> calendar-times-o<br/>
+            <i class="fa fa-camera" aria-hidden="true"></i> camera<br/>
+            <i class="fa fa-camera-retro" aria-hidden="true"></i> camera-retro<br/>
+            <i class="fa fa-car" aria-hidden="true"></i> car<br/>
+            <i class="fa fa-caret-square-o-down" aria-hidden="true"></i> caret-square-o-down<br/>
+            <i class="fa fa-caret-square-o-left" aria-hidden="true"></i> caret-square-o-left<br/>
+            <i class="fa fa-caret-square-o-right" aria-hidden="true"></i> caret-square-o-right<br/>
+            <i class="fa fa-caret-square-o-up" aria-hidden="true"></i> caret-square-o-up<br/>
+            <i class="fa fa-cart-arrow-down" aria-hidden="true"></i> cart-arrow-down<br/>
+            <i class="fa fa-cart-plus" aria-hidden="true"></i> cart-plus<br/>
+            <i class="fa fa-cc" aria-hidden="true"></i> cc<br/>
+            <i class="fa fa-certificate" aria-hidden="true"></i> certificate<br/>
+            <i class="fa fa-check" aria-hidden="true"></i> check<br/>
+            <i class="fa fa-check-circle" aria-hidden="true"></i> check-circle<br/>
+            <i class="fa fa-check-circle-o" aria-hidden="true"></i> check-circle-o<br/>
+            <i class="fa fa-check-square" aria-hidden="true"></i> check-square<br/>
+            <i class="fa fa-check-square-o" aria-hidden="true"></i> check-square-o<br/>
+            <i class="fa fa-child" aria-hidden="true"></i> child<br/>
+            <i class="fa fa-circle" aria-hidden="true"></i> circle<br/>
+            <i class="fa fa-circle-o" aria-hidden="true"></i> circle-o<br/>
+            <i class="fa fa-circle-o-notch" aria-hidden="true"></i> circle-o-notch<br/>
+            <i class="fa fa-circle-thin" aria-hidden="true"></i> circle-thin<br/>
+            <i class="fa fa-clock-o" aria-hidden="true"></i> clock-o<br/>
+            <i class="fa fa-clone" aria-hidden="true"></i> clone<br/>
+            <i class="fa fa-close" aria-hidden="true"></i> close <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-cloud" aria-hidden="true"></i> cloud<br/>
+            <i class="fa fa-cloud-download" aria-hidden="true"></i> cloud-download<br/>
+            <i class="fa fa-cloud-upload" aria-hidden="true"></i> cloud-upload<br/>
+            <i class="fa fa-code" aria-hidden="true"></i> code<br/>
+            <i class="fa fa-code-fork" aria-hidden="true"></i> code-fork<br/>
+            <i class="fa fa-coffee" aria-hidden="true"></i> coffee<br/>
+            <i class="fa fa-cog" aria-hidden="true"></i> cog<br/>
+            <i class="fa fa-cogs" aria-hidden="true"></i> cogs<br/>
+            <i class="fa fa-comment" aria-hidden="true"></i> comment<br/>
+            <i class="fa fa-comment-o" aria-hidden="true"></i> comment-o<br/>
+            <i class="fa fa-commenting" aria-hidden="true"></i> commenting<br/>
+            <i class="fa fa-commenting-o" aria-hidden="true"></i> commenting-o<br/>
+            <i class="fa fa-comments" aria-hidden="true"></i> comments<br/>
+            <i class="fa fa-comments-o" aria-hidden="true"></i> comments-o<br/>
+            <i class="fa fa-compass" aria-hidden="true"></i> compass<br/>
+            <i class="fa fa-copyright" aria-hidden="true"></i> copyright<br/>
+            <i class="fa fa-creative-commons" aria-hidden="true"></i> creative-commons<br/>
+            <i class="fa fa-credit-card" aria-hidden="true"></i> credit-card<br/>
+            <i class="fa fa-credit-card-alt" aria-hidden="true"></i> credit-card-alt<br/>
+            <i class="fa fa-crop" aria-hidden="true"></i> crop<br/>
+            <i class="fa fa-crosshairs" aria-hidden="true"></i> crosshairs<br/>
+            <i class="fa fa-cube" aria-hidden="true"></i> cube<br/>
+            <i class="fa fa-cubes" aria-hidden="true"></i> cubes<br/>
+            <i class="fa fa-cutlery" aria-hidden="true"></i> cutlery<br/>
+            <i class="fa fa-dashboard" aria-hidden="true"></i> dashboard <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-database" aria-hidden="true"></i> database<br/>
+            <i class="fa fa-deaf" aria-hidden="true"></i> deaf<br/>
+            <i class="fa fa-deafness" aria-hidden="true"></i> deafness <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-desktop" aria-hidden="true"></i> desktop<br/>
+            <i class="fa fa-diamond" aria-hidden="true"></i> diamond<br/>
+            <i class="fa fa-dot-circle-o" aria-hidden="true"></i> dot-circle-o<br/>
+            <i class="fa fa-download" aria-hidden="true"></i> download<br/>
+            <i class="fa fa-drivers-license" aria-hidden="true"></i> drivers-license <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-drivers-license-o" aria-hidden="true"></i> drivers-license-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-edit" aria-hidden="true"></i> edit <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-ellipsis-h" aria-hidden="true"></i> ellipsis-h<br/>
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i> ellipsis-v<br/>
+            <i class="fa fa-envelope" aria-hidden="true"></i> envelope<br/>
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> envelope-o<br/>
+            <i class="fa fa-envelope-open" aria-hidden="true"></i> envelope-open<br/>
+            <i class="fa fa-envelope-open-o" aria-hidden="true"></i> envelope-open-o<br/>
+            <i class="fa fa-envelope-square" aria-hidden="true"></i> envelope-square<br/>
+            <i class="fa fa-eraser" aria-hidden="true"></i> eraser<br/>
+            <i class="fa fa-exchange" aria-hidden="true"></i> exchange<br/>
+            <i class="fa fa-exclamation" aria-hidden="true"></i> exclamation<br/>
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i> exclamation-circle<br/>
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> exclamation-triangle<br/>
+            <i class="fa fa-external-link" aria-hidden="true"></i> external-link<br/>
+            <i class="fa fa-external-link-square" aria-hidden="true"></i> external-link-square<br/>
+            <i class="fa fa-eye" aria-hidden="true"></i> eye<br/>
+            <i class="fa fa-eye-slash" aria-hidden="true"></i> eye-slash<br/>
+            <i class="fa fa-eyedropper" aria-hidden="true"></i> eyedropper<br/>
+            <i class="fa fa-fax" aria-hidden="true"></i> fax<br/>
+            <i class="fa fa-feed" aria-hidden="true"></i> feed <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-female" aria-hidden="true"></i> female<br/>
+            <i class="fa fa-fighter-jet" aria-hidden="true"></i> fighter-jet<br/>
+            <i class="fa fa-file-archive-o" aria-hidden="true"></i> file-archive-o<br/>
+            <i class="fa fa-file-audio-o" aria-hidden="true"></i> file-audio-o<br/>
+            <i class="fa fa-file-code-o" aria-hidden="true"></i> file-code-o<br/>
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i> file-excel-o<br/>
+            <i class="fa fa-file-image-o" aria-hidden="true"></i> file-image-o<br/>
+            <i class="fa fa-file-movie-o" aria-hidden="true"></i> file-movie-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> file-pdf-o<br/>
+            <i class="fa fa-file-photo-o" aria-hidden="true"></i> file-photo-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-file-picture-o" aria-hidden="true"></i> file-picture-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> file-powerpoint-o<br/>
+            <i class="fa fa-file-sound-o" aria-hidden="true"></i> file-sound-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-file-video-o" aria-hidden="true"></i> file-video-o<br/>
+            <i class="fa fa-file-word-o" aria-hidden="true"></i> file-word-o<br/>
+            <i class="fa fa-file-zip-o" aria-hidden="true"></i> file-zip-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-film" aria-hidden="true"></i> film<br/>
+            <i class="fa fa-filter" aria-hidden="true"></i> filter<br/>
+            <i class="fa fa-fire" aria-hidden="true"></i> fire<br/>
+            <i class="fa fa-fire-extinguisher" aria-hidden="true"></i> fire-extinguisher<br/>
+            <i class="fa fa-flag" aria-hidden="true"></i> flag<br/>
+            <i class="fa fa-flag-checkered" aria-hidden="true"></i> flag-checkered<br/>
+            <i class="fa fa-flag-o" aria-hidden="true"></i> flag-o<br/>
+            <i class="fa fa-flash" aria-hidden="true"></i> flash <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-flask" aria-hidden="true"></i> flask<br/>
+            <i class="fa fa-folder" aria-hidden="true"></i> folder<br/>
+            <i class="fa fa-folder-o" aria-hidden="true"></i> folder-o<br/>
+            <i class="fa fa-folder-open" aria-hidden="true"></i> folder-open<br/>
+            <i class="fa fa-folder-open-o" aria-hidden="true"></i> folder-open-o<br/>
+            <i class="fa fa-frown-o" aria-hidden="true"></i> frown-o<br/>
+            <i class="fa fa-futbol-o" aria-hidden="true"></i> futbol-o<br/>
+            <i class="fa fa-gamepad" aria-hidden="true"></i> gamepad<br/>
+            <i class="fa fa-gavel" aria-hidden="true"></i> gavel<br/>
+            <i class="fa fa-gear" aria-hidden="true"></i> gear <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-gears" aria-hidden="true"></i> gears <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-gift" aria-hidden="true"></i> gift<br/>
+            <i class="fa fa-glass" aria-hidden="true"></i> glass<br/>
+            <i class="fa fa-globe" aria-hidden="true"></i> globe<br/>
+            <i class="fa fa-graduation-cap" aria-hidden="true"></i> graduation-cap<br/>
+            <i class="fa fa-group" aria-hidden="true"></i> group <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hand-grab-o" aria-hidden="true"></i> hand-grab-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hand-lizard-o" aria-hidden="true"></i> hand-lizard-o<br/>
+            <i class="fa fa-hand-paper-o" aria-hidden="true"></i> hand-paper-o<br/>
+            <i class="fa fa-hand-peace-o" aria-hidden="true"></i> hand-peace-o<br/>
+            <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> hand-pointer-o<br/>
+            <i class="fa fa-hand-rock-o" aria-hidden="true"></i> hand-rock-o<br/>
+            <i class="fa fa-hand-scissors-o" aria-hidden="true"></i> hand-scissors-o<br/>
+            <i class="fa fa-hand-spock-o" aria-hidden="true"></i> hand-spock-o<br/>
+            <i class="fa fa-hand-stop-o" aria-hidden="true"></i> hand-stop-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-handshake-o" aria-hidden="true"></i> handshake-o<br/>
+            <i class="fa fa-hard-of-hearing" aria-hidden="true"></i> hard-of-hearing <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hashtag" aria-hidden="true"></i> hashtag<br/>
+            <i class="fa fa-hdd-o" aria-hidden="true"></i> hdd-o<br/>
+            <i class="fa fa-headphones" aria-hidden="true"></i> headphones<br/>
+            <i class="fa fa-heart" aria-hidden="true"></i> heart<br/>
+            <i class="fa fa-heart-o" aria-hidden="true"></i> heart-o<br/>
+            <i class="fa fa-heartbeat" aria-hidden="true"></i> heartbeat<br/>
+            <i class="fa fa-history" aria-hidden="true"></i> history<br/>
+            <i class="fa fa-home" aria-hidden="true"></i> home<br/>
+            <i class="fa fa-hotel" aria-hidden="true"></i> hotel <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hourglass" aria-hidden="true"></i> hourglass<br/>
+            <i class="fa fa-hourglass-1" aria-hidden="true"></i> hourglass-1 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hourglass-2" aria-hidden="true"></i> hourglass-2 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hourglass-3" aria-hidden="true"></i> hourglass-3 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hourglass-end" aria-hidden="true"></i> hourglass-end<br/>
+            <i class="fa fa-hourglass-half" aria-hidden="true"></i> hourglass-half<br/>
+            <i class="fa fa-hourglass-o" aria-hidden="true"></i> hourglass-o<br/>
+            <i class="fa fa-hourglass-start" aria-hidden="true"></i> hourglass-start<br/>
+            <i class="fa fa-i-cursor" aria-hidden="true"></i> i-cursor<br/>
+            <i class="fa fa-id-badge" aria-hidden="true"></i> id-badge<br/>
+            <i class="fa fa-id-card" aria-hidden="true"></i> id-card<br/>
+            <i class="fa fa-id-card-o" aria-hidden="true"></i> id-card-o<br/>
+            <i class="fa fa-image" aria-hidden="true"></i> image <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-inbox" aria-hidden="true"></i> inbox<br/>
+            <i class="fa fa-industry" aria-hidden="true"></i> industry<br/>
+            <i class="fa fa-info" aria-hidden="true"></i> info<br/>
+            <i class="fa fa-info-circle" aria-hidden="true"></i> info-circle<br/>
+            <i class="fa fa-institution" aria-hidden="true"></i> institution <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-key" aria-hidden="true"></i> key<br/>
+            <i class="fa fa-keyboard-o" aria-hidden="true"></i> keyboard-o<br/>
+            <i class="fa fa-language" aria-hidden="true"></i> language<br/>
+            <i class="fa fa-laptop" aria-hidden="true"></i> laptop<br/>
+            <i class="fa fa-leaf" aria-hidden="true"></i> leaf<br/>
+            <i class="fa fa-legal" aria-hidden="true"></i> legal <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-lemon-o" aria-hidden="true"></i> lemon-o<br/>
+            <i class="fa fa-level-down" aria-hidden="true"></i> level-down<br/>
+            <i class="fa fa-level-up" aria-hidden="true"></i> level-up<br/>
+            <i class="fa fa-life-bouy" aria-hidden="true"></i> life-bouy <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-life-buoy" aria-hidden="true"></i> life-buoy <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-life-ring" aria-hidden="true"></i> life-ring<br/>
+            <i class="fa fa-life-saver" aria-hidden="true"></i> life-saver <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-lightbulb-o" aria-hidden="true"></i> lightbulb-o<br/>
+            <i class="fa fa-line-chart" aria-hidden="true"></i> line-chart<br/>
+            <i class="fa fa-location-arrow" aria-hidden="true"></i> location-arrow<br/>
+            <i class="fa fa-lock" aria-hidden="true"></i> lock<br/>
+            <i class="fa fa-low-vision" aria-hidden="true"></i> low-vision<br/>
+            <i class="fa fa-magic" aria-hidden="true"></i> magic<br/>
+            <i class="fa fa-magnet" aria-hidden="true"></i> magnet<br/>
+            <i class="fa fa-mail-forward" aria-hidden="true"></i> mail-forward <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-mail-reply" aria-hidden="true"></i> mail-reply <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-mail-reply-all" aria-hidden="true"></i> mail-reply-all <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-male" aria-hidden="true"></i> male<br/>
+            <i class="fa fa-map" aria-hidden="true"></i> map<br/>
+            <i class="fa fa-map-marker" aria-hidden="true"></i> map-marker<br/>
+            <i class="fa fa-map-o" aria-hidden="true"></i> map-o<br/>
+            <i class="fa fa-map-pin" aria-hidden="true"></i> map-pin<br/>
+            <i class="fa fa-map-signs" aria-hidden="true"></i> map-signs<br/>
+            <i class="fa fa-meh-o" aria-hidden="true"></i> meh-o<br/>
+            <i class="fa fa-microchip" aria-hidden="true"></i> microchip<br/>
+            <i class="fa fa-microphone" aria-hidden="true"></i> microphone<br/>
+            <i class="fa fa-microphone-slash" aria-hidden="true"></i> microphone-slash<br/>
+            <i class="fa fa-minus" aria-hidden="true"></i> minus<br/>
+            <i class="fa fa-minus-circle" aria-hidden="true"></i> minus-circle<br/>
+            <i class="fa fa-minus-square" aria-hidden="true"></i> minus-square<br/>
+            <i class="fa fa-minus-square-o" aria-hidden="true"></i> minus-square-o<br/>
+            <i class="fa fa-mobile" aria-hidden="true"></i> mobile<br/>
+            <i class="fa fa-mobile-phone" aria-hidden="true"></i> mobile-phone <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-money" aria-hidden="true"></i> money<br/>
+            <i class="fa fa-moon-o" aria-hidden="true"></i> moon-o<br/>
+            <i class="fa fa-mortar-board" aria-hidden="true"></i> mortar-board <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-motorcycle" aria-hidden="true"></i> motorcycle<br/>
+            <i class="fa fa-mouse-pointer" aria-hidden="true"></i> mouse-pointer<br/>
+            <i class="fa fa-music" aria-hidden="true"></i> music<br/>
+            <i class="fa fa-navicon" aria-hidden="true"></i> navicon <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-newspaper-o" aria-hidden="true"></i> newspaper-o<br/>
+            <i class="fa fa-object-group" aria-hidden="true"></i> object-group<br/>
+            <i class="fa fa-object-ungroup" aria-hidden="true"></i> object-ungroup<br/>
+            <i class="fa fa-paint-brush" aria-hidden="true"></i> paint-brush<br/>
+            <i class="fa fa-paper-plane" aria-hidden="true"></i> paper-plane<br/>
+            <i class="fa fa-paper-plane-o" aria-hidden="true"></i> paper-plane-o<br/>
+            <i class="fa fa-paw" aria-hidden="true"></i> paw<br/>
+            <i class="fa fa-pencil" aria-hidden="true"></i> pencil<br/>
+            <i class="fa fa-pencil-square" aria-hidden="true"></i> pencil-square<br/>
+            <i class="fa fa-pencil-square-o" aria-hidden="true"></i> pencil-square-o<br/>
+            <i class="fa fa-percent" aria-hidden="true"></i> percent<br/>
+            <i class="fa fa-phone" aria-hidden="true"></i> phone<br/>
+            <i class="fa fa-phone-square" aria-hidden="true"></i> phone-square<br/>
+            <i class="fa fa-photo" aria-hidden="true"></i> photo <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-picture-o" aria-hidden="true"></i> picture-o<br/>
+            <i class="fa fa-pie-chart" aria-hidden="true"></i> pie-chart<br/>
+            <i class="fa fa-plane" aria-hidden="true"></i> plane<br/>
+            <i class="fa fa-plug" aria-hidden="true"></i> plug<br/>
+            <i class="fa fa-plus" aria-hidden="true"></i> plus<br/>
+            <i class="fa fa-plus-circle" aria-hidden="true"></i> plus-circle<br/>
+            <i class="fa fa-plus-square" aria-hidden="true"></i> plus-square<br/>
+            <i class="fa fa-plus-square-o" aria-hidden="true"></i> plus-square-o<br/>
+            <i class="fa fa-podcast" aria-hidden="true"></i> podcast<br/>
+            <i class="fa fa-power-off" aria-hidden="true"></i> power-off<br/>
+            <i class="fa fa-print" aria-hidden="true"></i> print<br/>
+            <i class="fa fa-puzzle-piece" aria-hidden="true"></i> puzzle-piece<br/>
+            <i class="fa fa-qrcode" aria-hidden="true"></i> qrcode<br/>
+            <i class="fa fa-question" aria-hidden="true"></i> question<br/>
+            <i class="fa fa-question-circle" aria-hidden="true"></i> question-circle<br/>
+            <i class="fa fa-question-circle-o" aria-hidden="true"></i> question-circle-o<br/>
+            <i class="fa fa-quote-left" aria-hidden="true"></i> quote-left<br/>
+            <i class="fa fa-quote-right" aria-hidden="true"></i> quote-right<br/>
+            <i class="fa fa-random" aria-hidden="true"></i> random<br/>
+            <i class="fa fa-recycle" aria-hidden="true"></i> recycle<br/>
+            <i class="fa fa-refresh" aria-hidden="true"></i> refresh<br/>
+            <i class="fa fa-registered" aria-hidden="true"></i> registered<br/>
+            <i class="fa fa-remove" aria-hidden="true"></i> remove <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-reorder" aria-hidden="true"></i> reorder <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-reply" aria-hidden="true"></i> reply<br/>
+            <i class="fa fa-reply-all" aria-hidden="true"></i> reply-all<br/>
+            <i class="fa fa-retweet" aria-hidden="true"></i> retweet<br/>
+            <i class="fa fa-road" aria-hidden="true"></i> road<br/>
+            <i class="fa fa-rocket" aria-hidden="true"></i> rocket<br/>
+            <i class="fa fa-rss" aria-hidden="true"></i> rss<br/>
+            <i class="fa fa-rss-square" aria-hidden="true"></i> rss-square<br/>
+            <i class="fa fa-s15" aria-hidden="true"></i> s15 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-search" aria-hidden="true"></i> search<br/>
+            <i class="fa fa-search-minus" aria-hidden="true"></i> search-minus<br/>
+            <i class="fa fa-search-plus" aria-hidden="true"></i> search-plus<br/>
+            <i class="fa fa-send" aria-hidden="true"></i> send <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-send-o" aria-hidden="true"></i> send-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-server" aria-hidden="true"></i> server<br/>
+            <i class="fa fa-share" aria-hidden="true"></i> share<br/>
+            <i class="fa fa-share-alt" aria-hidden="true"></i> share-alt<br/>
+            <i class="fa fa-share-alt-square" aria-hidden="true"></i> share-alt-square<br/>
+            <i class="fa fa-share-square" aria-hidden="true"></i> share-square<br/>
+            <i class="fa fa-share-square-o" aria-hidden="true"></i> share-square-o<br/>
+            <i class="fa fa-shield" aria-hidden="true"></i> shield<br/>
+            <i class="fa fa-ship" aria-hidden="true"></i> ship<br/>
+            <i class="fa fa-shopping-bag" aria-hidden="true"></i> shopping-bag<br/>
+            <i class="fa fa-shopping-basket" aria-hidden="true"></i> shopping-basket<br/>
+            <i class="fa fa-shopping-cart" aria-hidden="true"></i> shopping-cart<br/>
+            <i class="fa fa-shower" aria-hidden="true"></i> shower<br/>
+            <i class="fa fa-sign-in" aria-hidden="true"></i> sign-in<br/>
+            <i class="fa fa-sign-language" aria-hidden="true"></i> sign-language<br/>
+            <i class="fa fa-sign-out" aria-hidden="true"></i> sign-out<br/>
+            <i class="fa fa-signal" aria-hidden="true"></i> signal<br/>
+            <i class="fa fa-signing" aria-hidden="true"></i> signing <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-sitemap" aria-hidden="true"></i> sitemap<br/>
+            <i class="fa fa-sliders" aria-hidden="true"></i> sliders<br/>
+            <i class="fa fa-smile-o" aria-hidden="true"></i> smile-o<br/>
+            <i class="fa fa-snowflake-o" aria-hidden="true"></i> snowflake-o<br/>
+            <i class="fa fa-soccer-ball-o" aria-hidden="true"></i> soccer-ball-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-sort" aria-hidden="true"></i> sort<br/>
+            <i class="fa fa-sort-alpha-asc" aria-hidden="true"></i> sort-alpha-asc<br/>
+            <i class="fa fa-sort-alpha-desc" aria-hidden="true"></i> sort-alpha-desc<br/>
+            <i class="fa fa-sort-amount-asc" aria-hidden="true"></i> sort-amount-asc<br/>
+            <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> sort-amount-desc<br/>
+            <i class="fa fa-sort-asc" aria-hidden="true"></i> sort-asc<br/>
+            <i class="fa fa-sort-desc" aria-hidden="true"></i> sort-desc<br/>
+            <i class="fa fa-sort-down" aria-hidden="true"></i> sort-down <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-sort-numeric-asc" aria-hidden="true"></i> sort-numeric-asc<br/>
+            <i class="fa fa-sort-numeric-desc" aria-hidden="true"></i> sort-numeric-desc<br/>
+            <i class="fa fa-sort-up" aria-hidden="true"></i> sort-up <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-space-shuttle" aria-hidden="true"></i> space-shuttle<br/>
+            <i class="fa fa-spinner" aria-hidden="true"></i> spinner<br/>
+            <i class="fa fa-spoon" aria-hidden="true"></i> spoon<br/>
+            <i class="fa fa-square" aria-hidden="true"></i> square<br/>
+            <i class="fa fa-square-o" aria-hidden="true"></i> square-o<br/>
+            <i class="fa fa-star" aria-hidden="true"></i> star<br/>
+            <i class="fa fa-star-half" aria-hidden="true"></i> star-half<br/>
+            <i class="fa fa-star-half-empty" aria-hidden="true"></i> star-half-empty <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-star-half-full" aria-hidden="true"></i> star-half-full <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-star-half-o" aria-hidden="true"></i> star-half-o<br/>
+            <i class="fa fa-star-o" aria-hidden="true"></i> star-o<br/>
+            <i class="fa fa-sticky-note" aria-hidden="true"></i> sticky-note<br/>
+            <i class="fa fa-sticky-note-o" aria-hidden="true"></i> sticky-note-o<br/>
+            <i class="fa fa-street-view" aria-hidden="true"></i> street-view<br/>
+            <i class="fa fa-suitcase" aria-hidden="true"></i> suitcase<br/>
+            <i class="fa fa-sun-o" aria-hidden="true"></i> sun-o<br/>
+            <i class="fa fa-support" aria-hidden="true"></i> support <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-tablet" aria-hidden="true"></i> tablet<br/>
+            <i class="fa fa-tachometer" aria-hidden="true"></i> tachometer<br/>
+            <i class="fa fa-tag" aria-hidden="true"></i> tag<br/>
+            <i class="fa fa-tags" aria-hidden="true"></i> tags<br/>
+            <i class="fa fa-tasks" aria-hidden="true"></i> tasks<br/>
+            <i class="fa fa-taxi" aria-hidden="true"></i> taxi<br/>
+            <i class="fa fa-television" aria-hidden="true"></i> television<br/>
+            <i class="fa fa-terminal" aria-hidden="true"></i> terminal<br/>
+            <i class="fa fa-thermometer" aria-hidden="true"></i> thermometer <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-thermometer-0" aria-hidden="true"></i> thermometer-0 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-thermometer-1" aria-hidden="true"></i> thermometer-1 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-thermometer-2" aria-hidden="true"></i> thermometer-2 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-thermometer-3" aria-hidden="true"></i> thermometer-3 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-thermometer-4" aria-hidden="true"></i> thermometer-4 <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-thermometer-empty" aria-hidden="true"></i> thermometer-empty<br/>
+            <i class="fa fa-thermometer-full" aria-hidden="true"></i> thermometer-full<br/>
+            <i class="fa fa-thermometer-half" aria-hidden="true"></i> thermometer-half<br/>
+            <i class="fa fa-thermometer-quarter" aria-hidden="true"></i> thermometer-quarter<br/>
+            <i class="fa fa-thermometer-three-quarters" aria-hidden="true"></i> thermometer-three-quarters<br/>
+            <i class="fa fa-thumb-tack" aria-hidden="true"></i> thumb-tack<br/>
+            <i class="fa fa-thumbs-down" aria-hidden="true"></i> thumbs-down<br/>
+            <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> thumbs-o-down<br/>
+            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> thumbs-o-up<br/>
+            <i class="fa fa-thumbs-up" aria-hidden="true"></i> thumbs-up<br/>
+            <i class="fa fa-ticket" aria-hidden="true"></i> ticket<br/>
+            <i class="fa fa-times" aria-hidden="true"></i> times<br/>
+            <i class="fa fa-times-circle" aria-hidden="true"></i> times-circle<br/>
+            <i class="fa fa-times-circle-o" aria-hidden="true"></i> times-circle-o<br/>
+            <i class="fa fa-times-rectangle" aria-hidden="true"></i> times-rectangle <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-times-rectangle-o" aria-hidden="true"></i> times-rectangle-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-tint" aria-hidden="true"></i> tint<br/>
+            <i class="fa fa-toggle-down" aria-hidden="true"></i> toggle-down <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-toggle-left" aria-hidden="true"></i> toggle-left <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-toggle-off" aria-hidden="true"></i> toggle-off<br/>
+            <i class="fa fa-toggle-on" aria-hidden="true"></i> toggle-on<br/>
+            <i class="fa fa-toggle-right" aria-hidden="true"></i> toggle-right <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-toggle-up" aria-hidden="true"></i> toggle-up <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-trademark" aria-hidden="true"></i> trademark<br/>
+            <i class="fa fa-trash" aria-hidden="true"></i> trash<br/>
+            <i class="fa fa-trash-o" aria-hidden="true"></i> trash-o<br/>
+            <i class="fa fa-tree" aria-hidden="true"></i> tree<br/>
+            <i class="fa fa-trophy" aria-hidden="true"></i> trophy<br/>
+            <i class="fa fa-truck" aria-hidden="true"></i> truck<br/>
+            <i class="fa fa-tty" aria-hidden="true"></i> tty<br/>
+            <i class="fa fa-tv" aria-hidden="true"></i> tv <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-umbrella" aria-hidden="true"></i> umbrella<br/>
+            <i class="fa fa-universal-access" aria-hidden="true"></i> universal-access<br/>
+            <i class="fa fa-university" aria-hidden="true"></i> university<br/>
+            <i class="fa fa-unlock" aria-hidden="true"></i> unlock<br/>
+            <i class="fa fa-unlock-alt" aria-hidden="true"></i> unlock-alt<br/>
+            <i class="fa fa-unsorted" aria-hidden="true"></i> unsorted <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-upload" aria-hidden="true"></i> upload<br/>
+            <i class="fa fa-user" aria-hidden="true"></i> user<br/>
+            <i class="fa fa-user-circle" aria-hidden="true"></i> user-circle<br/>
+            <i class="fa fa-user-circle-o" aria-hidden="true"></i> user-circle-o<br/>
+            <i class="fa fa-user-o" aria-hidden="true"></i> user-o<br/>
+            <i class="fa fa-user-plus" aria-hidden="true"></i> user-plus<br/>
+            <i class="fa fa-user-secret" aria-hidden="true"></i> user-secret<br/>
+            <i class="fa fa-user-times" aria-hidden="true"></i> user-times<br/>
+            <i class="fa fa-users" aria-hidden="true"></i> users<br/>
+            <i class="fa fa-vcard" aria-hidden="true"></i> vcard <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-vcard-o" aria-hidden="true"></i> vcard-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-video-camera" aria-hidden="true"></i> video-camera<br/>
+            <i class="fa fa-volume-control-phone" aria-hidden="true"></i> volume-control-phone<br/>
+            <i class="fa fa-volume-down" aria-hidden="true"></i> volume-down<br/>
+            <i class="fa fa-volume-off" aria-hidden="true"></i> volume-off<br/>
+            <i class="fa fa-volume-up" aria-hidden="true"></i> volume-up<br/>
+            <i class="fa fa-warning" aria-hidden="true"></i> warning <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-wheelchair" aria-hidden="true"></i> wheelchair<br/>
+            <i class="fa fa-wheelchair-alt" aria-hidden="true"></i> wheelchair-alt<br/>
+            <i class="fa fa-wifi" aria-hidden="true"></i> wifi<br/>
+            <i class="fa fa-window-close" aria-hidden="true"></i> window-close<br/>
+            <i class="fa fa-window-close-o" aria-hidden="true"></i> window-close-o<br/>
+            <i class="fa fa-window-maximize" aria-hidden="true"></i> window-maximize<br/>
+            <i class="fa fa-window-minimize" aria-hidden="true"></i> window-minimize<br/>
+            <i class="fa fa-window-restore" aria-hidden="true"></i> window-restore<br/>
+            <i class="fa fa-wrench" aria-hidden="true"></i> wrench<br/>
+        <h2 class="page-header">辅助功能</h2>
+            <i class="fa fa-american-sign-language-interpreting" aria-hidden="true"></i> american-sign-language-interpreting<br/>
+            <i class="fa fa-asl-interpreting" aria-hidden="true"></i> asl-interpreting <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-assistive-listening-systems" aria-hidden="true"></i> assistive-listening-systems<br/>
+            <i class="fa fa-audio-description" aria-hidden="true"></i> audio-description<br/>
+            <i class="fa fa-blind" aria-hidden="true"></i> blind<br/>
+            <i class="fa fa-braille" aria-hidden="true"></i> braille<br/>
+            <i class="fa fa-cc" aria-hidden="true"></i> cc<br/>
+            <i class="fa fa-deaf" aria-hidden="true"></i> deaf<br/>
+            <i class="fa fa-deafness" aria-hidden="true"></i> deafness <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hard-of-hearing" aria-hidden="true"></i> hard-of-hearing <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-low-vision" aria-hidden="true"></i> low-vision<br/>
+            <i class="fa fa-question-circle-o" aria-hidden="true"></i> question-circle-o<br/>
+            <i class="fa fa-sign-language" aria-hidden="true"></i> sign-language<br/>
+            <i class="fa fa-signing" aria-hidden="true"></i> signing <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-tty" aria-hidden="true"></i> tty<br/>
+            <i class="fa fa-universal-access" aria-hidden="true"></i> universal-access<br/>
+            <i class="fa fa-volume-control-phone" aria-hidden="true"></i> volume-control-phone<br/>
+            <i class="fa fa-wheelchair" aria-hidden="true"></i> wheelchair<br/>
+            <i class="fa fa-wheelchair-alt" aria-hidden="true"></i> wheelchair-alt<br/>
+        <h2 class="page-header">手势</h2>
+            <i class="fa fa-hand-grab-o" aria-hidden="true"></i> hand-grab-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-hand-lizard-o" aria-hidden="true"></i> hand-lizard-o<br/>
+            <i class="fa fa-hand-o-down" aria-hidden="true"></i> hand-o-down<br/>
+            <i class="fa fa-hand-o-left" aria-hidden="true"></i> hand-o-left<br/>
+            <i class="fa fa-hand-o-right" aria-hidden="true"></i> hand-o-right<br/>
+            <i class="fa fa-hand-o-up" aria-hidden="true"></i> hand-o-up<br/>
+            <i class="fa fa-hand-paper-o" aria-hidden="true"></i> hand-paper-o<br/>
+            <i class="fa fa-hand-peace-o" aria-hidden="true"></i> hand-peace-o<br/>
+            <i class="fa fa-hand-pointer-o" aria-hidden="true"></i> hand-pointer-o<br/>
+            <i class="fa fa-hand-rock-o" aria-hidden="true"></i> hand-rock-o<br/>
+            <i class="fa fa-hand-scissors-o" aria-hidden="true"></i> hand-scissors-o<br/>
+            <i class="fa fa-hand-spock-o" aria-hidden="true"></i> hand-spock-o<br/>
+            <i class="fa fa-hand-stop-o" aria-hidden="true"></i> hand-stop-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-thumbs-down" aria-hidden="true"></i> thumbs-down<br/>
+            <i class="fa fa-thumbs-o-down" aria-hidden="true"></i> thumbs-o-down<br/>
+            <i class="fa fa-thumbs-o-up" aria-hidden="true"></i> thumbs-o-up<br/>
+            <i class="fa fa-thumbs-up" aria-hidden="true"></i> thumbs-up<br/>
+        <h2 class="page-header">运输</h2>
+            <i class="fa fa-ambulance" aria-hidden="true"></i> ambulance<br/>
+            <i class="fa fa-automobile" aria-hidden="true"></i> automobile <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-bicycle" aria-hidden="true"></i> bicycle<br/>
+            <i class="fa fa-bus" aria-hidden="true"></i> bus<br/>
+            <i class="fa fa-cab" aria-hidden="true"></i> cab <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-car" aria-hidden="true"></i> car<br/>
+            <i class="fa fa-fighter-jet" aria-hidden="true"></i> fighter-jet<br/>
+            <i class="fa fa-motorcycle" aria-hidden="true"></i> motorcycle<br/>
+            <i class="fa fa-plane" aria-hidden="true"></i> plane<br/>
+            <i class="fa fa-rocket" aria-hidden="true"></i> rocket<br/>
+            <i class="fa fa-ship" aria-hidden="true"></i> ship<br/>
+            <i class="fa fa-space-shuttle" aria-hidden="true"></i> space-shuttle<br/>
+            <i class="fa fa-subway" aria-hidden="true"></i> subway<br/>
+            <i class="fa fa-taxi" aria-hidden="true"></i> taxi<br/>
+            <i class="fa fa-train" aria-hidden="true"></i> train<br/>
+            <i class="fa fa-truck" aria-hidden="true"></i> truck<br/>
+            <i class="fa fa-wheelchair" aria-hidden="true"></i> wheelchair<br/>
+            <i class="fa fa-wheelchair-alt" aria-hidden="true"></i> wheelchair-alt<br/>
+        <h2 class="page-header">性别</h2>
+            <i class="fa fa-genderless" aria-hidden="true"></i> genderless<br/>
+            <i class="fa fa-intersex" aria-hidden="true"></i> intersex <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-mars" aria-hidden="true"></i> mars<br/>
+            <i class="fa fa-mars-double" aria-hidden="true"></i> mars-double<br/>
+            <i class="fa fa-mars-stroke" aria-hidden="true"></i> mars-stroke<br/>
+            <i class="fa fa-mars-stroke-h" aria-hidden="true"></i> mars-stroke-h<br/>
+            <i class="fa fa-mars-stroke-v" aria-hidden="true"></i> mars-stroke-v<br/>
+            <i class="fa fa-mercury" aria-hidden="true"></i> mercury<br/>
+            <i class="fa fa-neuter" aria-hidden="true"></i> neuter<br/>
+            <i class="fa fa-transgender" aria-hidden="true"></i> transgender<br/>
+            <i class="fa fa-transgender-alt" aria-hidden="true"></i> transgender-alt<br/>
+            <i class="fa fa-venus" aria-hidden="true"></i> venus<br/>
+            <i class="fa fa-venus-double" aria-hidden="true"></i> venus-double<br/>
+            <i class="fa fa-venus-mars" aria-hidden="true"></i> venus-mars<br/>
+        <h2 class="page-header">文件类型</h2>
+            <i class="fa fa-file" aria-hidden="true"></i> file<br/>
+            <i class="fa fa-file-archive-o" aria-hidden="true"></i> file-archive-o<br/>
+            <i class="fa fa-file-audio-o" aria-hidden="true"></i> file-audio-o<br/>
+            <i class="fa fa-file-code-o" aria-hidden="true"></i> file-code-o<br/>
+            <i class="fa fa-file-excel-o" aria-hidden="true"></i> file-excel-o<br/>
+            <i class="fa fa-file-image-o" aria-hidden="true"></i> file-image-o<br/>
+            <i class="fa fa-file-movie-o" aria-hidden="true"></i> file-movie-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-file-o" aria-hidden="true"></i> file-o<br/>
+            <i class="fa fa-file-pdf-o" aria-hidden="true"></i> file-pdf-o<br/>
+            <i class="fa fa-file-photo-o" aria-hidden="true"></i> file-photo-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-file-picture-o" aria-hidden="true"></i> file-picture-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-file-powerpoint-o" aria-hidden="true"></i> file-powerpoint-o<br/>
+            <i class="fa fa-file-sound-o" aria-hidden="true"></i> file-sound-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-file-text" aria-hidden="true"></i> file-text<br/>
+            <i class="fa fa-file-text-o" aria-hidden="true"></i> file-text-o<br/>
+            <i class="fa fa-file-video-o" aria-hidden="true"></i> file-video-o<br/>
+            <i class="fa fa-file-word-o" aria-hidden="true"></i> file-word-o<br/>
+            <i class="fa fa-file-zip-o" aria-hidden="true"></i> file-zip-o <span class="text-muted">(alias)</span><br/>
+        <h2 class="page-header">可旋转</h2>
+            <ul class="fa-ul">
+                <li>
+                    <i class="fa fa-info-circle fa-lg fa-li"></i>
+                    这些图标在<code>fa-spin</code>类的作用下表现优异。您可以查阅
+                    <a href="https://fontawesome.dashgame.com/#spinning" class="alert-link">可旋转图标案例</a>.
+                </li>
+            </ul>
+            <i class="fa fa-circle-o-notch" aria-hidden="true"></i> circle-o-notch<br/>
+            <i class="fa fa-cog" aria-hidden="true"></i> cog<br/>
+            <i class="fa fa-gear" aria-hidden="true"></i> gear <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-refresh" aria-hidden="true"></i> refresh<br/>
+            <i class="fa fa-spinner" aria-hidden="true"></i> spinner<br/>
+        <h2 class="page-header">表单</h2>
+            <i class="fa fa-check-square" aria-hidden="true"></i> check-square<br/>
+            <i class="fa fa-check-square-o" aria-hidden="true"></i> check-square-o<br/>
+            <i class="fa fa-circle" aria-hidden="true"></i> circle<br/>
+            <i class="fa fa-circle-o" aria-hidden="true"></i> circle-o<br/>
+            <i class="fa fa-dot-circle-o" aria-hidden="true"></i> dot-circle-o<br/>
+            <i class="fa fa-minus-square" aria-hidden="true"></i> minus-square<br/>
+            <i class="fa fa-minus-square-o" aria-hidden="true"></i> minus-square-o<br/>
+            <i class="fa fa-plus-square" aria-hidden="true"></i> plus-square<br/>
+            <i class="fa fa-plus-square-o" aria-hidden="true"></i> plus-square-o<br/>
+            <i class="fa fa-square" aria-hidden="true"></i> square<br/>
+            <i class="fa fa-square-o" aria-hidden="true"></i> square-o<br/>
+        <h2 class="page-header">支付</h2>
+            <i class="fa fa-cc-amex" aria-hidden="true"></i> cc-amex<br/>
+            <i class="fa fa-cc-diners-club" aria-hidden="true"></i> cc-diners-club<br/>
+            <i class="fa fa-cc-discover" aria-hidden="true"></i> cc-discover<br/>
+            <i class="fa fa-cc-jcb" aria-hidden="true"></i> cc-jcb<br/>
+            <i class="fa fa-cc-mastercard" aria-hidden="true"></i> cc-mastercard<br/>
+            <i class="fa fa-cc-paypal" aria-hidden="true"></i> cc-paypal<br/>
+            <i class="fa fa-cc-stripe" aria-hidden="true"></i> cc-stripe<br/>
+            <i class="fa fa-cc-visa" aria-hidden="true"></i> cc-visa<br/>
+            <i class="fa fa-credit-card" aria-hidden="true"></i> credit-card<br/>
+            <i class="fa fa-credit-card-alt" aria-hidden="true"></i> credit-card-alt<br/>
+            <i class="fa fa-google-wallet" aria-hidden="true"></i> google-wallet<br/>
+            <i class="fa fa-paypal" aria-hidden="true"></i> paypal<br/>
+        <h2 class="page-header">图表</h2>
+            <i class="fa fa-area-chart" aria-hidden="true"></i> area-chart<br/>
+            <i class="fa fa-bar-chart" aria-hidden="true"></i> bar-chart<br/>
+            <i class="fa fa-bar-chart-o" aria-hidden="true"></i> bar-chart-o <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-line-chart" aria-hidden="true"></i> line-chart<br/>
+            <i class="fa fa-pie-chart" aria-hidden="true"></i> pie-chart<br/>
+        <h2 class="page-header">货币</h2>
+            <i class="fa fa-bitcoin" aria-hidden="true"></i> bitcoin <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-btc" aria-hidden="true"></i> btc<br/>
+            <i class="fa fa-cny" aria-hidden="true"></i> cny <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-dollar" aria-hidden="true"></i> dollar <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-eur" aria-hidden="true"></i> eur<br/>
+            <i class="fa fa-euro" aria-hidden="true"></i> euro <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-gbp" aria-hidden="true"></i> gbp<br/>
+            <i class="fa fa-gg" aria-hidden="true"></i> gg<br/>
+            <i class="fa fa-gg-circle" aria-hidden="true"></i> gg-circle<br/>
+            <i class="fa fa-ils" aria-hidden="true"></i> ils<br/>
+            <i class="fa fa-inr" aria-hidden="true"></i> inr<br/>
+            <i class="fa fa-jpy" aria-hidden="true"></i> jpy<br/>
+            <i class="fa fa-krw" aria-hidden="true"></i> krw<br/>
+            <i class="fa fa-money" aria-hidden="true"></i> money<br/>
+            <i class="fa fa-rmb" aria-hidden="true"></i> rmb <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-rouble" aria-hidden="true"></i> rouble <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-rub" aria-hidden="true"></i> rub<br/>
+            <i class="fa fa-ruble" aria-hidden="true"></i> ruble <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-rupee" aria-hidden="true"></i> rupee <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-shekel" aria-hidden="true"></i> shekel <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-sheqel" aria-hidden="true"></i> sheqel <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-try" aria-hidden="true"></i> try<br/>
+            <i class="fa fa-turkish-lira" aria-hidden="true"></i> turkish-lira <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-usd" aria-hidden="true"></i> usd<br/>
+            <i class="fa fa-won" aria-hidden="true"></i> won <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-yen" aria-hidden="true"></i> yen <span class="text-muted">(alias)</span><br/>
+        <h2 class="page-header">文本编辑</h2>
+            <i class="fa fa-align-center" aria-hidden="true"></i> align-center<br/>
+            <i class="fa fa-align-justify" aria-hidden="true"></i> align-justify<br/>
+            <i class="fa fa-align-left" aria-hidden="true"></i> align-left<br/>
+            <i class="fa fa-align-right" aria-hidden="true"></i> align-right<br/>
+            <i class="fa fa-bold" aria-hidden="true"></i> bold<br/>
+            <i class="fa fa-chain" aria-hidden="true"></i> chain <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-chain-broken" aria-hidden="true"></i> chain-broken<br/>
+            <i class="fa fa-clipboard" aria-hidden="true"></i> clipboard<br/>
+            <i class="fa fa-columns" aria-hidden="true"></i> columns<br/>
+            <i class="fa fa-copy" aria-hidden="true"></i> copy <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-cut" aria-hidden="true"></i> cut <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-dedent" aria-hidden="true"></i> dedent <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-eraser" aria-hidden="true"></i> eraser<br/>
+            <i class="fa fa-file" aria-hidden="true"></i> file<br/>
+            <i class="fa fa-file-o" aria-hidden="true"></i> file-o<br/>
+            <i class="fa fa-file-text" aria-hidden="true"></i> file-text<br/>
+            <i class="fa fa-file-text-o" aria-hidden="true"></i> file-text-o<br/>
+            <i class="fa fa-files-o" aria-hidden="true"></i> files-o<br/>
+            <i class="fa fa-floppy-o" aria-hidden="true"></i> floppy-o<br/>
+            <i class="fa fa-font" aria-hidden="true"></i> font<br/>
+            <i class="fa fa-header" aria-hidden="true"></i> header<br/>
+            <i class="fa fa-indent" aria-hidden="true"></i> indent<br/>
+            <i class="fa fa-italic" aria-hidden="true"></i> italic<br/>
+            <i class="fa fa-link" aria-hidden="true"></i> link<br/>
+            <i class="fa fa-list" aria-hidden="true"></i> list<br/>
+            <i class="fa fa-list-alt" aria-hidden="true"></i> list-alt<br/>
+            <i class="fa fa-list-ol" aria-hidden="true"></i> list-ol<br/>
+            <i class="fa fa-list-ul" aria-hidden="true"></i> list-ul<br/>
+            <i class="fa fa-outdent" aria-hidden="true"></i> outdent<br/>
+            <i class="fa fa-paperclip" aria-hidden="true"></i> paperclip<br/>
+            <i class="fa fa-paragraph" aria-hidden="true"></i> paragraph<br/>
+            <i class="fa fa-paste" aria-hidden="true"></i> paste <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-repeat" aria-hidden="true"></i> repeat<br/>
+            <i class="fa fa-rotate-left" aria-hidden="true"></i> rotate-left <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-rotate-right" aria-hidden="true"></i> rotate-right <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-save" aria-hidden="true"></i> save <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-scissors" aria-hidden="true"></i> scissors<br/>
+            <i class="fa fa-strikethrough" aria-hidden="true"></i> strikethrough<br/>
+            <i class="fa fa-subscript" aria-hidden="true"></i> subscript<br/>
+            <i class="fa fa-superscript" aria-hidden="true"></i> superscript<br/>
+            <i class="fa fa-table" aria-hidden="true"></i> table<br/>
+            <i class="fa fa-text-height" aria-hidden="true"></i> text-height<br/>
+            <i class="fa fa-text-width" aria-hidden="true"></i> text-width<br/>
+            <i class="fa fa-th" aria-hidden="true"></i> th<br/>
+            <i class="fa fa-th-large" aria-hidden="true"></i> th-large<br/>
+            <i class="fa fa-th-list" aria-hidden="true"></i> th-list<br/>
+            <i class="fa fa-underline" aria-hidden="true"></i> underline<br/>
+            <i class="fa fa-undo" aria-hidden="true"></i> undo<br/>
+            <i class="fa fa-unlink" aria-hidden="true"></i> unlink <span class="text-muted">(alias)</span><br/>
+        <h2 class="page-header">指示方向</h2>
+            <i class="fa fa-angle-double-down" aria-hidden="true"></i> angle-double-down<br/>
+            <i class="fa fa-angle-double-left" aria-hidden="true"></i> angle-double-left<br/>
+            <i class="fa fa-angle-double-right" aria-hidden="true"></i> angle-double-right<br/>
+            <i class="fa fa-angle-double-up" aria-hidden="true"></i> angle-double-up<br/>
+            <i class="fa fa-angle-down" aria-hidden="true"></i> angle-down<br/>
+            <i class="fa fa-angle-left" aria-hidden="true"></i> angle-left<br/>
+            <i class="fa fa-angle-right" aria-hidden="true"></i> angle-right<br/>
+            <i class="fa fa-angle-up" aria-hidden="true"></i> angle-up<br/>
+            <i class="fa fa-arrow-circle-down" aria-hidden="true"></i> arrow-circle-down<br/>
+            <i class="fa fa-arrow-circle-left" aria-hidden="true"></i> arrow-circle-left<br/>
+            <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i> arrow-circle-o-down<br/>
+            <i class="fa fa-arrow-circle-o-left" aria-hidden="true"></i> arrow-circle-o-left<br/>
+            <i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> arrow-circle-o-right<br/>
+            <i class="fa fa-arrow-circle-o-up" aria-hidden="true"></i> arrow-circle-o-up<br/>
+            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i> arrow-circle-right<br/>
+            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i> arrow-circle-up<br/>
+            <i class="fa fa-arrow-down" aria-hidden="true"></i> arrow-down<br/>
+            <i class="fa fa-arrow-left" aria-hidden="true"></i> arrow-left<br/>
+            <i class="fa fa-arrow-right" aria-hidden="true"></i> arrow-right<br/>
+            <i class="fa fa-arrow-up" aria-hidden="true"></i> arrow-up<br/>
+            <i class="fa fa-arrows" aria-hidden="true"></i> arrows<br/>
+            <i class="fa fa-arrows-alt" aria-hidden="true"></i> arrows-alt<br/>
+            <i class="fa fa-arrows-h" aria-hidden="true"></i> arrows-h<br/>
+            <i class="fa fa-arrows-v" aria-hidden="true"></i> arrows-v<br/>
+            <i class="fa fa-caret-down" aria-hidden="true"></i> caret-down<br/>
+            <i class="fa fa-caret-left" aria-hidden="true"></i> caret-left<br/>
+            <i class="fa fa-caret-right" aria-hidden="true"></i> caret-right<br/>
+            <i class="fa fa-caret-square-o-down" aria-hidden="true"></i> caret-square-o-down<br/>
+            <i class="fa fa-caret-square-o-left" aria-hidden="true"></i> caret-square-o-left<br/>
+            <i class="fa fa-caret-square-o-right" aria-hidden="true"></i> caret-square-o-right<br/>
+            <i class="fa fa-caret-square-o-up" aria-hidden="true"></i> caret-square-o-up<br/>
+            <i class="fa fa-caret-up" aria-hidden="true"></i> caret-up<br/>
+            <i class="fa fa-chevron-circle-down" aria-hidden="true"></i> chevron-circle-down<br/>
+            <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> chevron-circle-left<br/>
+            <i class="fa fa-chevron-circle-right" aria-hidden="true"></i> chevron-circle-right<br/>
+            <i class="fa fa-chevron-circle-up" aria-hidden="true"></i> chevron-circle-up<br/>
+            <i class="fa fa-chevron-down" aria-hidden="true"></i> chevron-down<br/>
+            <i class="fa fa-chevron-left" aria-hidden="true"></i> chevron-left<br/>
+            <i class="fa fa-chevron-right" aria-hidden="true"></i> chevron-right<br/>
+            <i class="fa fa-chevron-up" aria-hidden="true"></i> chevron-up<br/>
+            <i class="fa fa-exchange" aria-hidden="true"></i> exchange<br/>
+            <i class="fa fa-hand-o-down" aria-hidden="true"></i> hand-o-down<br/>
+            <i class="fa fa-hand-o-left" aria-hidden="true"></i> hand-o-left<br/>
+            <i class="fa fa-hand-o-right" aria-hidden="true"></i> hand-o-right<br/>
+            <i class="fa fa-hand-o-up" aria-hidden="true"></i> hand-o-up<br/>
+            <i class="fa fa-long-arrow-down" aria-hidden="true"></i> long-arrow-down<br/>
+            <i class="fa fa-long-arrow-left" aria-hidden="true"></i> long-arrow-left<br/>
+            <i class="fa fa-long-arrow-right" aria-hidden="true"></i> long-arrow-right<br/>
+            <i class="fa fa-long-arrow-up" aria-hidden="true"></i> long-arrow-up<br/>
+            <i class="fa fa-toggle-down" aria-hidden="true"></i> toggle-down <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-toggle-left" aria-hidden="true"></i> toggle-left <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-toggle-right" aria-hidden="true"></i> toggle-right <span class="text-muted">(alias)</span><br/>
+            <i class="fa fa-toggle-up" aria-hidden="true"></i> toggle-up <span class="text-muted">(alias)</span><br/>
+        <h2 class="page-header">视频播放</h2>
+            <i class="fa fa-arrows-alt" aria-hidden="true"></i> arrows-alt<br/>
+            <i class="fa fa-backward" aria-hidden="true"></i> backward<br/>
+            <i class="fa fa-compress" aria-hidden="true"></i> compress<br/>
+            <i class="fa fa-eject" aria-hidden="true"></i> eject<br/>
+            <i class="fa fa-expand" aria-hidden="true"></i> expand<br/>
+            <i class="fa fa-fast-backward" aria-hidden="true"></i> fast-backward<br/>
+            <i class="fa fa-fast-forward" aria-hidden="true"></i> fast-forward<br/>
+            <i class="fa fa-forward" aria-hidden="true"></i> forward<br/>
+            <i class="fa fa-pause" aria-hidden="true"></i> pause<br/>
+            <i class="fa fa-pause-circle" aria-hidden="true"></i> pause-circle<br/>
+            <i class="fa fa-pause-circle-o" aria-hidden="true"></i> pause-circle-o<br/>
+            <i class="fa fa-play" aria-hidden="true"></i> play<br/>
+            <i class="fa fa-play-circle" aria-hidden="true"></i> play-circle<br/>
+            <i class="fa fa-play-circle-o" aria-hidden="true"></i> play-circle-o<br/>
+            <i class="fa fa-random" aria-hidden="true"></i> random<br/>
+            <i class="fa fa-step-backward" aria-hidden="true"></i> step-backward<br/>
+            <i class="fa fa-step-forward" aria-hidden="true"></i> step-forward<br/>
+            <i class="fa fa-stop" aria-hidden="true"></i> stop<br/>
+            <i class="fa fa-stop-circle" aria-hidden="true"></i> stop-circle<br/>
+            <i class="fa fa-stop-circle-o" aria-hidden="true"></i> stop-circle-o<br/>
+            <i class="fa fa-youtube-play" aria-hidden="true"></i> youtube-play<br/>
+
+</body>
+
+</html>
