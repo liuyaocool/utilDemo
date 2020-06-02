@@ -5,6 +5,10 @@
     <title>Title</title>
 
     <style>
+        body{
+            height: 100%;
+            width: 3000px;
+        }
         .aa{
             width: fit-content;
             transition: background-color 0.3s;
@@ -258,9 +262,45 @@
             box-shadow: 0 0 8px 5px #6dfbfb;
             line-height: 30px;
         }
+        .clk:active{
+            color:red;
+        }
+
+        ::-webkit-scrollbar{
+            width: 20px;
+            height: 50px;
+            background-color: green;
+            border: 1px yellow solid;
+        }
+        ::-webkit-scrollbar-button{
+            background-color: red;
+            color: yellow;
+        }
+        ::-webkit-scrollbar-track-piece{
+            /*background-color: brown;*/
+        }
+        ::-webkit-scrollbar-thumb{
+            background-color: brown;
+        }
+        ::-webkit-scrollbar-corner{
+            background-color: yellow;
+        }
     </style>
 </head>
 <body>
+
+<pre>
+
+
+    1. ::-webkit-scrollbar 滚动条整体部分，其中的属性: width,height,background,border等。
+    2. ::-webkit-scrollbar-button 滚动条两端的按钮，可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。
+    3. ::-webkit-scrollbar-track 外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。
+    4. ::-webkit-scrollbar-track-piece 内层滚动槽/轨道，需要注意的就是它会覆盖第三个属性的样式。
+    5. ::-webkit-scrollbar-thumb 滚动的滑块
+    6. ::-webkit-scrollbar-corner 边角，两个滚动条交汇处
+    7. ::-webkit-resizer 定义右下角拖动块的样式/两个滚动条交汇处用于拖动调整元素大小的小控件（基本用不上）
+
+</pre>
 
 <div class="gradual"></div>
 <div class="gradual1"></div>
@@ -268,6 +308,7 @@
 <div class="dycFontSize">
     字体大小随浏览器窗口改变
 </div>
+<div class="clk">点击</div>
     <div class="aa">
         测试before伪类
     </div>

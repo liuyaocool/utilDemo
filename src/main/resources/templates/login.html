@@ -7,6 +7,7 @@ xmlns:th="http://thymeleaf.org">
     <title>login</title>
 </head>
 <body>
+<button type="button" onclick="open()">open window</button>
 
 <form method="post" action="/systemFile/import" enctype="multipart/form-data">
     EXCEL导入:<input type="file" name="file"/>
@@ -40,5 +41,19 @@ xmlns:th="http://thymeleaf.org">
 <!--注意開頭斜杠 thymeleaf模板寫法-->
 <script type="text/javascript" th:src="@{/js/jquery-1.12.2.min.js(v=${ver},b=${ver})}"></script>
 <!--<script type="text/javascript" th:src="@{js/jquery-1.12.2.min.js}"></script>-->
+
+
+<script type="text/javascript">
+
+    function open() {
+
+        var p = '<html><head><title>新窗口</title></head><body>body</body></html>';
+        var w = window.open('about:blank');
+        w.document.write(p);
+        w.document.close();
+        w.print();
+    }
+
+</script>
 </body>
 </html>

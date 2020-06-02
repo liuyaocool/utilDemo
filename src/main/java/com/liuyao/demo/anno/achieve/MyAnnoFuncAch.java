@@ -1,7 +1,7 @@
 package com.liuyao.demo.anno.achieve;
 
 import com.liuyao.demo.anno.MyAnno;
-import com.liuyao.demo.util.MyClassUtil;
+import com.liuyao.demo.utilutil.MyClassUtil;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

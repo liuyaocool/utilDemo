@@ -6,7 +6,13 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
+
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 public class IOUtil {
 
@@ -122,9 +128,96 @@ public class IOUtil {
         }
     }
 
+    /**
+     * <p>将文件转成base64 字符串</p>
+     * @param path 文件路径
+     * @return
+     * @throws Exception
+     */
+    public static String fileToBase64(File file) {
+        FileInputStream inputFile = null;
+        byte[] buffer = new byte[0];
+        try {
+            buffer = new byte[(int)file.length()];
+            inputFile = new FileInputStream(file);
+            inputFile.read(buffer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            close(inputFile);
+        }
+        Base64.Encoder encoder = Base64.getEncoder(); // JDK 1.8  推荐方法
+        String str = encoder.encodeToString(buffer);
+//        return new BASE64Encoder().encode(buffer);
+        return str;
+    }
+    /**
+     * <p>将base64字符解码保存文件</p>
+     * @param base64Code
+     * @param targetPath
+     * @throws Exception
+     */
+    public static void decoderBase64File(String base64Code,String targetPath) throws Exception {
+        byte[] buffer = new BASE64Decoder().decodeBuffer(base64Code);
+        FileOutputStream out = new FileOutputStream(targetPath);
+        out.write(buffer);
+        out.close();
+    }
+    /**
+     * <p>将base64字符保存文本文件</p>
+     * @param base64Code
+     * @param targetPath
+     * @throws Exception
+     */
+    public static void base64ToFile(String base64Code,String targetPath) throws Exception {
+        byte[] buffer = base64Code.getBytes();
+        FileOutputStream out = new FileOutputStream(targetPath);
+        out.write(buffer);
+        out.close();
+    }
+
+    public static byte[] getFileByte(File file) throws IOException {
+        FileInputStream is = null;
+        try {
+            is = new FileInputStream(file);
+            byte[] b = new byte[(int) file.length()];
+            // 定义一个输出流存储接收到的数据
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            // 开始接收数据
+            int len = 0;
+            while (true) {
+                len = is.read(b);
+                if (len == -1) {
+                    // 数据读完
+                    break;
+                }
+                byteArrayOutputStream.write(b, 0, len);
+            }
+            return byteArrayOutputStream.toByteArray();
+        } finally {
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         IOUtil.newFolder("C:/JAVA/project/test");
         System.out.println(IOUtil.newFile("C:/JAVA/project/test", "test.xls", false));
 
+        List<String> aa = new ArrayList<>();
+        aa.add("asd");
+        aa.add("erer");
+        nullArray(aa);
+        System.out.println(null == aa);
+
+    }
+
+    public static void nullArray(List list){
+        list = null;
     }
 }

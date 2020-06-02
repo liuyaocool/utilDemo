@@ -1,6 +1,6 @@
 package com.liuyao.demo.controller;
 
-import com.liuyao.demo.util.office.ExcelUtil2;
+import com.liuyao.demo.utilutil.office.ExcelUtil2;
 import com.liuyao.demo.utils.IOUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
