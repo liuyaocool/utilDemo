@@ -447,6 +447,14 @@
         </dependency>
 
         <dependency>
+            <groupId>PIJDBC</groupId>
+            <artifactId>driver</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/PIJDBCDriver.jar</systemPath>
+        </dependency>
+
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
