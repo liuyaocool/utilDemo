@@ -43,7 +43,8 @@ public class TestPIJDBC {
 
         try {
             Class.forName(driverClassName).newInstance();
-            connection = DriverManager.getConnection(url, properties);
+//            connection = DriverManager.getConnection(url, properties);
+            connection = DriverManager.getConnection(url);
 
             DatabaseMetaData metaData = connection.getMetaData();
             System.out.println(metaData.getDriverName() + " " + metaData.getDriverVersion());
