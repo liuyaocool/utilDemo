@@ -453,6 +453,13 @@
             <scope>system</scope>
             <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/PIJDBCDriver.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>jnative</groupId>
+            <artifactId>jnative</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/JNative.jar</systemPath>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
