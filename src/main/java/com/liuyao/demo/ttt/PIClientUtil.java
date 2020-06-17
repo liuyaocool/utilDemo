@@ -48,6 +48,8 @@ public class PIClientUtil {
 
     private PIClientUtil() {
         try {
+            System.setProperty("jnative.debug", "true"); //没有这一行会 报类库没有加载错误
+            // System.setProperty("jnative.loadNative", "C:/Windows/System32/JNativeCpp.dll");
             // *********************连接PI数据库**************************//
             JNative messageBox = new JNative("piapi32.dll", "piut_setservernode");
             messageBox.setRetVal(Type.INT);
