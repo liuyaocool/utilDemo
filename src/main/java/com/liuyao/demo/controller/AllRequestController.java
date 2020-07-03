@@ -1,5 +1,6 @@
 package com.liuyao.demo.controller;
 
+import com.liuyao.demo.utils.ServletUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,6 +61,7 @@ public class AllRequestController {
     @PostMapping("/postJsonMap")
     @ResponseBody
     public Map h(){
+        ServletUtil.getAddr();
         Map map = new HashMap();
         map.put("code", 200);
         map.put("msg", "post map success");

@@ -10,7 +10,6 @@
             width: 100%;
             height: 100%;
             margin: 0px;
-            background: rgba(255,0,0,0.3);
             overflow: auto;
         }
     </style>
@@ -20,6 +19,7 @@
 
 
 <canvas id="canvas1" width="2040" height="1080">此处为画布内容，浏览器不支持H5画布！</canvas>
+<canvas id="canvas3" width="1920" height="1080">此处为画布内容，浏览器不支持H5画布！</canvas>
 <canvas id="canvas2" width="4096" height="2160">此处为画布内容，浏览器不支持H5画布！</canvas>
 
 <pre>
@@ -46,6 +46,7 @@
 
     draw("canvas1", dataLine);
     draw("canvas2", dataRandom);
+    draw("canvas3", dataRandom);
 
     function draw(id, dataFunc) {
         var myCan = document.getElementById(id);
@@ -62,7 +63,11 @@
     function dataRandom(ctx, w, h) {
         var imgData = ctx.createImageData(w,h);
         for (var i = 0; i < w*h*4; i++) {
-            imgData.data[i] = Math.random() * 256;
+            if ((i + 1) % 4 == 0) {
+                imgData.data[i] = 256;
+            } else{
+                imgData.data[i] = Math.random() * 256;
+            }
         }
         return imgData;
     }
@@ -79,7 +84,7 @@
                 imgData.data[index++] = r;
                 imgData.data[index++] = g;
                 imgData.data[index++] = b;
-                imgData.data[index++] = a;
+                imgData.data[index++] = 256;
             }
         }
         return imgData;
