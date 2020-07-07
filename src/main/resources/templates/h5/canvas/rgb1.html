@@ -44,7 +44,7 @@
             for (var w = 8; w < width; w+=l) {
                 loc = w + h * width;//小方框左上角像素位置
                 if (w + l > width) { continue; }
-                //方块给颜色
+                //实心正方形
                 for (var y = 0; y < l; y++) {//竖着
                     for (var x = 0; x < l; x++) {//横着
                         imgData.data[idx = (loc+x+y*width)*4] = r;
