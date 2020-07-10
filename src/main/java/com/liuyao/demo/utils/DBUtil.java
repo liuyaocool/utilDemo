@@ -41,7 +41,7 @@ public class DBUtil {
          */
         configuration.addMapper(clazz);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
-        SqlSession ss =  sqlSessionFactory.openSession();
+        SqlSession ss =  sqlSessionFactory.openSession(true);//自动提交
 
         System.out.println(sqlSessionFactory);
 
