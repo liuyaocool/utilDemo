@@ -285,6 +285,31 @@
         ::-webkit-scrollbar-corner{
             background-color: yellow;
         }
+
+
+
+        /*chrome 49+，ie15+，firefox 31+，safari 9.1+，opera 36+*/
+        :root {
+          --main-bg-color: coral;
+          --main-txt-color: blue;
+          --main-padding: 15px;
+          --main-height: 115px;
+          --main-width: 150px;
+        }
+        .repeat1 {
+          background-color: var(--main-bg-color);
+          color: var(--main-txt-color);
+          padding: var(--main-padding);
+          height: var(--main-height);
+          width: var(--main-width);
+        }
+        .repeat1 {
+          background-color: var(--main-bg-color);
+          color: var(--main-txt-color);
+          padding: var(--main-padding);
+          height: var(--main-height);
+          width: var(--main-width);
+        }
     </style>
 </head>
 <body>
@@ -350,6 +375,12 @@
     <div class="find-div-body">
     </div>
 
+
+<div>
+    css定义属性变量
+    <div class="repeat1"></div>
+    <div class="repeat2"></div>
+</div>
 </body>
 
 <script type="text/javascript" src="../../static/js/jquery-1.12.2.min.js"></script>

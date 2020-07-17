@@ -1,4 +1,4 @@
-package com.liuyao.demo.threadtest;
+package com.liuyao.demo.mashibing.thread;
 
 public class TestStaticSync {
 
