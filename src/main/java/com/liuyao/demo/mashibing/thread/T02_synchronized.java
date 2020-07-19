@@ -15,28 +15,28 @@ public class T02_synchronized extends Func{
 
     public synchronized void m1(){
         log("m1 start");
-        sleep(10000);
+        msleep(10000);
         log("m1 end");
 
     }
 
     public void m2(){
         log("m2 start");
-        sleep(5000);
+        msleep(5000);
         log("m2 end");
 
     }
 
     synchronized void m3(){
         log("m3 start");
-        sleep(1000);
+        msleep(1000);
         m4();
         log("m3 end");
     }
 
     synchronized void m4(){
         log("m4 start");
-        sleep(1000);
+        msleep(1000);
         log("m4 end");
     }
 

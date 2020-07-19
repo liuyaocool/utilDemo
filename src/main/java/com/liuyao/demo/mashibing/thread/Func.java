@@ -2,7 +2,7 @@ package com.liuyao.demo.mashibing.thread;
 
 public class Func extends Thread{
 
-    public static void sleep(long time){
+    public static void msleep(long time){
         try {
             Thread.sleep(time);
         } catch (InterruptedException e) {
