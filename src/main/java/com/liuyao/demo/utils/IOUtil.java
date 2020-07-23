@@ -66,15 +66,36 @@ public class IOUtil {
         return false;
     }
 
-    public static boolean newFile(String folderPath, String fileName, boolean cover){
+    public static boolean newFile(String folderPath, String fileName, String[] fileContents, String encoding, boolean cover){
         newFolder(folderPath);
         File file = new File(folderPath + "/" + fileName);
         if (cover || !file.exists()){
+            FileOutputStream fos = null;
+            OutputStreamWriter osw = null;
+            BufferedWriter bw = null;
+            PrintWriter pw = null;
             try {
-                file.createNewFile();
+                fos = new FileOutputStream(file);
+                osw = new OutputStreamWriter(fos, encoding);
+                bw = new BufferedWriter(osw);
+                if (null != fileContents){
+                    for (int i = 0; i < fileContents.length; i++) {
+                        bw.write(fileContents[i]);
+                        bw.newLine();
+                    }
+                }
+                pw = new PrintWriter(bw);
+                pw.flush();
+//                fos.write(fileContent.getBytes());
+//                file.createNewFile();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
+            } finally {
+                close(fos);
+                close(osw);
+                close(bw);
+                close(pw);
             }
         }
         return false;
@@ -207,17 +228,15 @@ public class IOUtil {
 
     public static void main(String[] args) {
         IOUtil.newFolder("C:/JAVA/project/test");
-        System.out.println(IOUtil.newFile("C:/JAVA/project/test", "test.xls", false));
+        System.out.println(IOUtil.newFile(
+                "C:/JAVA/project/test", "test.dtfb",
+                new String[]{"测试编码", "aaa"}, "utf-8",true));
 
         List<String> aa = new ArrayList<>();
         aa.add("asd");
         aa.add("erer");
-        nullArray(aa);
         System.out.println(null == aa);
 
     }
 
-    public static void nullArray(List list){
-        list = null;
-    }
 }
