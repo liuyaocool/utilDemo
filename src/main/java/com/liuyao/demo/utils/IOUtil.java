@@ -78,10 +78,11 @@ public class IOUtil {
                 fos = new FileOutputStream(file);
                 osw = new OutputStreamWriter(fos, encoding);
                 bw = new BufferedWriter(osw);
-                if (null != fileContents){
-                    for (int i = 0; i < fileContents.length; i++) {
-                        bw.write(fileContents[i]);
+                if (null != fileContents & fileContents.length > 0){
+                    bw.write(fileContents[0] == null ? "" : fileContents[0]);
+                    for (int i = 1; i < fileContents.length; i++) {
                         bw.newLine();
+                        bw.write(fileContents[i] == null ? "" : fileContents[i]);
                     }
                 }
                 pw = new PrintWriter(bw);
@@ -227,15 +228,9 @@ public class IOUtil {
     }
 
     public static void main(String[] args) {
-        IOUtil.newFolder("C:/JAVA/project/test");
         System.out.println(IOUtil.newFile(
                 "C:/JAVA/project/test", "test.dtfb",
-                new String[]{"测试编码", "aaa"}, "utf-8",true));
-
-        List<String> aa = new ArrayList<>();
-        aa.add("asd");
-        aa.add("erer");
-        System.out.println(null == aa);
+                new String[]{null, " aaa"}, "utf-8",true));
 
     }
 
