@@ -70,6 +70,7 @@ public class IOUtil {
         newFolder(folderPath);
         File file = new File(folderPath + "/" + fileName);
         if (cover || !file.exists()){
+            encoding = null == encoding ? "utf-8" : encoding;
             FileOutputStream fos = null;
             OutputStreamWriter osw = null;
             BufferedWriter bw = null;
