@@ -576,7 +576,29 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
+
+            <!-- spring boot 本地jar包打入项目jar包 -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+            </plugin>
         </plugins>
+
+        <resources>
+
+            <!-- maven 本地jar包打入项目jar包 普通maven项目 -->
+            <resource>
+                <directory>src/main/webapp/WEB-INF/lib</directory>
+                <targetPath>/BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+        </resources>
+
     </build>
 
 
