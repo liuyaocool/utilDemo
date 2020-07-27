@@ -1,5 +1,7 @@
 package com.liuyao.demo.mashibing.thread;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,7 +39,9 @@ public class T03_volatile extends Func {
     public static void main(String[] args) {
 
 //        testVisible();
-        testVisible2();
+//        testVisible2();
+
+        testAtomicity();
 
     }
 
@@ -62,4 +66,32 @@ public class T03_volatile extends Func {
         T.running = false;
     }
 
+    /*volatile*/ int count = 0;
+    private /*synchronized*/ void m2(){
+        for (int i = 0; i < 10000; i++) {
+            count++;
+        }
+    }
+    //测试原子性
+    private static void testAtomicity(){
+        T03_volatile t = new T03_volatile();
+
+        List<Thread> list = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            list.add(new Thread(t::m2, "atom-" + i));
+        }
+        list.forEach((o) -> o.start());
+
+        list.forEach((o) -> {
+            try {
+                o.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+
+        System.out.println(t.count);
+
+
+    }
 }
