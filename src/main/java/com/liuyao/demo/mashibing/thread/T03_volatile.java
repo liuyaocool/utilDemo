@@ -17,6 +17,8 @@ import java.util.concurrent.TimeUnit;
  * 禁止指令重排序 -- 汇编层面
  *  Double Check Lock -- 懒汉式单例
  *  测试 ASM 操作二进制码
+ *  loadfence原语指令
+ *  storefence原语指令
  *
  * 不能保证原子性
  *  当前操作完成后才能继续执行

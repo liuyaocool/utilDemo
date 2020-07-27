@@ -12,6 +12,8 @@ package com.liuyao.demo.mashibing.thread;
  *  细化 同步代码块中的语句越少越好
  *  粗化 当细琐很多的时候，合并成一张大锁，减少锁争用
  *
+ * synchronized(o) 是在o头上两位添加标记 不能更改对象 需要加final关键字
+ *
  * 注：不能加锁 String常量（跟JVM处理String的方式相关） Integer Long 等基本数据类型
  *
  */
