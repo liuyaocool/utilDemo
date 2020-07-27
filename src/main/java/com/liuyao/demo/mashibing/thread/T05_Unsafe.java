@@ -8,6 +8,8 @@ package com.liuyao.demo.mashibing.thread;
  *
  * c -> malloc free
  * unsafe -> mallocMemory freeMemory
+ *
+ * jdk 1.9 之后已经关闭
  */
 public class T05_Unsafe {
 

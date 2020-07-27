@@ -10,8 +10,9 @@ public class Func extends Thread{
         }
     }
 
-    public static void log(String str){
-        System.out.println("Thread-" + Thread.currentThread().getName() + " --> " + str);
+    public static void log(Object str){
+        System.out.println("Thread-" + Thread.currentThread().getName()
+                + " --> " + String.valueOf(str));
     }
 
 

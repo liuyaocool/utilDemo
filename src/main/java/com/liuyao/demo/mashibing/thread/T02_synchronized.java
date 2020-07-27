@@ -8,6 +8,7 @@ package com.liuyao.demo.mashibing.thread;
  *  线程争用 升级为自旋锁（适用：线程数少 线程执行时间短）
  *  10次后 升级为重量级锁-OS
  *
+ * 可重入 同一锁可互相调用 test2()
  * 优化：
  *  细化 同步代码块中的语句越少越好
  *  粗化 当细琐很多的时候，合并成一张大锁，减少锁争用
@@ -19,14 +20,14 @@ package com.liuyao.demo.mashibing.thread;
  */
 public class T02_synchronized extends Func{
 
-    public synchronized void m1(){
+    synchronized void m1(){
         log("m1 start");
         msleep(10000);
         log("m1 end");
 
     }
 
-    public void m2(){
+    void m2(){
         log("m2 start");
         msleep(5000);
         log("m2 end");
@@ -47,21 +48,30 @@ public class T02_synchronized extends Func{
     }
 
     public static void main(String[] args) {
-//        test1();
-        test2();
+//        test_12();
+        test_14();
+//        test_34();
 
     }
 
-    public static void test1(){
+    public static void test_12(){
 
         T02_synchronized t = new T02_synchronized();
 
         new Thread(t::m1, "t1").start();
         new Thread(t::m2, "t2").start();
     }
+    public static void test_14(){
 
-    public static void test2(){
-        //可重入 同一锁可互相调用
+        // 两个线程之间不存在重入,存在争用
+        T02_synchronized t = new T02_synchronized();
+
+        new Thread(t::m1, "t1").start();
+        new Thread(t::m4, "t4").start();
+    }
+
+    public static void test_34(){
+        //可重入,同一个线程同一锁可互相调用
 
         T02_synchronized t = new T02_synchronized();
 
