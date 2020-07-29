@@ -1,11 +1,10 @@
 package com.liuyao.demo.mashibing.thread;
 
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * 基于CAS的锁
@@ -20,7 +19,9 @@ public class T06_Lock extends Func{
 //        testInterruptibly();
 //        testFair();
 //        testCountDownLatch();
-        testCyclicBarrier();
+        testReadWriteLock();
+//        testCyclicBarrier();
+//        PhaserPerson.test();
 
     }
 
@@ -108,6 +109,37 @@ public class T06_Lock extends Func{
     }
 
     /**
+     * 读写锁
+     * 共享锁 排他锁
+     */
+    private static void testReadWriteLock(){
+        ReadWriteLock rwlock = new ReentrantReadWriteLock();
+        Lock readlock = rwlock.readLock();
+        Lock writelock = rwlock.writeLock();
+
+        Runnable readr = ()->{
+            try {
+                readlock.lock();
+                msleep(1000);
+                System.out.println("read over.");
+            }finally {
+                readlock.unlock();
+            }
+        };
+        Runnable writer = ()->{
+            try {
+                writelock.lock();
+                msleep(1000);
+                System.out.println("write over.");
+            }finally {
+                writelock.unlock();
+            }
+        };
+        for (int i = 0; i < 18; i++) new Thread(readr).start();
+        for (int i = 0; i < 5; i++) new Thread(writer).start();
+    }
+
+    /**
      * 门栓
      * 等待线程结束 也可用join
      */
@@ -136,6 +168,9 @@ public class T06_Lock extends Func{
         log("end latch");
     }
 
+    /**
+     *
+     */
     private static void testCyclicBarrier(){
         CyclicBarrier barrier = new CyclicBarrier(20, ()->{
            System.out.println("满人 发车.");
@@ -159,4 +194,65 @@ public class T06_Lock extends Func{
             }).start();
         }
     }
+
+    /**
+     * 阶段 一阶段一阶段进行
+     * 例：遗传算法
+     */
+    static class PhaserPerson implements Runnable{
+        static Phaser phaser = new Phaser(){
+            @Override
+            protected boolean onAdvance(int phase, int registeredParties) {
+                switch (phase){
+                    case 0: System.out.println("所有人到齐了：" + registeredParties + "人\n"); return false;
+                    case 1: System.out.println("所有人吃完了：" + registeredParties + "人\n"); return false;
+                    case 2: System.out.println("所有人离开了：" + registeredParties + "人\n"); return false;
+                    case 3: System.out.println("婚礼结束，新郎新娘抱抱：" + registeredParties + "人\n"); return true;
+                    default: return true;
+                }
+            }
+        };
+        public static void test(){
+            int pnum = 5;
+            phaser.bulkRegister(pnum + 2);
+            for (int i = 0; i < pnum; i++) {
+                new Thread(new PhaserPerson("pp" + i)).start();
+            }
+            new Thread(new PhaserPerson("新郎")).start();
+            new Thread(new PhaserPerson("新娘")).start();
+        }
+        String name;
+        public PhaserPerson(String name) { this.name = name; }
+
+        public void normalEvent(String action){
+            msleep(1000);
+            System.out.printf("%s %s.\n", this.name, action);
+            phaser.arriveAndAwaitAdvance();
+        }
+        public void hugLove(){
+            switch (this.name){
+                case "新郎":
+                case "新娘":
+                    msleep(5000);
+                    System.out.printf("%s 洞房！\n", name);
+                    phaser.arriveAndAwaitAdvance();
+                    break;
+                default:
+//                    msleep(1000);
+//                    System.out.printf("%s 回家！\n", name);
+                    phaser.arriveAndDeregister();
+//                    phaser.register();
+                    break;
+            }
+        }
+        @Override
+        public void run() {
+            normalEvent("到达饭店");
+            normalEvent("吃完");
+            normalEvent("离开饭店");
+            hugLove();
+        }
+    }
+
+
 }
