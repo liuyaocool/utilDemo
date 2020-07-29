@@ -585,11 +585,37 @@
                     <includeSystemScope>true</includeSystemScope>
                 </configuration>
             </plugin>
+
+            <!--assembly插件打包非web项目 包括本地依赖 打包命令：（mvn package assembly:single）-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <!--程序入口-->
+                            <mainClass>com.xu.Hello</mainClass>
+                        </manifest>
+                        <manifestEntries>
+                            <Class-Path>lib/*.jar</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                    <descriptorRefs>
+                        <!--文件名后缀-->
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <descriptors>
+                        <!--assembly配置文件路径，注意需要在项目中新建文件assembly/release.xml-->
+                        <descriptor>${basedir}/src/assembly/release.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
         </plugins>
 
         <resources>
 
-            <!-- maven 本地jar包打入项目jar包 普通maven项目 -->
+            <!-- maven 本地jar包打入项目jar包 普通maven项目 直接压缩进jar包 -->
             <resource>
                 <directory>src/main/webapp/WEB-INF/lib</directory>
                 <targetPath>BOOT-INF/lib/</targetPath>
