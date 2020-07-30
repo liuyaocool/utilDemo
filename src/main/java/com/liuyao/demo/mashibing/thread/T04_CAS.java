@@ -56,7 +56,7 @@ public class T04_CAS {
     // ============================= 性能对比测试 ======================================================
     int c1 = 0;
     AtomicLong c2 = new AtomicLong(0);
-    LongAdder c3 = new LongAdder();
+    LongAdder c3 = new LongAdder(); //分段锁 自增的所有线程分段 然后加和分段后的结果
     final Object lock = new Object();
     private long runThreadsRetTime(Thread[] threads) throws InterruptedException {
         long time = System.currentTimeMillis();
