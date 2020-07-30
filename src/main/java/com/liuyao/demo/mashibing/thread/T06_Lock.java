@@ -7,7 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
- * 基于CAS的锁
+ * 基于CAS的锁 AQS
+ * 书: 实战java高并发程序设计 -- 成长快乐 葛一鸣
  */
 public class T06_Lock extends Func{
 
@@ -19,10 +20,11 @@ public class T06_Lock extends Func{
 //        testInterruptibly();
 //        testFair();
 //        testCountDownLatch();
-        testReadWriteLock();
+//        testReadWriteLock();
 //        testCyclicBarrier();
 //        PhaserPerson.test();
-
+//        testSemaphore();
+        testExchanger();
     }
 
     private static void test1(int times){
@@ -254,5 +256,60 @@ public class T06_Lock extends Func{
         }
     }
 
+    /**
+     * 限流
+     * 线程同步的概念 跟线程池不同的概念
+     * 类似于高速进站收费站
+     */
+    private static void testSemaphore(){
+        Semaphore s;
+        s = new Semaphore(1);// 参数为几 就允许几个同时进行
+//        s = new Semaphore(2, true);//公平
 
+        for (int i = 0; i < 2; i++) {
+            new Thread(()->{
+                try {
+                    s.acquire();//没抢到的阻塞在这
+                    log("start");
+                    msleep(2000);
+                    log("end");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } finally {
+                    s.release();
+                }
+            }, "semaphore_" + i).start();
+        }
+    }
+
+    /**
+     * 交换器 只能两个线程之间
+     * 场景 两个人交换装备
+     */
+    private static void testExchanger(){
+        Exchanger<String> exchanger = new Exchanger<>();
+
+        new Thread(()->{
+            String s = "t1";
+            log("start " + s);
+            try {
+                s = exchanger.exchange(s); // 在这阻塞
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log("end " + s);
+        }, "exchange_1").start();
+
+        new Thread(()->{
+            String s = "t2";
+            log("start " + s);
+            try {
+                s = exchanger.exchange(s);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log("end " + s);
+        }, "exchange_2").start();
+
+    }
 }
