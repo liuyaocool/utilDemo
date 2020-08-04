@@ -103,7 +103,15 @@ TLS
     ca - 浏览器
     charles 抓包工具
 
-
+# 可以配置多个server
+server {
+    listen 80;
+    server_name taobao.com;
+    location / {
+        root /var/html/taobao.com;
+        autoindex on;s
+    }
+}
 
 
 
