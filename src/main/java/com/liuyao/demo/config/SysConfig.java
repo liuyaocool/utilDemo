@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 public class SysConfig {
 
     private String version;
+    private String maclistfilepath;
 
     public String getVersion() {
         return version;
@@ -16,5 +17,13 @@ public class SysConfig {
 
     public void setVersion(String version) {
         this.version = version;
+    }
+
+    public String getMaclistfilepath() {
+        return maclistfilepath;
+    }
+
+    public void setMaclistfilepath(String maclistfilepath) {
+        this.maclistfilepath = maclistfilepath;
     }
 }
