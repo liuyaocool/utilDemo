@@ -15,3 +15,4 @@ spring:
 
 config:
   version: 0.1
+  maclistfilepath: d:/project/ywsy/ywsydev[表情]c/main/resources/config/mac.list
