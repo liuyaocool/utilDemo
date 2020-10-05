@@ -1,10 +1,7 @@
 package com.liuyao.demo.mashibing.thread;
 
 import java.util.concurrent.*;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.*;
 
 /**
  * 基于CAS的锁 AQS
@@ -24,7 +21,8 @@ public class T06_Lock extends Func{
 //        testCyclicBarrier();
 //        PhaserPerson.test();
 //        testSemaphore();
-        testExchanger();
+//        testExchanger();
+        testLockSupport();
     }
 
     private static void test1(int times){
@@ -311,5 +309,27 @@ public class T06_Lock extends Func{
             log("end " + s);
         }, "exchange_2").start();
 
+    }
+
+    /**
+     * 线程阻塞 pack
+     */
+    private static void testLockSupport() {
+        Thread t = new Thread(()->{
+            for (int i = 0; i < 10; i++) {
+                msleep(1000);
+                System.out.println(i);
+                if (5 == i){
+                    LockSupport.park(); //停止
+                }
+            }
+        });
+
+        t.start();
+        LockSupport.unpark(t);
+
+        msleep(10000);
+        System.out.println("main thread sleep 10 seconds.");
+//        LockSupport.unpark(t);
     }
 }

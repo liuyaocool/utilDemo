@@ -1,5 +1,6 @@
 package com.liuyao.demo.utils;
 
+import javafx.util.Callback;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -110,7 +111,8 @@ public class IOUtil {
         }
     }
 
-    public static String readFile(String path, String encoding){
+    public static String readFile(String path, String encoding,
+                                  Callback<BufferedReader, StringBuilder> callback){
         BufferedReader reader = null;
         FileInputStream fis = null;
         InputStreamReader isr = null;
@@ -120,9 +122,14 @@ public class IOUtil {
             fis = new FileInputStream(path);
             isr = new InputStreamReader(fis, encoding);
             reader = new BufferedReader(isr);
-            String line;
-            while((line = reader.readLine()) != null){
-                res.append(line).append("\n");
+            if (null == callback){
+                String line;
+                while((line = reader.readLine()) != null){
+                    res.append(line).append("\n");
+                }
+            } else {
+                res = callback.call(reader);
+
             }
         }catch(IOException e){
             e.printStackTrace();
