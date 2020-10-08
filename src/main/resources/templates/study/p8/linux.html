@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>基础控件</title>
+
+    <link rel="stylesheet" href="static/base.css">
+    <script src="static/base.js"></script>
+
+    <style>
+
+    </style>
+</head>
+<body>
+
+<pre>
+
+    <h2 class="anchor">文件操作</h2>
+    文件上传: scp 本地文件路径 linux登录名@ip:linux文件夹路径
+
+    tar解压: tar xf ***.tar.gz
+
+    <h2 class="anchor">网络操作</h2>
+    重新获得ip:
+        dhclient
+        ifconfig ens33 down
+        ifconfig ens33 up
+    重启网卡
+        1: nmcli c reload
+        2: nmcli c up ens33 / nmcli d reapply ens33 / nmcli d connect ens33 三选一
+
+    <h2 class="anchor">yum</h2>
+    yum install 报错 failed to download metadata for repo 'AppStream'
+    	vi /etc/yum.repos.d/CentOS-Base.repo
+        修改baseurl=https://mirrors.aliyun.com/centos/$releasever/BaseOS/$basearch/os/
+
+    安装make
+        yum -y install gcc automake autoconf libtool make
+    安装gcc
+        yun install gcc
+    安装wget
+        yum install wget 可下载网络资源
+
+    <h2 class="anchor">配置环境变量</h2>
+    vi /etc/profile
+        末尾追加
+            export REDIS_HOME=/opt/soft/redis6
+            export PATH=$PATH:$REDIS_HOME/bin
+        source /etc/profile --使配置生效
+        echo $PATH 查看path
+
+    <h2 class="anchor">...</h2>
+
+</pre>
+
+</body>
+</html>
