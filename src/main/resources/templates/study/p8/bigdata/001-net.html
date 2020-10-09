@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<h3 style="position: fixed; bottom: 10px; right: 10px;">号称微服务下一代 service mesh</h3>
+<h5 style="position:fixed;right:10px;margin:0;">号称微服务下一代 service mesh</h5>
 
 <pre>
                           _oo0oo_
@@ -80,10 +80,39 @@
     <h2 class="anchor">网络层</h2>
     配置网卡: cat /etc/sysconfig/network-script/ifcfg-eth0
     路由表: route -ncat /etc/sysconfig/network-script/ifcfg-eth0
-    吓一跳机制
+    下一跳机制
+
+    主机A 192.168.0.102
+        查看路由表 route -n
+            Kernel IP routing table
+            Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+            0.0.0.0         192.168.0.1     0.0.0.0         UG    100    0        0 ens33
+            192.168.0.0     0.0.0.0         255.255.255.0   U     100    0        0 ens33
+            192.168.8.0     0.0.0.0         255.255.252.0   U     0      0        0 ens33
+        添加虚拟网卡 ifconfig ens33:3 192.168.11.11/24    --24: netmask=255
+            <b>ens33:3: ***
+            inet 192.168.11.11  netmask 255.255.255.0  broadcast 192.168.11.255
+            ether 00:0c:29:1e:57:d6  txqueuelen 1000  (Ethernet)</b>
+    主机B 192.168.0.21
+        route -n
+            Kernel IP routing table
+            Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+            0.0.0.0         192.168.0.1     0.0.0.0         UG    0      0        0 ens33
+            192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 ens33
+        若要访问到A虚拟网卡 ping 192.168.11.11
+            添加路由表
+                route add -host 192.168.11.11 gw 192.168.0.102 →
+                -host 主机
+                -net 网段
+            192.168.11.11   192.168.0.102   255.255.255.255 UGH   0      0        0 ens33
+
 
     <h2 class="anchor">数据链路层</h2>
-    查看MAC地址: arp -a
+    查看局域网MAC地址: arp -a
+
+    <h2 class="anchor">访问过程</h2>
+    <img src="source/net connect.png" style="width: 700px;border: 1px solid red;">
+
 
 
 </pre>

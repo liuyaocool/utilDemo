@@ -21,19 +21,36 @@
     Shift+command+3 全屏幕截图
     Shift+command+4 区域截图
 
+    <h2 class="anchor">远程连接</h2>
+    ssh
+
     <h2 class="anchor">文件操作</h2>
     文件上传: scp 本地文件路径 linux登录名@ip:linux文件夹路径
 
     tar解压: tar xf ***.tar.gz
 
     <h2 class="anchor">网络操作</h2>
+    修改连接网络方式
+        vim /etc/sysconfig/network-scripts/ifcfg-*
+            ONBOOT=yes
+            BOOTPROTO=dhcp
+            #STATIC
+            #IPADDR=192.168.1.160
+            #NETMASK=255.255.255.0
+            #GATEWAY=192.168.1.1
+            #DNS1=114.114.114.114
+            #DNS2=8.8.8.8
+            #PREFIX=24
     重新获得ip:
         dhclient
         ifconfig ens33 down
         ifconfig ens33 up
     重启网卡
         1: nmcli c reload
-        2: nmcli c up ens33 / nmcli d reapply ens33 / nmcli d connect ens33 三选一
+        2: 三选一
+            nmcli c up ens33
+            nmcli d reapply ens33
+            nmcli d connect ens33
 
     <h2 class="anchor">yum</h2>
     yum install 报错 failed to download metadata for repo 'AppStream'
