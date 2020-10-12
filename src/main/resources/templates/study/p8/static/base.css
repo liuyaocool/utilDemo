@@ -4,6 +4,11 @@ html, body{
     height: 100%;
     margin: 0px;
 }
+body, .anchor-ul{
+    background: #0b5d16;
+    color: #ffffff;
+
+}
 pre{
     margin-left: 1em;
 }
@@ -19,7 +24,6 @@ h2{
 }
 .anchor-ul{
     position: fixed; right: 20px; top: 20px;
-    background: #ffffff;
 }
 .anchor-ul li{
     cursor: pointer;margin: 5px;

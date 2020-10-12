@@ -113,6 +113,9 @@
     <h2 class="anchor">访问过程</h2>
     <img src="source/net connect.png" style="width: 700px;border: 1px solid red;">
 
+    <h2 class="anchor">tomcat慢\并发少的原因</h2>
+    1: 再七层网络协议的末端 需要经过传输控制层(三次握手)\网络层等之后才到达 再跳动 会有一个内核态到用户态的切换
+    2: 是java写的 运行在jvm上 jvm本身是一个应用程序 jvm里再分配虚拟机跑tomcat
 
 
 </pre>
