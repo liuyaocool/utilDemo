@@ -81,6 +81,7 @@
     配置网卡: cat /etc/sysconfig/network-script/ifcfg-eth0
     路由表: route -ncat /etc/sysconfig/network-script/ifcfg-eth0
     下一跳机制
+    路由器： 公网IP 和 内网IP
 
     主机A 192.168.0.102
         查看路由表 route -n
@@ -111,11 +112,38 @@
     查看局域网MAC地址: arp -a
 
     <h2 class="anchor">访问过程</h2>
+    mac地址 点到点
+    ip地址 端到端
+    本机包到路由器
+        192.168.1.6:12345 → 公网ip:12333 123为路由器自己申请的端口
+
     <img src="source/net connect.png" style="width: 700px;border: 1px solid red;">
 
     <h2 class="anchor">tomcat慢\并发少的原因</h2>
-    1: 再七层网络协议的末端 需要经过传输控制层(三次握手)\网络层等之后才到达 再跳动 会有一个内核态到用户态的切换
+    1: 再七层网络协议的末端 需要经过传输控制层(三次握手)\网络层等之后才到达 再开辟资源 cpu切换状态-内核态到用户态
     2: 是java写的 运行在jvm上 jvm本身是一个应用程序 jvm里再分配虚拟机跑tomcat
+        jvm 内核加应用程序 应用程序又虚了一个内存(等于又虚了一个虚拟机)
+
+    反向代理：代理握手
+
+    <h2 class="anchor">负载均衡服务器</h2>
+    快 - 4层
+    数据包转发级别
+    不会和client握手
+    后端服务器是镜像的
+
+    nginx 会与client握手
+
+    过程：
+        NAT模式 IP地址转换
+    <img src="source/serverload-NAT.jpg" style="width: 700px;">
+        DR模式
+    <img src="source/serverload-DR.jpg" style="width: 700px;">
+
+    大厂负载架构： 网络 → LVS(包负载) → nginx(握手负载) → tomcat
+
+
+
 
 
 </pre>
