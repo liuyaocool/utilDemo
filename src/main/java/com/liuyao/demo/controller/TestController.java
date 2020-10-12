@@ -16,8 +16,15 @@ import java.util.Map;
 public class TestController {
 
     @GetMapping("/testId/{id}")
+    @CrossOrigin
     @ResponseBody
     public String testId(@PathVariable("id") String id){
+        return "hello" + id;
+    }
+
+    @GetMapping("/testId2")
+    @ResponseBody
+    public String testId2(String id){
         return "hello" + id;
     }
 

@@ -83,6 +83,7 @@ public class HttpUtils {
                         }
                         osw.write(json.toString());
                     }
+                    osw.flush();
                     break;
                 default: break;
             }
