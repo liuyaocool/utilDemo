@@ -2,8 +2,29 @@ package com.liuyao.demo.utils;
 
 public class LyMathUtil {
 
+    private static double toFixed(double num, int fixed){
+        String nums = String.valueOf(num);
+        nums = nums.substring(0, nums.indexOf(".") + fixed + 1);
+        return Double.parseDouble(nums);
+    }
+    public static double randInt(int start, int end){
+        return (int) randDouble(start, end);
+    }
+    private static double randDouble(double start, double end, int fixed){
+        double res = randDouble(start, end);
+        return toFixed(res, fixed);
+    }
+    public static double randDouble(double start, double end){
+        if (start == end) return start;
+        if (start > end){
+            double temp = start;
+            start = end;
+            end = temp;
+        }
+        return Math.random() * (end - start) + start;
+    }
 
-    private static String subtract(double a, double b){
+    public static String subtract(double a, double b){
         String zf = "";//结果正负
         if (a < b){
             double c = a;

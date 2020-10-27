@@ -235,6 +235,59 @@ public class IOUtil {
         }
     }
 
+    /**
+     * 序列化实例到磁盘文件
+     * @param path 文件路径
+     * @param obj 实例
+     */
+    public static void serializableToFile(String path, Object obj){
+        FileOutputStream fs = null;
+        ObjectOutputStream oos = null;
+        try {
+            fs = new FileOutputStream(path);
+            oos = new ObjectOutputStream(fs);
+            oos.writeObject(obj);
+            oos.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            close(fs);
+            close(oos);
+        }
+    }
+
+    /**
+     * 反序列化文件 获得实例
+     * @param path 文件路径
+     * @param claz 实例的class
+     * @param <T>
+     * @return
+     */
+    public static <T> T deSerializableFromFile(String path, Class<T> claz){
+        FileInputStream fis = null;
+        ObjectInputStream ois = null;
+        try {
+            fis = new FileInputStream(path);
+            ois = new ObjectInputStream(fis);
+            Object obj = ois.readObject();
+            if (obj.getClass() == claz){
+                return (T) obj;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            close(fis);
+            close(ois);
+        }
+        return null;
+    }
+
     public static void main(String[] args) {
         System.out.println(IOUtil.newFile(
                 "C:/JAVA/project/test", "test.dtfb",
