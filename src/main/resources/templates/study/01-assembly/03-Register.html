@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>寄存器</title>
+
+    <link rel="stylesheet" href="../00-static/base.css">
+    <script src="../00-static/base.js"></script>
+
+    <style>
+
+    </style>
+</head>
+<body>
+
+<pre>
+
+    <h2 class="anchor">内存中字的存储</h2>
+    <img src="source/storage-word.jpg" style="width: 110px;">
+
+    <h2 class="anchor">DS（段地址） &  [address]</h2>
+    例如：读取10000H单元的内容
+        mov bx,10000H   ds段寄存器不能直接赋值，需要通用寄存器
+        mov ds,bx
+        mov al,[0]      内存送入寄存器
+            [...]偏移地址
+            []说明操作对象是一个内存单元
+            [0]说明这个内存单元的偏移地址是0 它的段地址默认放在DS中
+        mov [0],al      寄存器送入内存（合理）
+        流程： 数据 → 通用寄存器 → 段寄存器
+
+    解释：
+        mov
+            1：将数据直接送入寄存器
+            2：将一个寄存器中的内容送入另一个寄存器
+            3：将一个内存单元中的内容送入一个寄存器 （例 mov al,[0]）
+                mov 寄存器名，内存单元地址
+
+    <h2 class="anchor">字的传送</h2>
+    内存访问01 19min
+
+
+    <h2 class="anchor">...</h2>
+
+</pre>
+
+</body>
+</html>
