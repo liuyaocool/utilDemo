@@ -17,6 +17,9 @@
 
 <pre>
 
+    <h2 class="anchor">书推荐</h2>
+    编码的奥秘
+
     <h2 class="anchor">CPU 概述</h2>
     三个部件 靠内部总线相连
     运算器
@@ -52,6 +55,7 @@
 
         mov ah,0
         add al,85H
+
     课后题
     1 写出执行后寄存器中的值
         mov ax,62627    AX=
@@ -71,10 +75,42 @@
     2 只能使用mov,add指令 最多四条,计算2的4次方
 
     <h2 class="anchor">物理地址</h2>
-    段地址+偏移地址=物理地址
+    物理地址=段地址*16+偏移地址
+        物理地址    段地址    偏移地址
+        21F60H     2000H    1F60H
+                   2100H    0F60H
+                   21F0H    0060H
+                   21F6H    0000H
+                   1F00H    2F60H
+    <img src="source/CPU-8086.png" alt="">
 
-    <h2 class="anchor">16位结构的CPU</h2>
 
+    <h2 class="anchor">段寄存器</h2>
+    8086CPU 有4个段寄存器 CS DS SS ES
+
+    CS 代码段寄存器 段地址
+    IP 指令指针寄存器 偏移地址
+
+    <h2 class="anchor">修改CS IP的指令</h2>
+    jmp 段地址：偏移地址
+        jmp 2AE3:3
+        jmp 3:0B16 → 0030+0B16=0B46
+
+    仅修改IP
+        jmp 某一合法寄存器
+            jmp ax
+            jmp bx
+            例子 200偏移 跳转
+                mov ax,200
+                jmx ax
+
+    <h2 class="anchor">实验</h2>
+    debug
+
+
+    <h2 class="anchor">小结</h2>
+    CS → 指令
+    DS IP → 数据
 
     <h2 class="anchor">...</h2>
 
