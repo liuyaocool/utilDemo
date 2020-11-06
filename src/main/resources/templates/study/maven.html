@@ -24,9 +24,9 @@
     <h2 class="anchor">jar包发布到私服</h2>
     mvn seetings.xml add config
         &lt;server>
-            &lt;id>respid< /id>
-            &lt;username>< /username>
-            &lt;password>< /password>
+            &lt;id>respid&lt;/id>
+            &lt;username>&lt;username>
+            &lt;password>&lt;/password>
         &lt;/server>
     depoly.bat
         mvn deploy:deploy-file -Dfile=%1 -DgroupId=xxx.xxx -DartifactId=xxx -Dversion=1.0.0-SNAPSHOT \
