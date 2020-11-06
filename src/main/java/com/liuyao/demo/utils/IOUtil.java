@@ -293,6 +293,8 @@ public class IOUtil {
                 "C:/JAVA/project/test", "test.dtfb",
                 new String[]{null, " aaa"}, "utf-8",true));
 
+        serializableToFile("", new Object[7]);
+        deSerializableFromFile("", Object[].class);
     }
 
 }
