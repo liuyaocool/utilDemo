@@ -111,16 +111,42 @@ public class IOUtil {
         }
     }
 
+    public static String readFile(MultipartFile file,  String encoding,
+                                  Callback<BufferedReader, StringBuilder> callback){
+        InputStream is = null;
+        try {
+            byte[] filebyte = file.getBytes();
+            is = new ByteArrayInputStream(filebyte);
+            return readFile(is, encoding, callback);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            close(is);
+        }
+        return null;
+    }
+
     public static String readFile(String path, String encoding,
                                   Callback<BufferedReader, StringBuilder> callback){
-        BufferedReader reader = null;
         FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(path);
+            return readFile(fis, encoding, callback);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            close(fis);
+        }
+        return null;
+    }
+    public static String readFile(InputStream is, String encoding,
+                                  Callback<BufferedReader, StringBuilder> callback){
+        BufferedReader reader = null;
         InputStreamReader isr = null;
         encoding = null == encoding ? "UTF-8" : encoding;
         StringBuilder res = new StringBuilder();
         try{
-            fis = new FileInputStream(path);
-            isr = new InputStreamReader(fis, encoding);
+            isr = new InputStreamReader(is, encoding);
             reader = new BufferedReader(isr);
             if (null == callback){
                 String line;
@@ -134,7 +160,6 @@ public class IOUtil {
         }catch(IOException e){
             e.printStackTrace();
         }finally{
-            close(fis);
             close(isr);
             close(reader);
         }
