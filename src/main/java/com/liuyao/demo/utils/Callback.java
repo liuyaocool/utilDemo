@@ -1,6 +1,6 @@
 package com.liuyao.demo.utils;
 
-public interface CallBack<P,R> {
+public interface Callback<P,R> {
     /**
      * The <code>call</code> method is called when required, and is given a
      * single argument of type P, with a requirement that an object of type R

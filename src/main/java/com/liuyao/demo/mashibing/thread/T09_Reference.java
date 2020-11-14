@@ -1,7 +1,7 @@
 package com.liuyao.demo.mashibing.thread;
 
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
+import java.lang.ref.*;
+import java.util.*;
 
 public class T09_Reference extends Func{
 
@@ -59,11 +59,46 @@ public class T09_Reference extends Func{
         System.gc();
         System.out.println(m.get());
 
-        // 62 01:41:37
-
+        ThreadLocal<M> tl = new ThreadLocal<>();
+        tl.set(new M());
+        // 涉及到ThreadLocal中可key弱引用回收为null指向value,value不会回收,仍然会内存泄漏
+        // 所以需要remove
+        tl.remove();
     }
 
+    /**
+     * 虚引用
+     *  写JVM的人管理堆外内存用的
+     *  DirectByteBuffer 指向堆外内存
+     *
+     *  -Xms20M -Xmx20M 分配20M堆内存(heap)
+     */
+    public static void phantom(){
 
+        final ReferenceQueue<M> QUEUE = new ReferenceQueue();
+        final List LIST = new ArrayList();
+
+        PhantomReference re = new PhantomReference(new M(), QUEUE);
+
+        new Thread(()->{
+            while (true){
+                LIST.add(new byte[1024*1024]);
+                msleep(1000);
+                System.out.println(re.get());
+            }
+        }).start();
+
+        new Thread(()->{
+            while (true){
+                Reference<? extends M> poll = QUEUE.poll();
+                if (null != poll){
+                    System.out.println("-- 虚引用对象被jvm回收了 --" + poll);
+                }
+            }
+        }).start();
+
+        msleep(500);
+    }
 }
 
 class M{
