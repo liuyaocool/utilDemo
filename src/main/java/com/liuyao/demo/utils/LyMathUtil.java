@@ -8,19 +8,15 @@ public class LyMathUtil {
         return Double.parseDouble(nums);
     }
     public static double randInt(int start, int end){
-        return (int) randDouble(start, end);
+        // +0.99 因为强转会直接舍掉小数 会很难出现等于大边界的数
+        return (int) randDouble(start + (start > end ? 0.99 : 0),
+                end + (end > start ? 0.99 : 0));
     }
     private static double randDouble(double start, double end, int fixed){
         double res = randDouble(start, end);
         return toFixed(res, fixed);
     }
     public static double randDouble(double start, double end){
-        if (start == end) return start;
-        if (start > end){
-            double temp = start;
-            start = end;
-            end = temp;
-        }
         return Math.random() * (end - start) + start;
     }
 
