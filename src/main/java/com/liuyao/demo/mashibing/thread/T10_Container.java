@@ -35,7 +35,7 @@ public class T10_Container {
 //    offer()-加进去返回true poll()-取,会remove peak()-取,不会remove
 //    ConcurrentLinkedQueue //
 
-//    LinkedBlockingDeque // put()-满了会阻塞 take()-空了会阻塞
+//    LinkedBlockingDeque // put()-满了会阻塞 take()-空了会阻塞 容量无限制
 //    ArrayBlockingQueue // 个数限制 满了阻塞
 
 //    DelayQueue
