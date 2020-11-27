@@ -7,10 +7,9 @@ public class LyMathUtil {
         nums = nums.substring(0, nums.indexOf(".") + fixed + 1);
         return Double.parseDouble(nums);
     }
-    public static double randInt(int start, int end){
-        // +0.99 因为强转会直接舍掉小数 会很难出现等于大边界的数
-        return (int) randDouble(start + (start > end ? 0.99 : 0),
-                end + (end > start ? 0.99 : 0));
+    public static int randInt(int start, int end){
+        double res = randDouble(start - 0.5, end + 0.49);
+        return ((int) res) + (res % 1 >= 0.5 ? 1 : 0);
     }
     private static double randDouble(double start, double end, int fixed){
         double res = randDouble(start, end);
@@ -20,6 +19,7 @@ public class LyMathUtil {
         return Math.random() * (end - start) + start;
     }
 
+    // 无精度损失 加法
     public static String subtract(double a, double b){
         String zf = "";//结果正负
         if (a < b){
