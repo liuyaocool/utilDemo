@@ -21,8 +21,16 @@
     Shift+command+3 全屏幕截图
     Shift+command+4 区域截图
 
+    <h2 class="anchor">安装说明</h2>
+    1 磁盘 sda sdb sdc
+    2 boot 引导程序区
+        系统启动
+    3 swap 交换区
+        内存 → 交换区中
+    4 用户区
+
     <h2 class="anchor">远程连接</h2>
-    ssh
+    ssh username@ip
 
     <h2 class="anchor">文件操作</h2>
     文件
@@ -32,12 +40,15 @@
 
     tar解压: tar xf ***.tar.gz
 
-    <h2 class="anchor">网络操作</h2>
+    <h2 class="anchor">网络配置</h2>
+    修改主机名 → vi  /etc/sysconfig/network
+        NETWORKING=yes
+        HOSTNAME=node01
+    修改hosts文件 → vi /etc/hosts
     修改连接网络方式
         vim /etc/sysconfig/network-scripts/ifcfg-*
-            ONBOOT=yes
-            BOOTPROTO=dhcp
-            #STATIC
+            ONBOOT=yes // 网卡是否启用
+            BOOTPROTO=dhcp // 动态 static-静态
             #IPADDR=192.168.1.160
             #NETMASK=255.255.255.0
             #GATEWAY=192.168.1.1
@@ -75,9 +86,294 @@
         source /etc/profile --使配置生效
         echo $PATH 查看path
 
+    <h2 class="anchor">命令</h2>
+    鉴别内部命令 type 例如type cd
+        whereis cd
+        cat ifconfig
+        file ifconfig
+
+    内部 shell自带 builtin
+
+    外部 用户安装
+
+    命令执行流程
+        0 登录后所有命令由bash shell(程序 软件)执行
+        1 根据空格切割字符串,第一部分是命令,后边是参数
+        2 判断内部还是外部
+            外部,寻找可执行文件<red>(PATH环境变量中寻找)</red>,交给linux内核执行
+            内部,直接交给linux内核执行
+
+    man命令 查看外部命令的帮助文档
+    help 查看内部命令的帮助稳稳当文档
+
+    <h2 class="anchor">bash shell</h2>
+    a=1 --定义变量
+    echo $a
+    arr=(1 2 3) --定义集合
+    echo ${arr[1]}
+    echo $$ -打印bash shell进程号
+    ps -ef --打印所有进程
+    kill -9 --结束任务
+
+    hash优化命令查找
+        执行命令后 会将命令存到hash
+        执行hash命令查看
+
+    <h2 class="anchor">文件系统</h2>
+    /boot
+    /bin 可执行文件,命令(用户)
+    /sbin 命令(管理)
+    /dev 设备文件
+    /home 用户家目录
+    /root 管理员家目录
+    /lib 库文件
+    /media 挂载点目录,移动设备
+    /mnt 挂载点目录,额外的临时文件系统
+    /opt 可选目录,第三方程序
+    /proc 伪文件系统,内核映射文件 → echo $$
+    /sys 伪文件系统,跟硬件设备相关的属性映射文件
+    /tmp 临时文件, /var/tmp
+    /var 可变化的文件
+
+    df -h --整体查看磁盘分区使用情况
+        tmpfs swap分区
+        /dev/sda1 boot分区
+
+    du -h(大小单位) --查看文件夹大小,文件夹使用情况
+        du /home/
+
+    ls
+        -a 显示隐藏文件\文件夹
+        -l → ll
+            -rwxr-xr-x. 1 root root     192840 Nov  9  2019  ***
+                -(开头): 文件
+                d(开头): 目录 例如: drwxr-xr-x.   2 root root    6 May 11  2019 media
+                l(开头): 软连接,相当于windows下快捷方式
+                b(开头): 块设备文件(block)
+                c(开头): 字符设备文件(character)
+                p(开头): 命令管道文件(pipe)
+                s(开头): 套接字文件(socket)
+                rwxr-xr-x(后9位): 权限 每3位一组
+                    rwx(前3位): 属主权限 r-read w-write x-执行
+                    r-x(中3位): 属主所在组的权限
+                    r-x(后3位): 其他人
+                .: 分割
+                1: 有几个硬连接
+                root(前一个): 属主名
+                root(后一个): 属主组名
+
+    mkdir -p adir/biir 创建多级路径
+    mkdir a/{h,i,j}dir
+    cp -r(目录)
+    rm -f 文件名 强制删除
+    rm -r -f 文件夹名 强制删除
+
+    ln aaa testaaa --硬连接
+        aaa与testaaa都指向底层文件
+            aaa → 底层文件
+            testaaa → 底层文件
+        修改任意一个,都可以修改到底层文件
+        删除任一个,另一个仍可以继续访问
+        ll -i → 4899(id号) -rwxr-xr-x. 2(硬连接数) root root 1035344 Nov 28 20:52 sshb
+    ln -s aaa testaaa --软连接
+        testaaa → aaa → 底层文件
+        ll -i → 4901 lrwxrwxrwx. 1 root root       3 Nov 28 20:53 ssha -> ssh
+
+    stat --查看文件更详细信息
+        stat ssh
+              File: ssh
+              Size: 1035344         Blocks: 2024       IO Block: 4096   regular file
+            Device: fd02h/64770d    Inode: 4899        Links: 2
+            Access: (0755/-rwxr-xr-x)  Uid: (    0/    root)   Gid: (    0/    root)
+            Context: unconfined_u:object_r:home_root_t:s0
+            Access: 2020-11-28 20:52:44.169162047 +0800 --访问时间
+            Modify: 2020-11-28 20:52:44.171162100 +0800 --修改内容时间
+            Change: 2020-11-28 20:54:32.124963794 +0800 --改变元数据(描述文件的数据:例如 权限,创建时间,位置...)
+             Birth: -
+    touch 文件名 --创建文件
+
+    cat 文件名 --全部打印
+    more 文件名 --分页
+        空格 下页
+        回车 下行
+    less 文件名 --翻页,文件内容放到内存,文件过大不合适
+        回车 下行
+        空格 下页
+        b 前页
+    head 文件名 -前10行
+        -5 前5行
+    tail 文件名 -后10行
+        -5 后5行
+        -f 输出增量数据,监控文件
+
+    | --管道
+        |前以输出流形式交给后边, |后以输入流形式接收 例如: cat aaa | head -2
+        若|后命令无法以输入流形式接收, 则需要使用xargs
+            xargs 创建并执行命令行从标准输入流
+            例如 echo "/" | xargs ls -l → ls -l /
+        例子
+            取第n行数据 head -n 文件名 | tail -1
+
+    echo "123" >> 文件名 --文件中加一行数据
+
+    vi --文本编辑器
+        vi + xxx --定位到最后行
+        编辑模式
+            按hjkl --移动光标
+            按wbe --调到单词词首 词尾
+            按0 --行首
+            按ctrl + f b --翻页
+            按u --撤销
+            按ctrl+r --恢复撤销
+        末行模式 按esc :
+            set nu --显示行号
+            set nonu --隐藏行号
+            /after --再按n N 查找
+            ?afer --再按n N 查找
+            !ls /home --执行命令
+            0,$ --第0行到最后一行
+            n --行号
+            . --当前光标行
+            +n --偏移n行
+            $ --末尾行
+            % --全文
+            0,$d --全文删除
+            1,3d --删除前三行
+            $-1 --删除倒数第二行
+            1,3y --复制前三行
+            p --粘贴
+
+    cut --显示切割行数据
+    sort --排序
+    wc --统计 wordcount
+    sed --行编辑器
+
+    swk --文本分析工具
+
+    <h2 class="anchor">正则</h2>
+    匹配操作符
+        \ --转义
+        . --匹配任意单个字符
+        [1236a] --匹配[]设定的任意单个字符
+        [^12] --匹配任意非[^]设定单个字符
+        [a-k] --匹配任意a-k单个字符
+        ^ --行首
+        $ --行尾
+        \<,\> --单词首尾便捷
+        \<***\> --规定死"***"这个单词
+        | --连接操作符
+        (,) --选择操作符
+        \n --反向引用
+    重复操作符
+        ? --匹配0-1次
+        * --匹配0-多次
+        + --匹配1-多次
+        {n} --匹配n次
+        {n,} --匹配n-多次
+        {n,m} --匹配n-m次
+
+    <h2 class="anchor">linux中正则</h2>
+    1 查找包含hello行: grep "hello" file
+    2 查找包含数字的行: grep "[0-9]" file
+    3 查找包含2或5的行: grep "[25]" file
+    4 查找至少包含3位数的行: --扩展正则表达式{}
+        grep "[0-9]\{3\}" file --不用-E 扩展需要添加转义字符
+        grep -E "[0-9]{3}" file
+    5 找出hello开头的行 grep "\&lt;hello" file
+    6 查找包含hello单词的行: grep "\&lt;hello\>" file
+    7 查找包含3位数字的行:
+        文本
+            1 x123 xx
+            2 x123456x xx
+            3 111 xxx xx 222
+            4 11 xxx xx
+        grep "[^0-9][0-9]\{3\}[^0-9]]" file
+            结果: 行 1
+            解释: 开头结尾非数字 三位数字
+        grep "\([^0-9][0-9]\|^[0-9]\)[0-9]\([0-9][^0-9]\|[0-9]$\)" file
+            结果: 行 1 3
+            解释:
+                第一位数字
+                    第一位前一位非数字 [^0-9]
+                    第一位 [0-9]
+                    或|
+                    数字开头 ^[0-9]
+                第二位数字
+                    [0-9]
+                第三位数字
+                    第三位 [0-9]
+                    后边非数字 [^0-9]
+                    或|
+                    数字结尾 [0-9]$
+                        错误示例: [0-9$] 会匹配出行2
+    8 找到出现2-3次l的行 grep "l\{2,3\}" file
+    9 找出 hi hello hi hello 的行
+        grep "hi.*hello.*hi.*hello" file
+        grep "\(hi.*\)\(hello.*\).*\1.*\2" file
+            解释: \1 \2 代表两个括号的内容
+        结果: hixhelloxhixhello
+
+    <h2 class="anchor">用户与权限</h2>
+    useradd username --创建用户
+    passwd username --设置密码
+    userdel username --删除用户
+        rm -rf cd /home/username
+        rm -rf cd /var/spoll/mail/username
+
+    groupadd groupname --创建组
+    groupdel groupname --删除组
+    usermod -G groupname username --用户进组
+    id username --查看用户信息
+
+    chown root:groupname sharefolder/ --文件夹(或文件 下同)设置为root属主 groupname属组
+    chown :groupname sharefolder/ --文件夹设置为groupname属组
+
+    chmod g+w sharefolder/ --文件夹属组g 添加+ 写w 权限
+    chmod u+x filename --文件属主u 添加+ 执行x 权限
+    chmod o-r sharefolder/ --文件夹非属组用户o 删除- 读r 权限
+    chmod o-x sharefolder/ --文件夹非属组用户o 删除- 执行x 权限
+
+    chmod 777 filename --文件所有用户都设置rwx权限
+        属主 属组  其他用户
+        rwx  rwx  rwx
+        111  111  111 --二进制
+        7    7    7   --十进制
+
+    属组用户需重新登录 重新加载权限配置文件缓存
+
+    su username --切换用户
+    sudo --获取root用户权限 需要root用户给权限
+
+    <h2 class="anchor">软件安装</h2>
+    1 源码编译安装
+
+    2 安装包
+        rpm --软件挂你体系 RedHat下的
+        rpm -qa --查看所有安装好的
+
+        yum --基于Rpm包管理
+            1 配置国内源 https://developer.aliyun.com/mirror/
+                备份原yum源配置文件 /etc/yum.repos.d/CentOS-Base.repo
+                找到linux对应版本 找到yum源对应命令 执行
+            2 yum clean all --清空本地yum缓存
+            3 yum makecache -将依赖缓存下载到本地
+            4 配置yum本地源
+                1 mount /dev/cdrom /mnt --将iso\dvd挂载到本地,虚拟机有个CD/DVD配置
+                2 修改配置文件 /etc/yum.repos.d/CentOS-Base.repo
+                    [local]
+                    name=local
+                    baseurl=file:///mnt
+                    gpgcheck=1
+                    enabled=1
+                3 yum clean all --清空本地yum缓存
+                4 yum makecache -将依赖缓存下载到本地
+            5 yum repolist --打印yum信息等
+
+
+
     <h2 class="anchor">...</h2>
 
 </pre>
 
 </body>
-</html>
+</html>7
