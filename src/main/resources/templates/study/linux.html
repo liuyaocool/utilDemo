@@ -41,9 +41,15 @@
     tar解压: tar xf ***.tar.gz
 
     <h2 class="anchor">网络配置</h2>
-    修改主机名 → vi  /etc/sysconfig/network
-        NETWORKING=yes
-        HOSTNAME=node01
+    修改主机名 →
+        vi  /etc/sysconfig/network
+            NETWORKING=yes
+            HOSTNAME=lynode01.com
+        vi /etc/hosts
+            127.0.0.1   localhost   localhost.localdomain   localhost4 localhost4.localdomain4
+          → 127.0.0.1   node01      lynode01.com            localhost4 localhost4.localdomain4
+        vi /etc/hostname --centos7之后
+            lynode01.com
     修改hosts文件 → vi /etc/hosts
     修改连接网络方式
         vim /etc/sysconfig/network-scripts/ifcfg-*

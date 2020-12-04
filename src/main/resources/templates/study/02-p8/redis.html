@@ -6,49 +6,34 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
     <title>基础控件</title>
 
-    <link rel="stylesheet" href="../../00-static/base.css">
+    <link rel="stylesheet" href="../00-static/base.css">
     <style>
 
     </style>
 
-    <script src="../../00-static/base.js"></script>
+    <script src="../00-static/base.js"></script>
 
 </head>
 <body>
 
 <pre>
-                          _oo0oo_
-                         o8888888o
-                         88" . "88
-                         (| -_- |)
-                         0\  =  /0
-                       ___/`---'\___
-                     .' \\|     |// '.
-                    / \\|||  :  |||// \
-                   / _||||| -:- |||||- \
-                  |   | \\\  -  /// |   |
-                  | \_|  ''\---/''  |_/ |
-                  \  .-\__  '-'  ___/-. /
-                ___'. .'  /--.--\  `. .'___
-             ."" '<  `.___\_<|>_/___.' >' "".
-            | | :  `- \`.;`\ _ /`;.`/ - ` : | |
-            \  \ `_.   \_ __\ /__ _/   .-` /  /
-        =====`-.____`.___ \_____/___.-`___.-'=====
-                          `=---='
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                      佛祖保佑         永无BUG
 
     <h2 class="anchor">好用网站</h2>
     数据库排名: https://db-engines.com/en/
 
     <h2 class="anchor">常识</h2>
     磁盘 寻址-ms 带宽-G/M
-        内存 寻址-ns 带宽-很大
+
+    内存 寻址-ns 带宽-很大
         内存比磁盘快10W倍
-        i/o buffer
-    磁盘与磁道
+
+    i/o buffer：成本问题
+        磁盘与磁道
         扇区,一扇区512byte 成本变大:索引
         4k 操作系统,无论读多少,最少4k从磁盘拿
+
+    数据库：
+        data page-4k
 
     <h2 class="anchor">安装</h2>
     下载 https://redis.io/
@@ -59,10 +44,10 @@
         启动: cd src 目录 → 执行 ./redis-server
         安装: make install PREFIX=/opt/soft/redis6 可执行文件
         做成服务:
-            安装路径添加到path
+            安装路径添加到path: /opt/soft/redis6/bin
             cd utils → 执行 ./install_server.sh  --重复此步骤可安装多个服务 并多启
             根据提示输入配置信息或直接回车选择默认值
-            会在init.d文件夹生成 redis_号码 启动脚本
+            会在/etc/init.d文件夹生成 redis_号码 启动脚本
         错误: This systems seems to use systemd. 注释以下代码
             #bail if this system is managed by systemd
             #_pid_1_exe="$(readlink -f /proc/1/exe)"
