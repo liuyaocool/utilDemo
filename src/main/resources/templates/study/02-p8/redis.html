@@ -37,17 +37,21 @@
 
     <h2 class="anchor">安装</h2>
     下载 https://redis.io/
-    安装 通读readme.md
+        右键复制链接地址 是一个压缩包的资源链接地址
+        linux 可以使用 wget程序下载
+    安装 通读readme.md,一般安装方法都在这里
+        解压缩: tar xf file
         安装编译器	yum install gcc 如果安装过跳过
         编译: 执行命令 make    -- makefile 文件
             make distclean 清除错误的编译文件 再重新make
         启动: cd src 目录 → 执行 ./redis-server
         安装: make install PREFIX=/opt/soft/redis6 可执行文件
+            实际执行 src/Makfile 文件进行安装
         做成服务:
             安装路径添加到path: /opt/soft/redis6/bin
             cd utils → 执行 ./install_server.sh  --重复此步骤可安装多个服务 并多启
             根据提示输入配置信息或直接回车选择默认值
-            会在/etc/init.d文件夹生成 redis_号码 启动脚本
+            会在/etc/init.d文件夹生成 redis_号码(端口号) 启动脚本
         错误: This systems seems to use systemd. 注释以下代码
             #bail if this system is managed by systemd
             #_pid_1_exe="$(readlink -f /proc/1/exe)"
@@ -59,9 +63,23 @@
             #fi
         启动服务: service redis_号码 start/stop/status
 
-    <h2 class="anchor">知识点</h2>
+    <h2 class="anchor">系统I/O</h2>
     1:单进程 单线程 单实例 epoll
     epol:
+
+    <h2 class="anchor">使用</h2>
+    1 连接
+        redis-cli --客户端连接
+        select 7 --选择7号库进行操作
+    2 object encoding K --查看类型
+    3 字符串
+        set k v --新加或修改
+            set k v nx --新加
+            set k v xx --修改
+        append --追加
+        getrange --截取
+
+
 
     <h2 class="anchor">...</h2>
 
