@@ -20,3 +20,5 @@ yml:
       devtools:
         livereload:
           enabled: true
+
+ReRes --替换加载的js文件

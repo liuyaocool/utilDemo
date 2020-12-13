@@ -71,18 +71,31 @@
     1:单进程 单线程 单实例 epoll
     epol:
 
+    <h2 class="anchor">原理</h2>
+    使用epoll 等
+
+
     <h2 class="anchor">使用</h2>
     1 连接
         redis-cli --客户端连接，只识别ascll码，超出显示hex
             --raw --从当前字符集中进行格式化，获得对应字
         select 7 --选择7号库进行操作
     2 object encoding K --查看类型
-    3 字符串
-        set k v --新加或修改
-            set k v nx --新加
-            set k v xx --修改
-        append --追加
-        getrange --截取
+    3 String byte
+        字符串
+            set k v --新加或修改
+                set k v nx --新加
+                set k v xx --修改
+            append --追加
+            getrange --截取
+        数值
+            incr
+        二进制
+            setbit --offset 为二进制偏移量
+            bitpos
+            bitcount
+            bitop
+    4
 
 
 
