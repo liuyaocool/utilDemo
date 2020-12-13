@@ -70,17 +70,24 @@
 
     1:单进程 单线程 单实例 epoll
     epol:
+    select
+    epoll
 
     <h2 class="anchor">原理</h2>
     使用epoll 等
 
 
-    <h2 class="anchor">使用</h2>
+    <h2 class="anchor">redis的value类型</h2>
+    0 正负索引
     1 连接
         redis-cli --客户端连接，只识别ascll码，超出显示hex
             --raw --从当前字符集中进行格式化，获得对应字
         select 7 --选择7号库进行操作
-    2 object encoding K --查看类型
+    2 通用
+        object encoding k --查看类型
+        keys k* --查询key为k*的值 *-通配符
+        help @type --查看值类型的api文档
+        help method --查看方法的api文档
     3 String byte
         字符串
             set k v --新加或修改
@@ -89,13 +96,64 @@
             append --追加
             getrange --截取
         数值
-            incr
+            incr --自增
         二进制
             setbit --offset 为二进制偏移量
             bitpos
             bitcount
             bitop
-    4
+    4 list --l开头
+        栈 队列
+            左 lpop lpush 右 rpop rpush
+        数组
+            lrange --查看元素
+            lindex --通过下标取
+            lset --通过下标设置值
+        lrem --移除
+        linsert --插入
+        b开头 --阻塞 单播队列 fifo
+            blpop brpop ...
+        ltrim --删除两端
+    5 hash --h开头 类似HashMap
+        hset/hget --单个操作
+        hmset/hmget --多个操作
+        hkeys/hvals/hgetall
+        hincrbyfloat --增加浮点型
+    6 set --无序 去重
+        smembers --消耗网卡I/O,必须要用则独立服务器
+        sadd/srem k v v2 v3 ... --添加/移除 自动去重
+        sinter/sunion k1 k2 ... --交集/并集
+        sinterstore/sunionstore dest k1 k2 ... --交集/并集 存到dest
+        sdiff k1 k2 ... --差集 k1去掉k2的值
+        srandmember k 5 --随机
+            正数 随机取几个,不超过set中现有的数量
+            负数 取带重复的,满足需要的数量
+        spop --弹出一个
+    7 sorted_set --z开头,s被占用了,所以使用z 元素排序
+        物理内存左小右大,不随命令变化
+        zrev*** --倒叙
+        z*** --正序
+        zadd --添加 分值 会按照分值排序
+        zrange k 0 -1 withscores --取出所有
+        zrangebyscore --取出按照分值所有
+        zscore --取分值 多少分
+        zrank --取排名 第几
+        zincrby --增加分值 并重排序
+        zunionstore --交集 涉及到分值的处理
+            ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS weight] [AGGREGATE SUM|MIN|MAX]
+            例 zunionstore destk 2 k1 k2 weights 1 0.8
+                zunionstore destk 2 k1 k2 AGGREGATE max
+            numkeys --[keys ...]中有几个key
+            weights --权重 分数乘以权重再进行操作
+        排序是如何实现的
+            skip list --跳表-分层链表,类平衡树(?)
+                插入的时候 随机造层(?)
+
+
+
+
+
+
 
 
 

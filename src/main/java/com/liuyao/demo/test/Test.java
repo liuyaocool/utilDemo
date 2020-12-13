@@ -19,9 +19,10 @@ public class Test {
         x = 2470 - 2890;y = 194 - 148;ss(x, y);
         x = 2890 - 3380;y = 148 - 22;ss(x, y);
 
-        Hero h = (Hero) new Object();
-        System.out.println(h.getClass());
+//        Hero h = (Hero) new Object();
+//        System.out.println(h.getClass());
 
+        System.out.println(Hero.class.getName());
 
     }
 
