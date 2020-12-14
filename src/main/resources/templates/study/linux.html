@@ -32,6 +32,12 @@
     <h2 class="anchor">远程连接</h2>
     ssh username@ip
 
+    <h2 class="anchor">查看命令</h2>
+    lsof -i --
+    netstat -na --
+    iptables
+
+
     <h2 class="anchor">文件操作</h2>
     ./ 当前路径
     / 根路径
@@ -78,6 +84,14 @@
             nmcli c up ens33
             nmcli d reapply ens33
             nmcli d connect ens33
+    防火墙
+        centos7+: firewall-cmd
+            firewall-cmd --zone=public --add-port=3306/tcp --permanent --开放端口
+            firewall-cmd --reload --重启防火墙
+    开放端口 iptables
+        redhat
+            iptables -A IN_public_allow -p tcp -m tcp --dport 10001 -m conntrack --ctstate NEW -j ACCEPT
+        centos7+ 见防火墙
 
     <h2 class="anchor">yum</h2>
     yum install 报错 failed to download metadata for repo 'AppStream'

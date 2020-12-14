@@ -52,6 +52,11 @@
             cd utils → 执行 ./install_server.sh  --重复此步骤可安装多个服务 并多启
             根据提示输入配置信息或直接回车选择默认值
             会在/etc/init.d文件夹生成 redis_号码(端口号) 启动脚本
+                /etc/redis/9001.conf
+                /var/log/redis_9001.log
+                /var/lib/redis/9001
+                /opt/soft/redis6/bin/redis-server
+                /opt/soft/redis6/bin/redis-cli
         错误: This systems seems to use systemd. 注释以下代码
             #bail if this system is managed by systemd
             #_pid_1_exe="$(readlink -f /proc/1/exe)"
@@ -62,6 +67,11 @@
             #       exit 1
             #fi
         启动服务: service redis_号码 start/stop/status
+    开放端口 见linux 防火墙
+        问题1:开放端口后外机仍无法访问
+            原因: 暂未知原因
+                lsof -i 中name不对,为localhost(linux已经改名为lynode01.com)
+            解决: 重新install-server一次就可以访问了
 
     <h2 class="anchor">系统I/O</h2>
     bio
