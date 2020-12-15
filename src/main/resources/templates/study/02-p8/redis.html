@@ -87,8 +87,8 @@
     使用epoll 等
 
 
-    <h2 class="anchor">redis的value类型</h2>
-    0 正负索引
+    <h2 class="anchor">redis基本</h2>
+     0 正负索引
     1 连接
         redis-cli --客户端连接，只识别ascll码，超出显示hex
             --raw --从当前字符集中进行格式化，获得对应字
@@ -98,7 +98,10 @@
         keys k* --查询key为k*的值 *-通配符
         help @type --查看值类型的api文档
         help method --查看方法的api文档
-    3 String byte
+        flushdb --清空
+
+    <h2 class="anchor">redis的value类型</h2>
+    1 String byte
         字符串
             set k v --新加或修改
                 set k v nx --新加
@@ -112,7 +115,7 @@
             bitpos
             bitcount
             bitop
-    4 list --l开头
+    2 list --l开头
         栈 队列
             左 lpop lpush 右 rpop rpush
         数组
@@ -124,12 +127,12 @@
         b开头 --阻塞 单播队列 fifo
             blpop brpop ...
         ltrim --删除两端
-    5 hash --h开头 类似HashMap
+    3 hash --h开头 类似HashMap
         hset/hget --单个操作
         hmset/hmget --多个操作
         hkeys/hvals/hgetall
         hincrbyfloat --增加浮点型
-    6 set --无序 去重
+    4 set --无序 去重
         smembers --消耗网卡I/O,必须要用则独立服务器
         sadd/srem k v v2 v3 ... --添加/移除 自动去重
         sinter/sunion k1 k2 ... --交集/并集
@@ -139,7 +142,7 @@
             正数 随机取几个,不超过set中现有的数量
             负数 取带重复的,满足需要的数量
         spop --弹出一个
-    7 sorted_set --z开头,s被占用了,所以使用z 元素排序
+    5 sorted_set --z开头,s被占用了,所以使用z 元素排序
         物理内存左小右大,不随命令变化
         zrev*** --倒叙
         z*** --正序
@@ -160,11 +163,26 @@
                 插入的时候 随机造层(?)
 
 
+    <h2 class="anchor">管道</h2>
+    nc ip port --连接socket
+        yum install nc
+    echo -e "set k2 99 \n incr k2 2 \n get k2" | nc 127.0.0.1 6379
+        让通信成本变低
+        -e 识别换行符
 
+    <h2 class="anchor">发布订阅</h2>
+    help @pubsub
 
+    适用场景:
+        实时聊天 -发布订阅
+        三天聊天记录 -sorted_set
+        历史记录 -关系库
 
-
-
+    <h2 class="anchor">事务</h2>
+    说明,若多个客户端同时开启事务,哪个客户端的exec指令先到达,则谁先执行
+    mutli --开启事务
+    exec --提交
+    watch --监控k,在开启事务之前
 
 
     <h2 class="anchor">...</h2>
