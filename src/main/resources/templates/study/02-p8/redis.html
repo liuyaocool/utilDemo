@@ -57,7 +57,7 @@
                 /var/lib/redis/9001
                 /opt/soft/redis6/bin/redis-server
                 /opt/soft/redis6/bin/redis-cli
-        错误: This systems seems to use systemd. 注释以下代码
+        错误: This systems seems to use systemd.  ./install_server.sh中注释以下代码
             #bail if this system is managed by systemd
             #_pid_1_exe="$(readlink -f /proc/1/exe)"
             #if [ "${_pid_1_exe##*/}" = systemd ]
@@ -69,10 +69,8 @@
         启动服务: service redis_号码 start/stop/status
     开放端口 见linux 防火墙
         问题1:开放端口后外机仍无法访问
-            原因: 暂未知原因
-                lsof -i 中name不对,为localhost(linux已经改名为lynode01.com)
-            解决: 重新install-server一次就可以访问了
-
+            原因: lsof -i: 可查看到name 为localhos:redis,为只允许本机访问
+            解决: vi /etc/redis/0000.conf 中找到bind，改为 0.0.0.0，则lsof中name由localhost:redis→*:redis
     <h2 class="anchor">系统I/O</h2>
     bio
     nio
