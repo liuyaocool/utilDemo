@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
-    <title>基础控件</title>
+    <title>redis</title>
 
     <link rel="stylesheet" href="../00-static/base.css">
     <style>
@@ -182,6 +182,15 @@
     exec --提交
     watch --监控k,在开启事务之前
 
+
+    <h2 class="anchor">扩展</h2>
+    https://redis.io/ 顶部有个modules 扩展块
+    redis bloom
+        点小房子 下载源码
+        执行make命令-Makefile → .so文件(linux扩展库)
+        .so拷贝到redis6目录下,与bin并列
+        手动启动 加载扩展库
+            redis-server /etc/redis/6379.conf --loadmosule ./xxx.so
 
     <h2 class="anchor">...</h2>
 
