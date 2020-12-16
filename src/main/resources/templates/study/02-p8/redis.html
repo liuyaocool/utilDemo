@@ -182,15 +182,23 @@
     exec --提交
     watch --监控k,在开启事务之前
 
-
-    <h2 class="anchor">扩展</h2>
+    <h2 class="anchor">扩展模块</h2>
     https://redis.io/ 顶部有个modules 扩展块
-    redis bloom
-        点小房子 下载源码
-        执行make命令-Makefile → .so文件(linux扩展库)
-        .so拷贝到redis6目录下,与bin并列
-        手动启动 加载扩展库
-            redis-server /etc/redis/6379.conf --loadmosule ./xxx.so
+    redis bloom 过滤器
+        加载扩展模块
+            点小房子 下载源码
+            执行make命令-Makefile → .so文件(linux扩展库)
+            .so拷贝到redis6目录下,与bin并列
+            手动启动 加载扩展库
+                redis-server --loadmodule /opt/soft/redis6/xxx.so /etc/redis/6379.conf
+        使用 缓存穿透 小空间解决大量数据匹配
+            bf.add k v1 v2 ...
+            bf.exist k v2
+            cf.add
+
+    counting bloom 过滤器
+    cukcoo 过滤器
+
 
     <h2 class="anchor">...</h2>
 
