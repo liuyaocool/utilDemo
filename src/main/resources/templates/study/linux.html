@@ -240,13 +240,25 @@
         -5 后5行
         -f 输出增量数据,监控文件
 
+    子进程
+        /bin/bash --进入子进程
+        pstree --查看是否在子进程
+            |-sshd---sshd---sshd---bash---pstree
+            |-sshd---sshd---sshd---bash---bash---pstree
+        会触发创建【子进程】（bash shell为一个进程），echo $BASEPID($$), echo $BASEPID($$) | more
+        $$优先级高于管道， $xxx优先级低于管道
+        父子进程，子进程不能访问父进程数据，数据隔离 pstree
+        export xxx 添加环境变量，则子进程可以看到数据
+        环境变量 子进程修改不会破坏父进程，反过来一样
+        fork(2) --系统调用,快速创建一个子进程
+            进程之间是数据隔离的 利用copy on write内核机制
+            子进程与父进程中都只维护了指针(指向内存中的数据)
+            父子进程中 任一个 修改了 自己进程中的数据,会新创建一块内存空间,然后把指针指向新内存空间,另一个进程指针不变
+
+    copy on write --内核机制
+
     | --管道
-        子进程
-            会触发创建【子进程】（bash shell为一个进程），echo $BASEPID($$), echo $BASEPID($$) | more
-            $$优先级高于管道， $xxx优先级低于管道
-            父子进程，子进程不能访问父进程数据，数据隔离 pstree
-            export xxx 添加环境变量，则子进程可以看到数据
-            环境变量 子进程修改不会破坏父进程，反过来一样
+        管道会创建子进程
         |前以输出流形式交给后边, |后以输入流形式接收 例如: cat aaa | head -2
         若|后命令无法以输入流形式接收, 则需要使用xargs
             xargs 创建并执行命令行从标准输入流
@@ -409,7 +421,8 @@
                 4 yum makecache -将依赖缓存下载到本地
             5 yum repolist --打印yum信息等
 
-
+    <h2 class="anchor">脚本.sh</h2>
+    #!/bin/bash --开头
 
     <h2 class="anchor">...</h2>
 
