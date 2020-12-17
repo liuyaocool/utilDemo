@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>mongodb</title>
+
+    <link rel="stylesheet" href="../00-static/base.css">
+    <style>
+
+    </style>
+
+    <script src="../00-static/base.js"></script>
+
+</head>
+<body>
+
+<pre>
+
+    <h2 class="anchor">概述</h2>
+    第一课跳过 需要补课
+
+
+    <h2 class="anchor">安装</h2>
+    下载
+        https://www.mongodb.com/ 顶部Software 社区版免费
+        version 一般偶数是稳定版 现在基本都是稳定版
+        Package tgz bin下有mongo、mongod、mongos
+        wget http：//***
+    创建目录
+        mongodb/data
+        mongodb/logs
+        mongodb/conf
+    解压
+        tar -zxvf mong***
+    环境变量
+        bin目录加入环境变量
+    不需要编译、安装
+    启动
+        mongod --dbpath /opt/mongodb/data --port 27017 --logpath /opt/mongodb/logs/ --fork
+    连接
+        mongo --默认连接27017
+
+    库操作
+        show dbs --显示所有数据库
+        use mashibing --创建了一个数据库
+        db.shop.insert({})
+
+
+    <h2 class="anchor">...</h2>
+
+</pre>
+
+</body>
+</html>
