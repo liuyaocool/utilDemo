@@ -4,7 +4,6 @@ import com.liuyao.demo.entity.Hero;
 
 public class Test {
 
-
     public static void main(String[] args) {
 
 //        System.out.println(new Double("12.1").intValue());
@@ -24,9 +23,28 @@ public class Test {
 
         System.out.println(Hero.class.getName());
 
+        Aa aa = new Aa();;
+        aa.get("a");
+        aa.get();
+        aa.get(1, 2, 3);
+
     }
 
     private static void ss(int x, int y){
         System.out.println(Math.sqrt(x*x+y*y));
+    }
+}
+
+class Aa{
+
+    void get(){
+        System.out.println("get()");
+    }
+
+    void get(Object k){
+        System.out.println("get(Object k)");
+    }
+    void get(Object... k){
+        System.out.println("get(Object... k)");
     }
 }
