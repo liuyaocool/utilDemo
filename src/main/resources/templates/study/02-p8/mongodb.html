@@ -28,10 +28,15 @@
         version 一般偶数是稳定版 现在基本都是稳定版
         Package tgz bin下有mongo、mongod、mongos
         wget http：//***
-    创建目录
+    创建
         mongodb/data
         mongodb/logs
-        mongodb/conf
+        mongodb/conf/mongo.conf
+            dpath=/opt/mongodb/data
+            logpath=/opt/mongodb/logs/mongodb.log
+            port=27017
+            # start background
+            fork=true
     解压
         tar -zxvf mong***
     环境变量
@@ -39,6 +44,7 @@
     不需要编译、安装
     启动
         mongod --dbpath /opt/mongodb/data --port 27017 --logpath /opt/mongodb/logs/ --fork
+        mongod -f
     连接
         mongo --默认连接27017
 
