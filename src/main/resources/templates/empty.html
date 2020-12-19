@@ -15,8 +15,19 @@
 </head>
 
 <body>
-<script src="../../static/js/jquery-1.12.2.min.js"></script>
+<textarea id="text"></textarea>
+<input id="button" type="button" value="ajax请求" onclick="doAjax()">
+<script src="../static/js/jquery-1.12.2.min.js"></script>
 <script type="text/javascript">
+
+    document.onload = function(e){
+        debugger
+    }
+    document.getElementById("button").onclick = function(e){
+        $.get(document.getElementById("text").value, function (res) {
+            console.log(res);
+        })
+    }
     console.log(window.location.search)
 
     /*

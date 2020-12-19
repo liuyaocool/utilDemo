@@ -245,10 +245,12 @@ public class HttpUtils {
         Map<String, String> headers = new HashMap<>();
         Map<String, String> data = new HashMap<>();
 
-        String addr = "http://127.0.0.1:8083/all/";
-
+        String addr = "http://127.0.0.1:8083/all/getPage";
+        addr = "http://1770.ztshangwu.com/?channelNo=1770#/video?video_id=153";
         headers.put("Content-Type", "text/html");
-        ajax(addr + "getPage", HttpUtils.Method.GET, headers, data);//ok
+        headers.put("User-Agent", "iPhone");
+        String res = ajax(addr, Method.GET, headers, data);
+        System.out.println(res);
 //        headers.clear();
 //        doAjax(addr + "getString", Method.GET, headers, data);//ok
 //        doAjax(addr + "getJsonString", Method.GET, headers, data);//ok
