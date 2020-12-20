@@ -232,14 +232,63 @@
                 fork(2): 创建子进程 速度快、空间小, 进程之间数据隔离的
             2：日志 AOF
     数据库 --数据不能丢 速度+持久性 掉电易失
-        创建副本 RDB持久化
-            利用fork(2)系统调用,创建时点子进程,可保障子进程的数据是创建时刻的数据,
-            即使父进程(原redis进程)修改了数据,子进程也不会变化
-        单机：持久化
+        RDB持久化 --磁盘
+            save --手动触发 阻塞
+                明确：例如关机
+            bgsave --后端异步 非阻塞
+                利用fork(2)系统调用,创建时点子进程,可保障子进程的数据是创建时刻的数据,
+                即使父进程(原redis进程)修改了数据,子进程也不会变化
+            配置文件 bgsave规则 用save标识
+                vi /etc/redis/6379.conf --SNAPSHOTTING
+                    save 900 1
+                    save 300 10
+                    save 60 10000 --60s或10000条
+                    dbfilename dump.rdb
+                    dir /var/lib/redis/6379
+            弊端
+                不支持拉链 只有一个dump.rdb
+                丢数据相对多一些 时点之间数据容易丢失 比如：8点落数据，9点刚要落，死机了
+            优点 类似java中的序列化，速度快
+        AOF --redis中的写操作记录到文件中
+            配置文件 6379.conf --APPEND ONLY MODE
+                appendonly yes --开启AOF
+                appendfilename "appendonly.aof" --RDB dir目录
+                appendfsync everysec/always/no --级别 每秒（默认）/每笔立刻写磁盘（顶多丢一条）-最慢/buffer满了再写（丢一整个buffer）-最快
+                aof-use-rdb-preamble yes --4.0之后 混合模式开启
+                auto-aof-rewrite-percentage 100  --自动重写 上次执行完 新数据够64mb*100%后 自动执行
+                auto-aof-rewrite-min-size 64mb  --自动重写 批次大小
 
-        主从复制
+            优点
+                丢数据少 --保存写操作的命令，恢复的时候重新执行
+                RDB、AOF同时开启，若开启了AOF，只会从AOF恢复
+                    4.0以后 AOF中包含RDB全量，增量 记录新的写操作
+            弊端 文件无限变大 恢复慢
+            优化弊端
+                hdfs，fsimage（镜像）+edits.log 让日志只记录增量 合并的过程
+                4.0以前 → bgsave（RBD持久化） → 重写（bgreweiteaof） → 删除抵消的命令，合并重复的命令 → 一个纯指令的日志文件
+                4.0以后 → bgsave（RBD持久化） → 重写（bgreweiteaof） → 将老的数据RBD到AOF文件中，将增量以指令的方式append到AOF → AOF=RDB+增量指令
+            原点：redis是内存数据库 写操作会触发I/O
 
-    <h2 class="anchor">...</h2>
+    <h2 class="anchor">集群</h2>
+    单机问题
+        单点故障
+        容量有限
+        压力
+    AKF
+        x：全量 镜像 --解决压力
+        y：业务 逻辑 拆分 --解决容量
+        z: 优先级 逻辑 再拆分
+    AKF问题：
+        数据一致性 问题
+        强一致性 所有节点阻塞直到数据全部一致 ~~同步方式
+        破环可用性（一台服务器慢） 为什么一变多→解决可用性
+        1 容忍数据部分丢失 ~~通过异步方式
+        2
+
+
+
+
+
     <h2 class="anchor">...</h2>
 
 </pre>
