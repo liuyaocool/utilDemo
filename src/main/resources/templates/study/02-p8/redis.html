@@ -57,16 +57,16 @@
                 /var/lib/redis/9001
                 /opt/soft/redis6/bin/redis-server
                 /opt/soft/redis6/bin/redis-cli
-        错误: This systems seems to use systemd.  ./install_server.sh中注释以下代码
-            #bail if this system is managed by systemd
-            #_pid_1_exe="$(readlink -f /proc/1/exe)"
-            #if [ "${_pid_1_exe##*/}" = systemd ]
-            #then
-            #       echo "This systems seems to use systemd."
-            #       echo "Please take a look at the provided example service unit files in this directory, and adapt and install them. Sorry!"
-            #       exit 1
-            #fi
-        启动服务: service redis_号码 start/stop/status
+            错误: This systems seems to use systemd.  ./install_server.sh中注释以下代码
+                #bail if this system is managed by systemd
+                #_pid_1_exe="$(readlink -f /proc/1/exe)"
+                #if [ "${_pid_1_exe##*/}" = systemd ]
+                #then
+                #       echo "This systems seems to use systemd."
+                #       echo "Please take a look at the provided example service unit files in this directory, and adapt and install them. Sorry!"
+                #       exit 1
+                #fi
+             启动: service redis_号码 start/stop/status
     开放端口 见linux 防火墙
         问题1:开放端口后外机仍无法访问
             原因: lsof -i: 可查看到name 为localhos:redis,为只允许本机访问
@@ -270,24 +270,90 @@
             原点：redis是内存数据库 写操作会触发I/O
 
     <h2 class="anchor">集群</h2>
-    单机问题
-        单点故障
-        容量有限
-        压力
-    AKF
+    单机问题：单点故障 容量有限 压力
+    AKF划分：一变多
         x：全量 镜像 --解决压力
+            数据一致性问题
+                1 强一致性 所有节点阻塞直到数据全部一致 同步方式
+                    master →（同步） 备1
+                    master →（同步） 备2
+                    破环可用性（一台服务器慢） 为什么一变多→解决可用性
+                2 弱一致性 容忍数据部分丢失 异步方式
+                    master →（异步） 备*
+                3 最终一致性 通过中间件（例kafka集群）
+                    master → kafka → 备*
+                    有可能取到不一致的数据
         y：业务 逻辑 拆分 --解决容量
         z: 优先级 逻辑 再拆分
-    AKF问题：
-        数据一致性 问题
-        强一致性 所有节点阻塞直到数据全部一致 ~~同步方式
-        破环可用性（一台服务器慢） 为什么一变多→解决可用性
-        1 容忍数据部分丢失 ~~通过异步方式
-        2
+     集群模式
+        主从复制：client都能访问
+        主备复制：client只能访问主，主挂掉，备接替主
+    集群问题 CAP原则（一致性 可用性 分区容错性）
+        主（关键点）：全量crud
+        对主做高可用（HA：High Availability）
+        自动故障转移 --代替人监控
+            ↓
+        由程序实现，仍会有单点故障问题
+            ↓
+        有一些不一样的地方
 
+            redis                        redis
+         ↑    ↑     ↑        →        ↓    ↓    ↓
+        监控  监控  监控               监控  监控  监控
 
+        网络分区（脑裂） 访问同一个服务 不同节点数据不一样
 
+    <h2 class="anchor">集群配置</h2>
+    主节点通过RDB给从数据
+    从节点数据清空
+    从节点挂掉重启之后
+        开启aof 不动RDB，没有rdb的replicaid
+        不开启aof rdb中有一个master的replicaid
 
+    客户端命令 从节点追随主节点
+        主节点中通过sub/pub（发布/订阅）有从而节点信息
+        slaveof --5.0之前
+        replicaof --5.0之后
+        replicaof no one --取消追随主节点
+    配置文件
+        replicaof *** ***
+        replica-serve-stale-data yes -- 老数据可以查（yes）、必须同步完数据才能查（no）
+            从 追随 主，会先清空本地，然后load新数据到内存
+            此过程会有个n秒，此过程是否可查，此配置决定
+        replica-read-only yes --从节点是否只读
+        repl-diskless-sync no --直接使用网络传（yes）、落磁盘（RDB）再传（no）
+        repl-backlog-size 1mb --增量复制
+            从节点追随主节点那一时刻，主节点会落RDB、并维护新消息的队列（大小即此配置），
+            主节点 然后发RDB、offset（此时刻消息队列的偏移量）给从节点
+            若从节点load RDB到内存的过程中挂了，但主节点一直有新数据
+            从节点重启后，会先load RDB到内存，然后通过offset去主节点的队列拿新数据
+            若offset在此配置范围内，则加载
+            若不在此配置范围内，则重新从主节点获取RDB，然后load到内存
+        min-replicas-to-write 3 --规定最少几个副本写成功
+        min-replicas-max-lag 10 --规定最多几个副本写成功
+    问题 需要人工维护主的故障问题
+
+    <h2 class="anchor">哨兵-Sentinel</h2>
+    文档 http://redis.cn/topics/sentinel.html
+    监控 提醒 自动故障转移
+
+    配置文件
+        源码目录/sentinel.conf
+        需要启动多个 则需要多个配置文件
+        26380.conf
+            port 26380
+            sentinel monitor mymaster 127.0.0.1 6379 2
+                2 哨兵进程投票重新选举主节点
+    启动哨兵
+        源码目录/src/redis-sentinel
+        安装目录下（redis-server）没有sendtinel，可以做一个软连接
+        启动命令：
+            redis-server /***/26380.conf --sentinel
+            redis-sentinel /***/26380.conf
+
+    哨兵之间是通过redis的发布/订阅来发现其他哨兵，并互通消息
+
+    哨兵重新选举主节点后会修改哨兵的磁盘配置文件按（26380.conf）
 
     <h2 class="anchor">...</h2>
 
