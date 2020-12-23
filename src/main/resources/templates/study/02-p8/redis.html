@@ -20,6 +20,9 @@
 
     <h2 class="anchor">好用网站</h2>
     数据库排名: https://db-engines.com/en/
+    redis-spring: spring官网 找到projects reis属于spring-data 有两个页面小标签 主要是learn Reference Doc.
+    proxy: github 搜 twitter/twemproxy readme.md
+
 
     <h2 class="anchor">常识</h2>
     磁盘 寻址-ms 带宽-G/M
@@ -353,7 +356,33 @@
 
     哨兵之间是通过redis的发布/订阅来发现其他哨兵，并互通消息
 
-    哨兵重新选举主节点后会修改哨兵的磁盘配置文件按（26380.conf）
+    哨兵重新选举主节点后会修改哨兵的配置文件（26380.conf）
+
+    <h2 class="anchor">容量问题</h2>
+
+
+    <h2 class="anchor">twemproxy代理搭建</h2>
+    安装
+        github clone源码 到redis通用目录
+            https://github.com/twitter/twemproxy
+            clone 报错: yum update nss
+        make
+            注意这一行: autoreconf -fvi && ./configure needs automake and libtool to be installed
+            autoreconf → autoconf
+            autoreconf 版本低 去配置epel仓库 见 linux yum配置
+            按照readme.md执行
+        nutcracker.init --scripts目录
+            拷贝到 /etc/init.d/twemproxy
+            加权限 chmod +x twemproxy
+            vi 修改一些参数
+                options 参数路径下缺少配置文件(yml),去源码conf中找,并拷贝所有配置到此路径
+                prog 执行程序(会去PATH中去找) 需要到源码src目录下 把此可执行程序拷贝到任意一个path下 推荐/usr/bin
+            yml文件修改 见readme.md
+        启动 service twemproxy start
+        连接 redis-cli --port 22121(yml文件中配置的代理端口)
+
+    <h2 class="anchor">predixy代理搭建</h2>
+
 
     <h2 class="anchor">...</h2>
 

@@ -397,30 +397,30 @@
     su username --切换用户
     sudo --获取root用户权限 需要root用户给权限
 
-    <h2 class="anchor">软件安装</h2>
+    <h2 class="anchor">软件安装 yum配置 yum更新仓库</h2>
     1 源码编译安装
 
-    2 安装包
-        rpm --软件挂你体系 RedHat下的
+    2 rpm
+        rpm --软件管理体系 RedHat下的
         rpm -qa --查看所有安装好的
 
-        yum --基于Rpm包管理
-            1 配置国内源 https://developer.aliyun.com/mirror/
-                备份原yum源配置文件 /etc/yum.repos.d/CentOS-Base.repo
-                找到linux对应版本 找到yum源对应命令 执行
-            2 yum clean all --清空本地yum缓存
-            3 yum makecache -将依赖缓存下载到本地
-            4 配置yum本地源
-                1 mount /dev/cdrom /mnt --将iso\dvd挂载到本地,虚拟机有个CD/DVD配置
-                2 修改配置文件 /etc/yum.repos.d/CentOS-Base.repo
-                    [local]
-                    name=local
-                    baseurl=file:///mnt
-                    gpgcheck=1
-                    enabled=1
-                3 yum clean all --清空本地yum缓存
-                4 yum makecache -将依赖缓存下载到本地
-            5 yum repolist --打印yum信息等
+    3 yum --基于Rpm包管理
+        1 配置国内源/更新仓库 https://developer.aliyun.com/mirror/
+            备份原yum源配置文件 /etc/yum.repos.d/CentOS-Base.repo
+            找到linux对应版本 找到yum源对应命令 执行
+        2 yum clean all --清空本地yum缓存
+        3 yum makecache --将依赖缓存下载到本地
+        4 配置yum本地源
+            1 mount /dev/cdrom /mnt --将iso\dvd挂载到本地,虚拟机有个CD/DVD配置
+            2 修改配置文件 /etc/yum.repos.d/CentOS-Base.repo
+                [local]
+                name=local
+                baseurl=file:///mnt
+                gpgcheck=1
+                enabled=1
+            3 yum clean all --清空本地yum缓存
+            4 yum makecache -将依赖缓存下载到本地
+        5 yum repolist --打印yum信息等
 
     <h2 class="anchor">脚本.sh</h2>
     #!/bin/bash --开头
