@@ -89,7 +89,7 @@
 
 
     <h2 class="anchor">redis基本</h2>
-     0 正负索引
+    0 正负索引 二进制安全 kv都是存的二进制
     1 连接
         redis-cli --客户端连接，只识别ascll码，超出显示hex
             --raw --从当前字符集中进行格式化，获得对应字
@@ -105,7 +105,7 @@
     1 String byte
         字符串
             set k v --新加或修改
-                set k v nx --新加
+                set k v nx --不存在新加返回成功,存在设置失败返回失败
                 set k v xx --修改
             append --追加
             getrange --截取
@@ -359,7 +359,9 @@
     哨兵重新选举主节点后会修改哨兵的配置文件（26380.conf）
 
     <h2 class="anchor">容量问题</h2>
-
+    槽位(slots) 共16000+
+    n套主从分治 会分开 差不多每套会分16000/n个
+    集群添加数据 k要通过一定算法得出槽位号 放到对应那套主从中
 
     <h2 class="anchor">twemproxy代理搭建</h2>
     安装
@@ -381,7 +383,99 @@
         启动 service twemproxy start
         连接 redis-cli --port 22121(yml文件中配置的代理端口)
 
-    <h2 class="anchor">predixy代理搭建</h2>
+    <h2 class="anchor">joyieldInc/predixy代理搭建</h2>
+    下载
+        编译好的: github → Releases → predixy-1.0.5-bin-amd64-linux.tar.gz
+        或者 c++版本足够高可以自己按照readme.md 下载源码编译
+        推荐放到redis安装目录,我的是/opt/soft/redis6
+    安装
+        tar xf 解压
+        bin/ 一个程序
+        prdixy.conf
+            SentinelServerPool {
+                Databases 16
+                Hash crc16
+                HashTag "{}"
+                Distribution modula
+                MasterReadPriority 60
+                StaticSlaveReadPriority 50
+                DynamicSlaveReadPriority 50
+                RefreshInterval 1
+                ServerTimeout 1
+                ServerFailureLimit 10
+                ServerRetryTimeout 1
+                KeepAlive 120
+                Sentinels {
+                    + 10.2.2.2:7500 //监听多个哨兵 每个哨兵中有一套主从
+                    + 10.2.2.3:7500
+                    + 10.2.2.4:7500
+                }
+                Group xxoo { // 名字对应 sentinel monitor xxoo ***
+                }
+                Group shard002 {
+                }
+            }
+
+    <h2 class="anchor">redis自带cluster</h2>
+    脚本路径 /utils/create-cluster/
+    脚本 create-cluster
+        NODES=6 --几个实例
+        REPLICAS=1 --每个主从中几个副本
+            这里6/ (1(主) + 1(这里配置的副本数)) = 3套主从
+    启动
+        使用脚本 --只能用于单机演示, 或修改脚本可启动分布式
+            ./create-cluster start --启动n(这里6)个实例
+            ./create-cluster create --n(这里3)套主从分赃(分赃:数据通过算法分到哪套主从)
+        人工 --启动分布式
+            cluster-enabled yes --开启集群方式,默认不开启
+            redis-cli --cluster help
+            redis-cli --cluster create 127.0.0.1:30001 127.0.0.1:30001 127.0.0.1:30001 127.0.0.1:30001 127.0.0.1:30001 127.0.0.1:30001 --cluster-replicas 1
+    连接
+        错误: redis-cli -p ****
+            如果k通过算法得出的槽位 没有在此套主从 报错 不成功 并提示正确该连哪套
+        正确: redis-cli -c -p ****
+            k通过算法得出的槽位 没有在此套主从 会先跳到正确的那套 然后再成功设值
+    事务 --只能在同一套主从上, 因解决容量而分治的不同集群之间 不能使用
+        k1-A主从 k2-B主从
+        1) watch k1 (A) → multi (A) → set k2 (跳B) → EXEC (此处在B上,而事务在A上) → 报错
+        2) watch {oo}k1 (A) → multi (A) → set {oo}k2 (A) → EXEC (A) → 成功
+            人为 特设k 则可使用事务
+    数据迁移, 加节点 崩节点
+        redis-cli --cluster reshard
+        然后输入槽位数 例如2000
+        输入给谁 id 输入此命令后会打印id和此id有的槽位
+        输入从哪拿
+            可以输入多个 输入第一个(#1)回车可继续输入下一个(...#n), 输入done 结束
+            或输入all 从所有节点拿(均分2000)
+    查看信息
+        redis-cli --cluster info 127.0.0.1:30001
+        redis-cli --cluster check 127.0.0.1:30001
+
+    <h2 class="anchor">击穿 穿透 雪崩 --做缓存</h2>
+    击穿 大量并发发生 key失效 大量并发到db
+        只允许第一个重新加载 使用两个线程 一个访问库 一个监控redis,并更新锁超时时间
+    穿透 查询是系统不存在的 布隆过滤器
+    雪崩 大量key 同时失效
+        时点性无关 随机过期时间
+        零点失效 业务层延时
+
+    <h2 class="anchor">分布式锁</h2>
+    set nx
+    过期时间
+    多线程(守护线程)延长过期
+
+    <h2 class="anchor">api</h2>
+    jedis --github 看readme.md 线程不安全
+    lettuce --github 看readme.md 线程安全
+    spring data --spring官网找spring data redis
+
+    springboot --spring官网找springboot
+        RedisTemplate 序列化是使用java方式 所以key是乱码
+        RedisTemplate.getConnectionFactory().getConnectino() 低阶api 可以使用redis原子操作
+        StringRedisTemplate
+            setKeySer
+            setValueSer
+
 
 
     <h2 class="anchor">...</h2>
