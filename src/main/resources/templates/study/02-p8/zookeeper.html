@@ -19,13 +19,50 @@
 <pre>
 
     <h2 class="anchor">引入</h2>
-
-    持久节点
-    临时节点 session
+    zookeeper.apache.org
+    主从模型
+        leader挂了, 服务不可用, 不可靠,
+        事实 zk集群极其高可用
+        若有一种方式可以快速恢复出一个leader
+    两种状态
+        可用 有主
+        不可用 无主
+        不可用恢复到可用应该越快越好
+    客户端连接到zookeeper会产生一个session(创建 销毁)
+    分布式锁 可用session当做判断依据,挂了或执行完了删除session锁
+    目录树结构
+        节点(逻辑上可以存在序列节点)可以存数据 官方限制1M 为了达到高性能
+        持久节点
+        临时节点 session
 
     <h2 class="anchor">安装</h2>
+    官网wget下载 解压
+    添加到PATH --/zk/bin
+    zoo.cfg --默认启动加载配置文件
+        tickTime=2000 --心跳时间 确保从活着
+        initLimit=10 --心跳*10 初始化连接 超出时间丢弃节点
+        syncLimit=5 --心跳*5 主节点有同步等操作 超出时间认为有问题
+        dataDir= --持久化目录
+            放一个文件 myid --内容为下四个节点中本机节点的号 例如 1
+        # 4个节点 靠人规划zookeeper集群
+        # =节点:若选为leader此端口起leader:没有leader,从这个端口通信 过半谦让选leader
+        server.1=node01:2888:3888
+        server.2=node02:2888:3888
+        server.3=node03:2888:3888
+        server.4=node04:2888:3888
+    启动 zkServer.sh help/start(后台)/start-foreground(前台)/...
 
-
+    <h2 class="anchor">使用</h2>
+    二进制安全的
+    连接 zlCli.sh
+    创建节点 create /folder "" --不加数据不能创建节点
+    获得节点数据 get /folder
+        cZxid = 0x200000002 --创建
+            顺序执行,leader单机维护递增器
+            0x 2(纪元,第几个leader,重新选举会+1) 00000002(创建事务id号)
+        mZxid = 0x200000004 --修改
+            0x 2 00000004(修改事务id号)
+        pZxid
 
     <h2 class="anchor">...</h2>
 
