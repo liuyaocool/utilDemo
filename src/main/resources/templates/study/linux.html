@@ -49,6 +49,7 @@
         上传: scp local_file1 local_file2 ... linux_user@ip:linux_folder
     文件夹
         上传: scp -v -r local_folder linux_user@ip:linux_folder
+        上传到相同目录下: scp -r ./folder/ root@ip:'pwd'
         下载: scp -r linux_user@linux_ip:linux_folder local_folder
 
     tar解压: tar xf ***.tar.gz

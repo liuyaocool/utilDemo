@@ -42,7 +42,7 @@
         tickTime=2000 --心跳时间 确保从活着
         initLimit=10 --心跳*10 初始化连接 超出时间丢弃节点
         syncLimit=5 --心跳*5 主节点有同步等操作 超出时间认为有问题
-        dataDir= --持久化目录
+        dataDir= --持久化目录 /var/apache/zppkeeper
             放一个文件 myid --内容为下四个节点中本机节点的号 例如 1
         # 4个节点 靠人规划zookeeper集群
         # =节点:若选为leader此端口起leader:没有leader,从这个端口通信 过半谦让选leader
@@ -51,18 +51,30 @@
         server.3=node03:2888:3888
         server.4=node04:2888:3888
     启动 zkServer.sh help/start(后台)/start-foreground(前台)/...
+    集群配置
+        所有节点相同的配置文件 不同的myid
+
+    注意 在linux中 需要防火墙开启端口才能实现集群之间的相互通信
 
     <h2 class="anchor">使用</h2>
     二进制安全的
     连接 zlCli.sh
-    创建节点 create /folder "" --不加数据不能创建节点
-    获得节点数据 get /folder
+    创建节点
+        create /folder "" --不加数据不能创建节点
+        create -s /folder "" --多人创建同一节点会变成序列节点,可以规避被覆盖问题
+    获得节点数据 get -s /folder
         cZxid = 0x200000002 --创建
             顺序执行,leader单机维护递增器
-            0x 2(纪元,第几个leader,重新选举会+1) 00000002(创建事务id号)
+            0x 2(32位-开头0省略 leader纪元,第几个,重新选举会+1) 00000002(事务id号,同mZxid用一个顺序)
         mZxid = 0x200000004 --修改
-            0x 2 00000004(修改事务id号)
-        pZxid
+            0x 2 00000004(事务id号)
+        pZxid = 0x200000004 --本节点下 创建最后一个子节点时的事务id号
+        ephemeralOwner = 0X0 --临时节点 sessionid
+            伴随session会话期 会话结束删除
+            如果服务端挂了 连其他服务端用同一sessionid仍可以连接并拿到数据
+            创建的时候会统一视图,消耗一个事务id同步sessionid
+            create -e /n01
+
 
     <h2 class="anchor">...</h2>
 
