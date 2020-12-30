@@ -282,6 +282,8 @@
     copy on write --内核机制
 
     | --管道
+        正则 egrep --xxxxx | egrep '正则'
+            例如 netstat -natp | egrep '(2888|3888)' --或者
         管道会创建子进程
         |前以输出流形式交给后边, |后以输入流形式接收 例如: cat aaa | head -2
         若|后命令无法以输入流形式接收, 则需要使用xargs
