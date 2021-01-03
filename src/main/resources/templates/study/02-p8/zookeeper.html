@@ -97,8 +97,10 @@
             如果服务端挂了 连其他服务端用同一sessionid仍可以连接并拿到数据
             创建的时候会统一视图,消耗一个事务id同步sessionid
             create -e /n01
+    事务id 是递增的 不可逆的
 
     <h2 class="anchor">节点间的socket连接</h2>
+    每个节点之间都会建立一个socket连接,要么是被连接,要么是连接别人
     2888 --leader接收写请求 同步数据
     3888 --选主投票
     netstat -natp | egrep '(2888|3888)'
@@ -111,6 +113,84 @@
             1行 自己监听3888
             2/3/5行 自己的3888被其他连接
             4行 连接主节点
+
+    <h2 class="anchor">扩展性</h2>
+    框架 架构 → 角色
+        leader
+        follower
+        observer
+            中文: 观察者
+            配置: server.4=node04:2888:3888:observer
+    读写分离
+        observer放大查询能力
+        只有follower才能选举
+
+    <h2 class="anchor">可靠性</h2>
+    <red>攘其外必先安其内</red>
+    快速恢复leader
+    数据 可靠 可用 一致性
+        攘其外
+            一致性?
+            最终一致性
+            数据一致过程中节点是否对外提供服务
+        分布式
+            paxos协议
+            ZAB协议
+
+    <h2 class="anchor">paxos协议</h2>
+    文章
+        百度搜: paxos site:douban.com
+        https://www.douban.com/note/208430424/
+    基于消息传递的一致性算法
+    paxos前提: 计算环境 网络环境 可信 不会被入侵 破坏
+    协议内容:见文章
+
+    <h2 class="anchor">ZAB协议</h2>
+    知识点
+        Automatic-原子: 要么成功 要么失败 没有中间状态(队列+两阶段提交)
+        Broadcast-广播: 分布式多节点 不代表全部知道(过半通过)
+        队列: 先进先出 顺序性
+        zk的数据在内存(write内存)
+        用磁盘保存日志(log)
+    最终一致性流程 --可用状态
+        <img src="zk/ZAB.png" width="500"/>
+
+        <yellow>过半返回 是在log完成后 还是要在write完成后?</yellow>
+
+    选主流程 --不可用状态
+
+
+    <h2 class="anchor">watch 监控 观察</h2>
+    集群中节点间的联动
+
+
+
+    <h2 class="anchor">API</h2>
+    callback 响应式编程
+
+    zk = new ZooKeeper("192.168.1.161:2181,192. ...", 3000, new Watcher(){
+        public void process(WatchedEvent e){
+            state = e.getState();
+            type = e.getType();
+            path = e.getPath();
+            e.getState();
+            switch(state) {
+                case
+            }
+
+
+        }
+    })
+
+    zk.getState()
+
+
+    <h2 class="anchor">分布式锁</h2>
+    争抢锁
+    获得锁的人出问题,临时节点可规避这个问题
+    获得锁的人执行成功,释放锁
+    锁释放了 删除了,别人怎么知道?
+
 
     <h2 class="anchor">...</h2>
 
