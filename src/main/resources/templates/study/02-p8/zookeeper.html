@@ -158,38 +158,53 @@
         <yellow>过半返回 是在log完成后 还是要在write完成后?</yellow>
 
     选主流程 --不可用状态
-
+        场景: 第一次启动集群,重启集群,leade挂了后
+        自己会有myid Zxid
+        新的leader: 数据最全(Zxid) myid最大
+        过程:
+            3888两两通信
+            只要有人投票,准leader定会发起对自己的投票
+            推选制,先比较zxid,再比较myid,都是大的优先
 
     <h2 class="anchor">watch 监控 观察</h2>
-    集群中节点间的联动
-
-
+    watch 节点 会注册一个回调事件
+    当节点发生 create change delete child 事件后
+    会回调注册的事件
 
     <h2 class="anchor">API</h2>
     callback 响应式编程
+    见 com.liuyao.demo.test.zookeeper.ZkApi.java
 
-    zk = new ZooKeeper("192.168.1.161:2181,192. ...", 3000, new Watcher(){
-        public void process(WatchedEvent e){
-            state = e.getState();
-            type = e.getType();
-            path = e.getPath();
-            e.getState();
-            switch(state) {
-                case
-            }
+    获得zk实例 new ZooKeeper()
+    创建节点 create()
+    修改节点 setData()
+    获得节点 getData()
+        参数：
+            path --节点名称
+            Watch：监控 是一次性的
+
+        byte[] getData() 同步
+        void getData() 异步的
 
 
-        }
-    })
-
-    zk.getState()
-
+    <h2 class="anchor">配置中心</h2>
+    思路：修改(set) 会回调Watch
 
     <h2 class="anchor">分布式锁</h2>
-    争抢锁
-    获得锁的人出问题,临时节点可规避这个问题
-    获得锁的人执行成功,释放锁
-    锁释放了 删除了,别人怎么知道?
+    能够同时访问就能做
+    redis作为分布式锁问题
+        需要快速的特点 需要单点 且不能开启持久化
+        单点不做持久化的话 如果挂了 有可能有重复的锁 重复的人又同时干一件事了
+    使用zk
+        争抢锁 只能一个获得锁
+        获得锁的人 出问题,临时节点可规避这个问题
+        获得锁的人执行成功,释放锁
+        锁释放了 删除了,别人怎么知道?
+            主动轮询、心跳：等 弊端：心跳延迟 压力（见下行）
+            watch：解决延迟问题 弊端：锁释放了，但其他没获得锁的仍会同时访问，造成压力
+            sequence+watch：watch上一个，最小的获得锁，一旦最小的释放了，只给第二个发事件回调
+
+
 
 
     <h2 class="anchor">...</h2>
