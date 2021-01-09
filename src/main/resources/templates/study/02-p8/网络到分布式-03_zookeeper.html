@@ -153,7 +153,7 @@
         zk的数据在内存(write内存)
         用磁盘保存日志(log)
     最终一致性流程 --可用状态
-        <img src="zk/ZAB.png" width="500"/>
+        <img src="source/zk/ZAB.png" width="500"/>
 
         <yellow>过半返回 是在log完成后 还是要在write完成后?</yellow>
 
@@ -185,7 +185,6 @@
 
         byte[] getData() 同步
         void getData() 异步的
-
 
     <h2 class="anchor">配置中心</h2>
     思路：修改(set) 会回调Watch

@@ -14,15 +14,122 @@
     </style>
 </head>
 <body>
+<h5 style="position:fixed;right:10px;margin:0;">号称微服务下一代 service mesh</h5>
 
 <pre>
+                          _oo0oo_
+                         o8888888o
+                         88" . "88
+                         (| -_- |)
+                         0\  =  /0
+                       ___/`---'\___
+                     .' \\|     |// '.
+                    / \\|||  :  |||// \
+                   / _||||| -:- |||||- \
+                  |   | \\\  -  /// |   |
+                  | \_|  ''\---/''  |_/ |
+                  \  .-\__  '-'  ___/-. /
+                ___'. .'  /--.--\  `. .'___
+             ."" '<  `.___\_<|>_/___.' >' "".
+            | | :  `- \`.;`\ _ /`;.`/ - ` : | |
+            \  \ `_.   \_ __\ /__ _/   .-` /  /
+        =====`-.____`.___ \_____/___.-`___.-'=====
+                          `=---='
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                      佛祖保佑         永无BUG
 
-    <h2 class="anchor">介绍</h2>
+    <h2 class="anchor">OSI 参考模型</h2>
 
-    <h2 class="anchor">安装</h2>
+    应用层
+        linux: 一切皆文件
+        cd /proc/$$/fd
+            $$: 当前解释程序进程id号
+            fd: 文件描述符
+        exec 8<> /dev/tcp/www.baidu.com/80 --建立socket连接
+            <>: I/O 数入/输出
+            8<>: 8指向socket(套接字通信,内核中转换为套接字)
+        echo -e 'get / http/1.0\n' >& 8 --http协议输送到百度
+            >: 重定向输出
+            &: 代表8是文件描述符,不是文件
+            -e: \n 转化为换行符
+            ''之间: 最简单http协议
+        cat 0<& 8 --读取返回结果
+            标准输入0 来自文件描述符8
+            cat: 读文件,从标准输入读东西
+        exec 8<& - --关掉
+    传输控制层
+        三次握手 通信双方都要确认是否可通信
+            客户端 → 服务端: 我想连接
+            客户端 ← 服务端: 确认可以
+            客户端 → 服务端: 收到确认 (数据粘连: 同时发数据)
+        数据传输
+        四次分手 socket资源-可有的端口
+            客户端 → 服务端: 我想断开
+            客户端 ← 服务端: 确认可以
+            客户端 ← 服务端: 我想断开
+            客户端 → 服务端: 确认可以
+        查看建立的连接 netstat -natp
+    网络层
+        配置网卡: cat /etc/sysconfig/network-script/ifcfg-eth0
+        路由表: route -ncat /etc/sysconfig/network-script/ifcfg-eth0
+        下一跳机制
+        路由器： 公网IP 和 内网IP
 
-    <h2 class="anchor">集群</h2>
+        主机A 192.168.0.102
+            查看路由表 route -n
+                Kernel IP routing table
+                Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+                0.0.0.0         192.168.0.1     0.0.0.0         UG    100    0        0 ens33
+                192.168.0.0     0.0.0.0         255.255.255.0   U     100    0        0 ens33
+                192.168.8.0     0.0.0.0         255.255.252.0   U     0      0        0 ens33
+            添加虚拟网卡 ifconfig ens33:3 192.168.11.11/24    --24: netmask=255
+                <b>ens33:3: ***
+                inet 192.168.11.11  netmask 255.255.255.0  broadcast 192.168.11.255
+                ether 00:0c:29:1e:57:d6  txqueuelen 1000  (Ethernet)</b>
+        主机B 192.168.0.21
+            route -n
+                Kernel IP routing table
+                Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+                0.0.0.0         192.168.0.1     0.0.0.0         UG    0      0        0 ens33
+                192.168.0.0     0.0.0.0         255.255.255.0   U     0      0        0 ens33
+            若要访问到A虚拟网卡 ping 192.168.11.11
+                添加路由表
+                    route add -host 192.168.11.11 gw 192.168.0.102 →
+                    -host 主机
+                    -net 网段
+                192.168.11.11   192.168.0.102   255.255.255.255 UGH   0      0        0 ens33
+    数据链路层
+        查看局域网MAC地址: arp -a
+    访问过程
+        mac地址 点到点
+        ip地址 端到端
+        本机包到路由器
+            192.168.1.6:12345 → 公网ip:12333 123为路由器自己申请的端口
 
+        <img src="source/net-DCS/net connect.png" style="width: 700px;border: 1px solid red;">
+
+    <h2 class="anchor">tomcat慢\并发少的原因</h2>
+    1: 再七层网络协议的末端 需要经过传输控制层(三次握手)\网络层等之后才到达 再开辟资源 cpu切换状态-内核态到用户态
+    2: 是java写的 运行在jvm上 jvm本身是一个应用程序 jvm里再分配虚拟机跑tomcat
+        jvm 内核加应用程序 应用程序又虚了一个内存(等于又虚了一个虚拟机)
+
+    反向代理：代理握手
+
+    <h2 class="anchor">负载均衡服务器</h2>
+    快 - 4层
+    数据包转发级别
+    不会和client握手
+    后端服务器是镜像的
+
+    nginx 会与client握手
+
+    过程：
+    NAT模式 IP地址转换
+    <img src="source/net-DCS/serverload-NAT.jpg" style="border: 1px solid red;">
+    DR模式
+    <img src="source/net-DCS/serverload-DR.jpg" style="border: 1px solid red;">
+
+    大厂负载架构： 网络 → LVS(包负载) → nginx(握手负载) → tomcat
 
 
     <h2 class="anchor">...</h2>
