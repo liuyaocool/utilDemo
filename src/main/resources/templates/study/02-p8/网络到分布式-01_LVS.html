@@ -128,7 +128,7 @@
 
             tip: 香港买云主机 搭建VPN 内地连接 可实现翻墙
 
-    <h2 class="anchor">LVS</h2>
+    <h2 class="anchor">LVS负载均衡</h2>
     隐藏VIP方法：对外隐藏，对内可见
         kernel parameter:
         目标mac地址为全F，交换机触发广播
@@ -198,7 +198,6 @@
         载入此前的规则：-R
             ipvsadm -R < /path/form/somefile
     搭建
-        <img src="source/net-DCS/LVS-MODEl.png">
         node01(lvs server) 配置vip:
             ifconfig eth0:1 192.168.150.100/24
                 或: ifconfig eth0:1 192.168.150.100 netmask 255.255.255.0
@@ -239,11 +238,32 @@
                 SYN_RECV： 基本上lvs都记录了，证明lvs没事，一定是后边网络层出问题
                     握手发送 没收到确认包
 
+    <img src="source/net-DCS/LVS-MODEl.png">
 
-
-
-
-
+    <h2 class="anchor">keeplived高可用</h2>
+    主备 主(单点→主备)从
+    问题
+        1 lvs会挂: 业务下线,单点故障
+            解决问题
+                单点故障: 一个有问题 那么用一堆 一变多 vip唯一,所以不能实现
+                2个思路 多点: 主备 主主
+            结论: 先讨论主备
+                方向性:
+                    备→主 每隔一段时间去看一下
+                    主→备 主定时发广播
+                效率性:  权重
+        2 RS会挂,一部分用户会请求异常,lvs还存有这个RS的负载记录
+            如何确定RS挂了: 验证应用层的http协议 发请求 判断返回==200
+                ping是不对的 因为验证的网络层 连握手层(传输控制层)都不到
+            解决:
+                ipvs改源码
+                第三方实现,keepalived,代替人自动运维,解决单点故障,实现HA高可用
+                    1 监控自己的服务
+                    2 master通告自己还活着, backup监听master状态,master挂了,一堆backup推举出一个新master
+                    3 配置vip,添加ipvs,keeplived有配置文件
+                    4 后端server做健康检查
+    keeplived是一个通用的工具,主要作为HA(高可用)实现
+    nginx,可以做负载均衡,但有单点故障,也可用keeplived解决
 
 
 keepalived实验：
@@ -313,7 +333,7 @@ node01,node04:
 
 
     <h2 class="anchor">...</h2>
-    最后一节
+    最后一节 58:00
 
 </pre>
 
