@@ -55,6 +55,10 @@
     tar解压: tar xf ***.tar.gz
 
     <h2 class="anchor">网络配置</h2>
+    一个网卡可以配置多个ip地址
+    lo网卡: ifconfig 中的 lo 本地环回网卡
+        linux内核中虚拟的一张 优先级高于物理网卡(如eth0)-就近原则
+        任何能匹配到此网卡(网关与运算)的包 都不会向计算机外部发 会直接返回应用层程序
     修改主机名 →
         vi  /etc/sysconfig/network
             NETWORKING=yes
@@ -179,16 +183,35 @@
     <h2 class="anchor">重定向 > >> >& <& < << </h2>
     https://www.runoob.com/linux/linux-shell-io-redirections.html
 
-    0 是一个文件描述符，表示标准输入(stdin)
-    1 是一个文件描述符，表示标准输出(stdout)
-    2 是一个文件描述符，表示标准错误(stderr)
+    文件描述符
+        0 标准输入(stdin)
+        1 标准输出(stdout)
+        2 标准错误(stderr)
 
-    1>/dev/null --标准输出指向空，即控制台无内容
-    2>/dev/null --标准错误指向空
+        1>/dev/null --标准输出指向空，即控制台无内容
+        2>/dev/null --标准错误指向空
 
     echo "123" >> 文件名 --文件内容追加一行数据
     echo "123" > 文件名 --文件内容替换为数据
 
+    >& -- >代表重定向 &代表指向文件描述符,不指向文件
+
+    socket连接示例
+        cd /proc/$$/fd
+            $$: 当前解释程序进程id号
+            fd: 文件描述符
+        exec 8<> /dev/tcp/www.baidu.com/80 --建立socket连接
+            <>: I/O 数入/输出
+            8<>: 8指向socket(套接字通信,内核中转换为套接字)
+        echo -e 'get / http/1.0\n' >& 8 --http协议输送到百度
+            >: 重定向输出
+            &: 代表8是文件描述符,不是文件
+            -e: \n 转化为换行符
+            ''之间: 最简单http协议
+        cat 0<& 8 --读取返回结果
+            标准输入0 来自文件描述符8
+            cat: 读文件,从标准输入读东西
+        exec 8<& - --关掉
 
     <h2 class="anchor">文件系统</h2>
     /boot
@@ -201,7 +224,10 @@
     /media 挂载点目录,移动设备
     /mnt 挂载点目录,额外的临时文件系统
     /opt 可选目录,第三方程序
-    /proc 伪文件系统,内核映射文件 → echo $$
+    /proc 伪文件系统,内核映射文件 → echo $$ --虚拟目录 开机之后才有
+        内核/进程中变量/参数抽象成文件 改文件值=改内存中参数的值 修改后即时生效
+        vi打开会产生隐藏的临时文件 约等于在地址空间产生一个新变量 内核有限制
+        只能用echo去重定向
     /sys 伪文件系统,跟硬件设备相关的属性映射文件
     /tmp 临时文件, /var/tmp
     /var 可变化的文件
