@@ -262,75 +262,133 @@
                     2 master通告自己还活着, backup监听master状态,master挂了,一堆backup推举出一个新master
                     3 配置vip,添加ipvs,keeplived有配置文件
                     4 后端server做健康检查
+
     keeplived是一个通用的工具,主要作为HA(高可用)实现
     nginx,可以做负载均衡,但有单点故障,也可用keeplived解决
 
+    查看帮助文档(第5类): man 5 keeplived.conf 搜virtual_ipaddress...
 
-keepalived实验：
-主机： node01~node04
+    keepalived实验： node01~node04
+    node01: --恢复默认
+        ipvsadm -C
+        ifconfig eth0:8 down
+    node02,node03配置使用之前配置
+    node01,node04:
+        yum install keepalived ipvsadm -y
+        cd  /etc/keepalived/
+        cp keepalived.conf keepalived.conf.bak
+        vi keepalived.conf --配置
+            globak_def: 全局配置 配置邮件通知
+            node01:
+            vrrp_instance VI_1 {    // vrrp：虚拟路由冗余协议！
+                // 思路 主机配置好 备机配置不需要很好, 主机挂了抓紧重启就好了
+                state MASTER         //  node04: BACKUP
+                // 服务器安多个网卡 每一个网卡不同功能
+                interface eth0
+                virtual_router_id 51
+                priority 100		 // 权重	 node04: 50
+                advert_int 1
+                authentication {    // 权限认证
+                    auth_type PASS
+                    auth_pass 1111
+                }
+                // man 5 keeplived.conf → :/virtual_ipaddress...
+                virtual_ipaddress { // vip
+                    // ifconfig eht0:3 192.168.150.100/24
+                    // label:标签
+                    192.168.150.100/24 dev eth0 label  eth0:3
+                }
+            }
+            // 虚拟服务 可以配置多个
+            // ipvsadm -A -a
+            virtual_server 192.168.150.100 80 { // -A 80:httpd 443:https
+                delay_loop 6
+                lb_algo rr
+                lb_kind DR //NAT TUN 模式
+                nat_mask 255.255.255.0
+                persistence_timeout 0 // 秒 测试=0 生产=适当值
+                // 解释 同一个客户端 在短时间内请求了两次 lvs可能负载到两台服务器 这样两台服务器都开辟了资源
+                // 而lvs服务器会记录并保留 第一次请求负载到哪台服务器 一段时间(此配置)
+                // 当第二次请求到来时 lvs根据保留再次负载到第一次那台服务器 可节省其他服务器(可能负载到的)资源
+                protocol TCP
+                // 真实服务 rip 配多个
+                real_server 192.168.150.12 80 { // -a -r
+                    weight 1
+                    HTTP_GET { // 健康检查配置 看帮助文档 SSL_GET?
+                        url {
+                          path /
+                          status_code 200
+                        }
+                        //url { // 可以在web项目单独写一个健康检查页面
+                        //  path /
+                        //  status_code 200
+                        //}
+                        connect_timeout 3
+                        nb_get_retry 3
+                        delay_before_retry 3
+                    }
+                }
+                real_server 192.168.150.13 80 { // 只有ip同上一个不一样
+                    weight 1
+                    HTTP_GET {
+                        url {
+                          path /
+                          status_code 200
+                        }
+                        connect_timeout 3
+                        nb_get_retry 3
+                        delay_before_retry 3
+                    }
+                }
+            }
+            // 拷贝到另一台lvs备用服务器
+            scp  ./keepalived.conf  root@node04:`pwd`
 
-node01:
-	ipvsadm -C
-	ifconfig eth0:8 down
+    service keepalived stat
+    ifconfig
+    ipvsadm -ln
+        lvs备机 会先配置内核模块 为了快速切换
 
-----------------------------
-node01,node04:
-	yum install keepalived ipvsadm -y
-	配置：
-		cd  /etc/keepalived/
-		cp keepalived.conf keepalived.conf.bak
-		vi keepalived.conf
-			node01:
-			vrrp：虚拟路由冗余协议！
-				vrrp_instance VI_1 {
-					state MASTER         //  node04  BACKUP
-					interface eth0
-					virtual_router_id 51
-					priority 100		 //	 node04	 50
-					advert_int 1
-					authentication {
-						auth_type PASS
-						auth_pass 1111
-					}
-					virtual_ipaddress {
-						192.168.150.100/24 dev eth0 label  eth0:3
-					}
-				}
-			virtual_server 192.168.150.100 80 {
-				delay_loop 6
-				lb_algo rr
-				lb_kind DR
-				nat_mask 255.255.255.0
-				persistence_timeout 0
-				protocol TCP
+    演示 主lvs挂掉
+        node01 ifconcig eth0 down
+        node04 ifconcig
+            ipvsadm -lnc
+        node01 ifconcig eth0 up 抢回主
+    演示 负载挂掉一个
+        node03 service httpd stop
+        刷新页面 192.168.150.100
+        node01 ipvsadm -ln
+        node04 ipvsadm -ln
+    演示 负载修好
+        node03 service httpd start
+        刷新页面 192.168.150.100
+        node01 ipvsadm -ln
+        node04 ipvsadm -ln
 
-				real_server 192.168.150.12 80 {
-					weight 1
-					HTTP_GET {
-						url {
-						  path /
-						  status_code 200
-						}
-						connect_timeout 3
-						nb_get_retry 3
-						delay_before_retry 3
-					}
-				}
-				real_server 192.168.150.13 80 {
-					weight 1
-					HTTP_GET {
-						url {
-						  path /
-						  status_code 200
-						}
-						connect_timeout 3
-						nb_get_retry 3
-						delay_before_retry 3
-					}
-				}
-			scp  ./keepalived.conf  root@node04:`pwd`
+    node01 ps -ef | grep keepalived
+        会有三个进程
+        1个父进程 说活着           --init.d=1(进程id号)
+        2个子进程 用来与真实服务器健康检查
 
+    java抛线程, linux抛进程
 
+    BUG --异常退出
+        kill -9 父pid -- -9:强制退出 keeplved没注意就干掉了
+        kill -9 子pid
+        kill -9 子pid
+        ifconfig --vip没收回
+        ipvsadm -ln --内核配置也没收回
+        主lvs没有自己还活着的进程(父进程)
+        备lvs收不到主还活着,自己就开启网卡,会出现两个主机配了vip
+        造成client混乱,一个client的三次握手四次分手会负载到不同的真实服务器
+        进而造成连接建立不起来,丢包情况
+    BUG测试环境看不出来的原因
+        主机arp -a 下一跳的mac地址是写死的,vip只会访问同一台lvs服务器
+        而在真实的网络环境下, 经过多个路由, 下一跳是不确定的
+        使用守护进程,但守护进程可能不可靠,也会挂
+        所以需要一个可靠地技术 zookeeper
+
+    主备模型 原主修好了,要不要抢回主角色,取决于成本复杂度,例如数据同步
 
     <h2 class="anchor">...</h2>
     最后一节 58:00
