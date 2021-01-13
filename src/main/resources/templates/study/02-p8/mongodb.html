@@ -55,6 +55,67 @@
         db.shop.insert({})
 
 
+    <h2 class="anchor">配置文件</h2>
+    第一种 官方推荐 适合2.6+ yaml格式
+        systemLog:
+            destination: "file"
+            path: "/opt/mongodb/logs/27017.log"
+            logAppend: true
+            # logRotate: true
+        storage:
+            journal:
+               enabled: true
+            dbPath: "/opt/mongodb/data/27017"
+            directoryPerDB: true
+            # engine:
+            wiredTiger:
+             engineConfig:
+                #如果一台机器启动一个实例这个可以注释选择默认，
+                #如果一台机器启动多个实例，需要设置内存大小，避免互相抢占内存
+                cacheSizeGB: 2.5
+                directoryForIndexes: true
+        processManagement:
+            fork: true
+            pidFilePath: "/opt/mongodb/pid/27017.pid"
+            # timeZoneInfo: "/usr/share/zoneinfo"
+        net:
+            port: 27017
+            # maxIncomingConnections: 2000
+            bindIpAll: true  # bind all IPv4 & IPv6 addr
+            # bindIp: 0.0.0.0  # 0.0.0.0 = bindIpAll
+            #http:
+             #     enabled: true
+              #    RESTInterfaceEnabled: true
+        #security:
+        #   keyFile: "/opt/mongodb/key/27017"
+        #   clusterAuthMode: "keyFile"
+        #   authorization: "enabled"
+        replication:
+            # oplogSizeMB: 1024
+            replSetName: "osyunwei"
+
+    第二种 适合所有
+        port=27017
+        dbpath=/home/data/mongodb/mongodb_data/
+        logpath=/home/data/mongodb/mongodb_log/mongodb.log
+        pidfilepath=/usr/local/mongodb/mongo.pid
+        fork=true
+        logappend=true
+        shardsvr=true
+        directoryperdb=true
+        #auth=true
+        #keyFile =/usr/local/mongodb/keyfile
+        replSet =osyunwei
+
+    mongo replSet.js --非交互式 执行脚本
+    replSet.js --添加副本集
+        rs.initiate({_id:"mongodb-set",members:[
+            {_id:0,host:"192.168.26.129:27017",priority:2},
+            {_id:1,host:"192.168.26.129:27018",priority:1},
+            {_id:2,host:"192.168.26.129:27019",arbiterOnly:true}
+        ]});
+    mongo 127.0.0.1:$port/admin --eval "db.shutdownServer()" --停止mongodb服务
+        使用kill pid 停止会出现一堆问题
     <h2 class="anchor">...</h2>
 
 </pre>

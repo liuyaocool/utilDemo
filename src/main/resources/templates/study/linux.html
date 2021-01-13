@@ -164,6 +164,8 @@
             #! 开头的一行会设置解释器运行环境
 
     <h2 class="anchor">bash shell</h2>
+    https://www.jb51.net/article/160398.htm
+
     a=1 --定义变量
     ((a++)) --双小括号 算数计算
     echo $a
@@ -174,6 +176,16 @@
     ps -aux |head -1; ps -aux | grep xxx --筛选时保留列名
     kill -9 --结束任务
     name=$(命令) --将命令结果赋值属性
+    循环
+        for I in 1 2 3;do
+            //操作
+        done
+        for I in {1..100};do
+            //操作
+        done
+        for ((i=0;i<100;i++));do
+            //操作
+        done
 
 
     hash优化命令查找
