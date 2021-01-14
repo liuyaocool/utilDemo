@@ -48,14 +48,20 @@
         mongod -f
     连接
         mongo --默认连接27017
-
     库操作
         show dbs --显示所有数据库
         use mashibing --创建了一个数据库
         db.shop.insert({})
 
 
+
+
+
+
+    
     <h2 class="anchor">配置文件</h2>
+    https://blog.51cto.com/xiaorenwutest/2136424
+
     第一种 官方推荐 适合2.6+ yaml格式
         systemLog:
             destination: "file"
@@ -106,6 +112,28 @@
         #auth=true
         #keyFile =/usr/local/mongodb/keyfile
         replSet =osyunwei
+        # 开启安全认证 需要在PRIMARY节点创建认证用户 见添加用户
+        auth=true // PRIMARY节点
+        oplogSize=100
+        keyFile=/usr/local/mongodb-4.0.2/keyfile
+
+    <h2 class="anchor">添加用户</h2>
+    use admin
+    db.createUser( {
+        user: "health_mg",
+        pwd: "health_mg@123",
+        roles: [ { role: "root", db: "admin" } ]
+    });
+
+
+    db.createUser({user: "health_mg",pwd:"health_mg@123",roles:[{role:"root",db:"admin"}]});
+    rs.initiate({_id:"health-mongo-replica",members:[
+            {_id:0,host:"health-kafka-01:27017",priority:2},
+            {_id:1,host:"health-kafka-02:27018",priority:1},
+            {_id:2,host:"health-kafka-03:27019",arbiterOnly:true}
+        ]});
+    <h2 class="anchor">副本集</h2>
+    https://blog.csdn.net/pengjunlee/article/details/84101732
 
     mongo replSet.js --非交互式 执行脚本
     replSet.js --添加副本集
@@ -116,6 +144,63 @@
         ]});
     mongo 127.0.0.1:$port/admin --eval "db.shutdownServer()" --停止mongodb服务
         使用kill pid 停止会出现一堆问题
+
+    副本集更新
+        # 向副本集中添加成员
+        rs.add("172.16.250.240:27017")
+        # 从副本集中删除成员
+        rs.remove("172.16.250.240:27017")
+        # 向副本集中添加仲裁
+        rs.addArb("172.16.250.240:27017")
+        # 向副本集中添加备份节点
+        rs.add({"_id":3,"host":"172.16.250.240:27017","priority":0,"hidden":true})
+    更改副本集配置
+        rs0:PRIMARY> var conf=rs.conf()
+        rs0:PRIMARY> conf.members[1].priority = 5
+        5
+
+        # PRIMARY节点上执行如下命令
+        rs0:PRIMARY> rs.reconfig(conf)
+        {
+            "ok" : 1,
+            "operationTime" : Timestamp(1542248518, 1),
+            "$clusterTime" : {
+                "clusterTime" : Timestamp(1542248518, 1),
+                "signature" : {
+                    "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                    "keyId" : NumberLong(0)
+                }
+            }
+        }
+
+        # SECONDARY节点上执行如下命令，需增加 force 参数
+        rs0:SECONDARY> rs.reconfig(conf,{force:true})
+        {
+            "ok" : 1,
+            "operationTime" : Timestamp(1542248726, 1),
+            "$clusterTime" : {
+                "clusterTime" : Timestamp(1542248726, 1),
+                "signature" : {
+                    "hash" : BinData(0,"AAAAAAAAAAAAAAAAAAAAAAAAAAA="),
+                    "keyId" : NumberLong(0)
+                }
+            }
+        }
+    例如，强制让一个节点成为Primary，可以将该节点的优先级设置成最高。
+        cfg = rs.conf()
+        cfg.members[0].priority = 5
+        cfg.members[1].priority = 1
+        cfg.members[2].priority = 1
+        rs.reconfig(cfg)
+
+
+    <h2 class="anchor">BUG</h2>
+    无法创建用户：
+        描述： use admin → db.createUser() 报错not master and slaveok=false
+        原因： 配置使用集群模式，但没有初始化集群，mongodb认为当前节点是集群备节点，由于集群错误所以不能添加用户等操作
+        解决： 集群中将自己添加进去
+            rs.initiate({_id:"mongodb-set",members:[{_id:0,host:"192.168.26.129:27017",priority:2}]})
+
     <h2 class="anchor">...</h2>
 
 </pre>
