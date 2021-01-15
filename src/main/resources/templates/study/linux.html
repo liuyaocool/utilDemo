@@ -101,6 +101,8 @@
             systemctl start/stop/status firewalld --防火墙操作
     开放端口 iptables
         redhat
+            iptables -L -n --查看开放端口
+            iptables --list-rules
             iptables -A IN_public_allow -p tcp -m tcp --dport 10001 -m conntrack --ctstate NEW -j ACCEPT
         centos7+ 见防火墙
 
@@ -174,8 +176,7 @@
     echo $$ -打印bash shell进程号
     ps -ef --打印所有进程
     ps -aux |head -1; ps -aux | grep xxx --筛选时保留列名
-    kill -9 --结束任务
-    name=$(命令) --将命令结果赋值属性
+    kill -9 --结束任务 -9（强制）
     循环
         for I in 1 2 3;do
             //操作
@@ -186,6 +187,51 @@
         for ((i=0;i<100;i++));do
             //操作
         done
+    ${} --变量替换 等同于 $
+        a=linux
+        echo $ab // 打印 空行
+        echo ${a}b //打印 linuxb
+        file=/dir1/dir2/dir3/my.file.txt
+        删除
+            #*字符 --删掉第一个字符及其前边
+                ${file#*/} → dir1/dir2/dir3/my.file.txt
+                ${file#*.} → file.txt
+            ##*字符 --删掉最后一个字符及其前边
+                ${file##*/} → my.file.txt
+                ${file##*.} → txt
+            %字符* --删掉最后一个字符及其后边
+                ${file%/*} → /dir1/dir2/dir3
+                ${file%.*} → /dir1/dir2/dir3/my.file
+            %%字符* --删掉第一个字符及其后边
+                ${file%%/*} → 空值
+                ${file%%.*} → /dir1/dir2/dir3/my
+            记忆方法（键盘位置 # $ %）：
+                #(去左边) $ %(去右边) --最小匹配
+                ##(去左边) $ %%(去右边) --最大匹配
+        截取 :开始下标:截取长度
+                ${file:0:5} → /dir1
+                ${file:5:5} → /dir2
+        替换 /目标/替换为 //目标/替换为
+            ${file/dir/path} → /path1/dir2/dir3/my.file.txt --首个替换
+            ${file//dir/path}  /path1/path2/path3/my.file.txt --全部替换
+        长度
+            ${#file} → 27
+    ``-（反引号）、$() --命令替换 命令结果赋值属性 两者效果相同
+        用来重组命令行，先完成引号里的命令，其结果替换引号外命令
+        比如
+            a=(`ps -aux | grep mongod`) 等同于 a=($(ps -aux | grep mongod`))
+        $()的弊端： 不是所有类unix系统都支持，但反引号肯定支持
+    {}
+
+    awk --打印
+        语法： awk [选项]  '指令'  操作文件
+        https://blog.csdn.net/wdz306ling/article/details/80383824
+    ()
+        命令组。括号中的命令将会新开一个子shell顺序执行，所以括号中的变量不能够被脚本余下的部分使用。括号中多个命令之间用分号隔开，最后一个命令可以没有分号，各命令和括号之间不必有空格。
+        命令替换。等同于`cmd`，shell扫描一遍命令行，发现了$(cmd)结构，便将$(cmd)中的cmd执行一次，得到其标准输出，再将此输出放到原来命令。有些shell不支持，如tcsh。
+        用于初始化数组。如：array=(a b c d)   【($str) 会把字符串按照  字段分隔符：空格、制表符、换行符   ，分割形成 数组】
+    (()) [] [[]] {}
+        https://www.jb51.net/article/123081.htm
 
 
     hash优化命令查找
