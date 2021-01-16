@@ -12,6 +12,15 @@ public class Test {
 //        System.out.println(12.0%1 == 0);
 //        System.out.println(12.1%1 == 0);
 
+        int count = 0;
+        int times = 1000000;
+        double max = 0.6;
+        for (int i = 0; i < times; i++) {
+            double r = Math.random();
+            if (Math.sqrt(r) < 0.6) count ++;
+        }
+        System.out.println(count);
+
         int x = 1310 - 1540;int y = 167 - 136;ss(x,y);
         x = 1540 - 1800;y = 136 - 78;ss(x, y);
 
