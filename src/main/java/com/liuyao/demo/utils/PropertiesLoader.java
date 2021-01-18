@@ -16,7 +16,7 @@ public class PropertiesLoader {
 
     protected static final Map<String, Properties> PROPS = new ConcurrentHashMap<>();
     private static final String STARTER_PATH =
-            new File("").getAbsolutePath().replace("\\", "/");
+            new File("").getAbsolutePath().replace("\\", "/") + "/";
     private static final String JAR_PATH;
     private static final String[] RELATIVE_PATH = {"/", "/config/", "/conf/"};
 
