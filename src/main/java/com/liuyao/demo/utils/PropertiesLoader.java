@@ -43,9 +43,10 @@ public class PropertiesLoader {
             synchronized (PropertiesLoader.class){
                 if (null == PROPS.get(propName)){
                     Properties p = new Properties();
-                    File file = new File("");
+                    File file = new File(STARTER_PATH + propName);
                     for (int i = 0; i < RELATIVE_PATH.length; i++) {
-                        if ((file = new File(JAR_PATH + RELATIVE_PATH[i] + propName)).exists()) break;
+                        if (file.exists()) break;
+                        file = new File(JAR_PATH + RELATIVE_PATH[i] + propName);
                     }
                     InputStream is = null;
                     try {
