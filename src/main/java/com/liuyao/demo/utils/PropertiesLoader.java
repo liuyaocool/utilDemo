@@ -15,16 +15,19 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PropertiesLoader {
 
     protected static final Map<String, Properties> PROPS = new ConcurrentHashMap<>();
+    private static final String STARTER_PATH =
+            new File("").getAbsolutePath().replace("\\", "/");
     private static final String JAR_PATH;
     private static final String[] RELATIVE_PATH = {"/", "/config/", "/conf/"};
 
     static {
 
-        String startPath = new File("").getAbsolutePath().replace("\\", "/");
+
+        String sysPathStart = STARTER_PATH.substring(0, STARTER_PATH.indexOf("/") + 1);
         String jarPath = PropertiesLoader.class.getClassLoader().getResource("").getPath()
                 .replace("\\", "/").split(".jar")[0];
-        JAR_PATH = jarPath.substring(jarPath.indexOf(startPath), jarPath.lastIndexOf("/"));
-        System.out.println(JAR_PATH);
+        jarPath = jarPath.replaceFirst(jarPath.split(sysPathStart)[0], "");
+        JAR_PATH = jarPath.substring(0, jarPath.lastIndexOf("/") + 1);System.out.println("jar path: " + JAR_PATH);
 
         // 有BUG，不会获得jar包所在绝对路径 而是start.bat所在绝对路径
         // 打印 D:\PROJECT\javatest
@@ -47,13 +50,17 @@ public class PropertiesLoader {
                     InputStream is = null;
                     try {
                         if (file.exists()){
-                            System.out.println("file exist");
-                            System.out.println(file.getAbsolutePath());
+                            // 从jar包相对位置加载
+                            System.out.println("load properties：" + file.getAbsolutePath());
                             is = new FileInputStream(file);
                         } else {
-                            is = PropertiesLoader.class.getResourceAsStream("/" + propName);
+                            while (propName.startsWith("/")) {
+                                propName = propName.substring(1);
+                            }
+                            // 从class 文件处加载文件 jar包内的也可以
+                            is = PropertiesLoader.class.getClassLoader().getResourceAsStream(propName);
                             if (is == null) {
-                                is = PropertiesLoader.class.getClassLoader().getParent().getResourceAsStream("/" + propName);
+                                is = PropertiesLoader.class.getClassLoader().getParent().getResourceAsStream(propName);
                             }
                         }
                         p.load(is);
@@ -72,6 +79,5 @@ public class PropertiesLoader {
         }
         return PROPS.get(propName);
     }
-
 
 }
