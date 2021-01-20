@@ -15,7 +15,7 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+//@Component
 //@WebFilter(urlPatterns = {"/systemFile/*"},filterName = "normalFilter") 不管用
 public class LogFiler implements Filter {
 

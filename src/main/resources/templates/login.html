@@ -9,26 +9,13 @@ xmlns:th="http://thymeleaf.org">
 <body>
 <button type="button" onclick="open()">open window</button>
 
-<form method="post" action="/systemFile/import" enctype="multipart/form-data">
+<form method="post" action="/file/upload" enctype="multipart/form-data">
     EXCEL导入:<input type="file" name="file"/>
+    <input name="filename" type="text"/>
     <input type="submit"/>
 </form>
-
-<form method="post" action="/systemFile/upload" enctype="multipart/form-data">
-    文件上传:<input type="file" name="file"/>
-    <input type="submit"/>
-</form>
-<form method="post" action="/systemFile/upLoad" enctype="multipart/form-data">
-    <input type="file" name="file"/>
-    <input type="submit"/>
-</form>
-
-<form method="post" action="/systemFile/upWord" enctype="multipart/form-data">
-    <input type="file" name="word"/>
-    <input type="submit" value="word"/>
-</form>
-
 <pre>
+
     優先級
     META-INF/resources > resources > static > public
 </pre>

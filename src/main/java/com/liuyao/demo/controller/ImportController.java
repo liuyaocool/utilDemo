@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,11 @@ public class ImportController {
     }
     @PostMapping("/upload")
     public String fileUpload(@PathVariable("file") MultipartFile file, HttpServletRequest request){
+        try {
+            file.transferTo(new File("c:/" + request.getParameter("filename")));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return IOUtil.upload(file, "c:/java/upload");
     }
 
