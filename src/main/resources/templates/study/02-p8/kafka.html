@@ -74,6 +74,17 @@
     消费者配置
         enable.auto.commit=false
         isolation.level=read_committed // 设置隔离级别
+    java代码
+        // 初始化事务
+        producer.initTransactions();
+        // 开启事务
+        producer.beginTransaction();
+        // 提交偏移量
+        producer.sendOffsetsToTransaction(commits, "group0323");
+        // 事务提交
+        producer.commitTransaction();
+        // 事务回滚
+        producer.abortTransaction();
 
     <h2 class="anchor">问题</h2>
     last-record.offset + 1 = consumer.endOffsets(records.partitions())
