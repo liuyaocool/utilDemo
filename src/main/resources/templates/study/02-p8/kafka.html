@@ -66,8 +66,24 @@
         broker1-jvm(controller)     p0主(topicA)     p1从
         broker2-jvm                 p1主(topicA)     p0从
 
+    <h2 class="anchor">consume-trnasform-produce</h2>
+    生产消息与消费提交偏移在同一个事务里 是原子的
+    生产者相关配置
+        transaction.id
+        enable.idempotence=true # 幂等 配置了transaction.id此设置默认开启，不需要再配置
+    消费者配置
+        enable.auto.commit=false
+        isolation.level=read_committed // 设置隔离级别
+
+    <h2 class="anchor">问题</h2>
+    last-record.offset + 1 = consumer.endOffsets(records.partitions())
+        org.apache.kafka
+        kafka-clients
+        2.6.0
+
     <h2 class="anchor">...</h2>
     第二节课
+
 
 </pre>
 
