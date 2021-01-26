@@ -15,7 +15,7 @@ public class ImageTest {
     @Test
     void tes() throws IOException {
 
-        BufferedImage image = ImageIO.read(new File(""));
+        BufferedImage image = ImageIO.read(new File("D:\\PROJECT\\utilDemo\\src\\main\\resources\\static\\img\\tank.jpg"));
         assertNotNull(image); // 断言 不是空值
 
         /**
@@ -24,7 +24,7 @@ public class ImageTest {
          * 路径下的其他资源, 作为流的形式 --getResourceAsStream()
          */
         BufferedImage img2 = ImageIO.read(ImageTest.class.getClassLoader().
-                getResourceAsStream("images/a.gif"));
+                getResourceAsStream("static/img/tank.jpg"));
         assertNotNull(img2);
     }
 }
