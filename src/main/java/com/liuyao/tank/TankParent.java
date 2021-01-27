@@ -10,7 +10,7 @@ import java.io.IOException;
 public abstract class TankParent extends ImgUtil{
 
     protected TankFrame tankFrame;
-    protected int x, y;
+    protected int x, y, width, height;
     protected boolean living = true;
     protected Group group;
     protected Rectangle rectangle;
@@ -19,6 +19,17 @@ public abstract class TankParent extends ImgUtil{
         this.tankFrame = tankFrame;
         this.x = x;
         this.y = y;
+
+        if (null == this.rectangle) rectangle = new Rectangle();
+
+        updateRect();
+    }
+
+    protected void updateRect(){
+        this.rectangle.x = this.x;
+        this.rectangle.y = this.y;
+        this.rectangle.width = this.width;
+        this.rectangle.height = this.height;
     }
 
     protected void die(){

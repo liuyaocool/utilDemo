@@ -12,7 +12,6 @@ public class Bullet extends TankParent{
             bulletL = rotateImage(bulletU, -90),
             bulletR = rotateImage(bulletU, 90),
             bulletD = rotateImage(bulletU, 180);
-    public static final int WIDTH = bulletD.getWidth(), HEIGHT = bulletD.getHeight();
     private static final int SPEED = 20;
 
     private Dir dir;
@@ -25,16 +24,17 @@ public class Bullet extends TankParent{
 
     public void paint(Graphics g){
         if (!living) tankFrame.bullets.remove(this);
+        BufferedImage img;
         switch (dir) {
-            case LEFT: g.drawImage(bulletL, x, y, null); break;
-            case RIGHT: g.drawImage(bulletR, x, y, null); break;
-            case UP: g.drawImage(bulletU, x, y, null); break;
-            case DOWN: g.drawImage(bulletD, x, y, null); break;
+            case LEFT: img = bulletL; break;
+            case RIGHT: img = bulletR; break;
+            case UP: img = bulletU; break;
+            case DOWN: img = bulletD; break;
+            default: return;
         }
-//        Color c = g.getColor();
-//        g.setColor(Color.RED);
-//        g.fillOval(x, y, WIDTH, HEIGHT);
-//        g.setColor(c);
+        g.drawImage(img, x, y, null);
+        this.width = img.getWidth();
+        this.height = img.getHeight();
 
         move();
     }
@@ -46,17 +46,19 @@ public class Bullet extends TankParent{
             case UP: y -= SPEED; break;
             case DOWN: y += SPEED; break;
         }
+
+        updateRect();
+
         if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) living = false;
     }
 
     //碰撞检测
     public void collideWith(Tank tank) {
         if (this.group == tank.getGroup()) return;
-        Rectangle rect1 = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
-        Rectangle rect2 = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
-        if (rect1.intersects(rect2)){
+        if (this.rectangle.intersects(tank.rectangle)){
             tank.die();
             this.die();
+            tankFrame.explodes.add(new Explode(this.tankFrame, this.x, this.y));
         }
     }
 }

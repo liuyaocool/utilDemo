@@ -12,12 +12,12 @@ import java.util.*;
 
 public class TankFrame extends Frame {
 
+    public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+
     private Tank myTank = new Tank(200, 200, Dir.DOWN, this, Group.GOOD);
     public ArrayList<Bullet> bullets = new ArrayList<>();
     public ArrayList<Tank> tanks = new ArrayList<>();
     public ArrayList<Explode> explodes = new ArrayList<>();
-    Explode explode = new Explode(this, 100, 100);
-    public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
     public TankFrame() throws HeadlessException {
         this.setSize(GAME_WIDTH, GAME_HEIGHT);
@@ -59,9 +59,9 @@ public class TankFrame extends Frame {
 
         Color c = g.getColor();
         g.setColor(Color.WHITE);
-        g.drawString("bullets:" + bullets.size(), 10, 60);
-        g.drawString("tanks:" + tanks.size(), 10, 80);
-//        g.drawString("explodes" + explodes.size(), 10, 100);
+        g.drawString("bullets: " + bullets.size(), 10, 60);
+        g.drawString("tanks: " + tanks.size(), 10, 80);
+        g.drawString("explodes: " + explodes.size(), 10, 100);
         g.setColor(c);
 
         myTank.paint(g);
@@ -70,22 +70,24 @@ public class TankFrame extends Frame {
 //        for (Bullet b :bullets){
 //            b.paint(g);
 //        }
+        // 画子弹
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).paint(g);
         }
-
+        // 画坦克
         for (int i = 0; i < tanks.size(); i++) {
             tanks.get(i).paint(g);
         }
-
+        // 画爆炸
+        for (int i = 0; i < explodes.size(); i++) {
+            explodes.get(i).paint(g);
+        }
+        // 碰撞检测
         for (int i = 0; i < bullets.size(); i++) {
             for (int j = 0; j < tanks.size(); j++) {
                 bullets.get(i).collideWith(tanks.get(j));
             }
         }
-
-        explode.paint(g);
-
     }
 
     class TankKeyAdapter extends KeyAdapter {

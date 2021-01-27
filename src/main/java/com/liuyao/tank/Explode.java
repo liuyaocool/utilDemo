@@ -25,8 +25,6 @@ public class Explode extends TankParent{
     @Override
     public void paint(Graphics g){
         g.drawImage(explodes[step++], this.x, this.y, null);
-
-        if (step >= explodes.length) step = 0;
-
+        if (step >= explodes.length) tankFrame.explodes.remove(this);
     }
 }

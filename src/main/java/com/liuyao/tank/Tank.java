@@ -18,7 +18,6 @@ public class Tank extends TankParent {
             badTankL = rotateImage(badTankU, -90),
             badTankR = rotateImage(badTankU, 90),
             badTankD = rotateImage(badTankU, 180);
-    public static final int WIDTH = goodTankU.getWidth(), HEIGHT = goodTankU.getHeight();
 
     private Dir dir = Dir.DOWN;
     private boolean moving = true;
@@ -39,25 +38,32 @@ public class Tank extends TankParent {
         if (!living) {
             tankFrame.tanks.remove(this);
         }
+        BufferedImage img;
         switch (this.group){
             case BAD:
                 switch (this.dir) {
-                    case LEFT: g.drawImage(badTankL, x, y, null); break;
-                    case RIGHT: g.drawImage(badTankR, x, y, null); break;
-                    case UP: g.drawImage(badTankU, x, y, null); break;
-                    case DOWN: g.drawImage(badTankD, x, y, null); break;
+                    case LEFT: img = badTankL; break;
+                    case RIGHT: img = badTankR; break;
+                    case UP: img = badTankU; break;
+                    case DOWN: img = badTankD; break;
+                    default: return;
                 }
                 break;
             case GOOD:
                 switch (this.dir) {
-                    case LEFT: g.drawImage(goodTankL, x, y, null); break;
-                    case RIGHT: g.drawImage(goodTankR, x, y, null); break;
-                    case UP: g.drawImage(goodTankU, x, y, null); break;
-                    case DOWN: g.drawImage(goodTankD, x, y, null); break;
+                    case LEFT: img = goodTankL; break;
+                    case RIGHT: img = goodTankR; break;
+                    case UP: img = goodTankU; break;
+                    case DOWN: img = goodTankD; break;
+                    default: return;
                 }
                 break;
+            default: return;
         }
-
+        g.drawImage(img, x, y, null);
+        this.width = img.getWidth();
+        this.height = img.getHeight();
+        
         move();
     }
 
@@ -70,12 +76,39 @@ public class Tank extends TankParent {
             case DOWN: y += SPEED; break;
         }
         if (this.group == Group.BAD && random.nextInt(100) > 95) this.fire();
+
+        if (this.group == Group.BAD && random.nextInt(100) > 95) randomDir();
+
+        // 边界检测
+        boundsCheck();
+
+        updateRect();
+
+    }
+
+    private void boundsCheck() {
+        if (this.x < 2) x = 2;
+        if (this.y < 28) y = 28;
+        if (this.x > TankFrame.GAME_WIDTH- this.width -2) x = TankFrame.GAME_WIDTH - this.width -2;
+        if (this.y > TankFrame.GAME_HEIGHT - this.height -2 ) y = TankFrame.GAME_HEIGHT -this.height -2;
+    }
+
+    private void randomDir() {
+        this.dir = Dir.values()[random.nextInt(4)];
     }
 
     public void fire() {
-        int bX = this.x + Tank.WIDTH/2 - Bullet.WIDTH/2;
-        int bY = this.y + Tank.HEIGHT/2 - Bullet.HEIGHT/2;
-        Bullet b = new Bullet(bX, bY, this.dir, this.tankFrame, this.group);
+        BufferedImage bimg;
+        switch (this.dir){
+            case LEFT: bimg = Bullet.bulletL; break;
+            case UP: bimg = Bullet.bulletU; break;
+            case RIGHT: bimg = Bullet.bulletR; break;
+            case DOWN: bimg = Bullet.bulletD; break;
+            default: return;
+        }
+        int bx = this.x + this.width/2 - bimg.getWidth()/2;
+        int by = this.y + this.height/2 - bimg.getHeight()/2;
+        Bullet b = new Bullet(bx, by, this.dir, this.tankFrame, this.group);
         this.tankFrame.bullets.add(b);
     }
 }
