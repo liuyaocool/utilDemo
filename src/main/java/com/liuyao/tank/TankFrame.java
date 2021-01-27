@@ -1,17 +1,22 @@
 package com.liuyao.tank;
 
+import com.liuyao.tank.enumm.Dir;
+import com.liuyao.tank.enumm.Group;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
+import java.util.*;
 
 public class TankFrame extends Frame {
 
-    private Tank myTank = new Tank(200, 200, Dir.DOWN, this);
-    public java.util.List<Bullet> bullets = new ArrayList<>();
-    private final int SPEED = 10;
+    private Tank myTank = new Tank(200, 200, Dir.DOWN, this, Group.GOOD);
+    public ArrayList<Bullet> bullets = new ArrayList<>();
+    public ArrayList<Tank> tanks = new ArrayList<>();
+    public ArrayList<Explode> explodes = new ArrayList<>();
+    Explode explode = new Explode(this, 100, 100);
     public static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
 
     public TankFrame() throws HeadlessException {
@@ -22,11 +27,7 @@ public class TankFrame extends Frame {
 
         this.addKeyListener(new TankKeyAdapter());
         this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
-            }
-
+            public void windowClosing(WindowEvent e) { System.exit(0); }
         });
 
     }
@@ -56,6 +57,13 @@ public class TankFrame extends Frame {
         // 窗口需要重新绘制的时候 自动调用
         // x,y 是从整个窗口左上角为(0,0) 包括关闭按钮
 
+        Color c = g.getColor();
+        g.setColor(Color.WHITE);
+        g.drawString("bullets:" + bullets.size(), 10, 60);
+        g.drawString("tanks:" + tanks.size(), 10, 80);
+//        g.drawString("explodes" + explodes.size(), 10, 100);
+        g.setColor(c);
+
         myTank.paint(g);
 
         // 有异常: list 的 iteator 只能在这里删除, 其他地方删除 迭代会有问题
@@ -65,6 +73,19 @@ public class TankFrame extends Frame {
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).paint(g);
         }
+
+        for (int i = 0; i < tanks.size(); i++) {
+            tanks.get(i).paint(g);
+        }
+
+        for (int i = 0; i < bullets.size(); i++) {
+            for (int j = 0; j < tanks.size(); j++) {
+                bullets.get(i).collideWith(tanks.get(j));
+            }
+        }
+
+        explode.paint(g);
+
     }
 
     class TankKeyAdapter extends KeyAdapter {

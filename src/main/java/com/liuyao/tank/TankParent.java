@@ -1,0 +1,49 @@
+package com.liuyao.tank;
+
+import com.liuyao.tank.enumm.Group;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+public abstract class TankParent extends ImgUtil{
+
+    protected TankFrame tankFrame;
+    protected int x, y;
+    protected boolean living = true;
+    protected Group group;
+    protected Rectangle rectangle;
+
+    public TankParent(TankFrame tankFrame, int x, int y) {
+        this.tankFrame = tankFrame;
+        this.x = x;
+        this.y = y;
+    }
+
+    protected void die(){
+        this.living = false;
+    };
+
+    public TankFrame getTankFrame() {
+        return tankFrame;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public abstract void paint(Graphics g);
+}
