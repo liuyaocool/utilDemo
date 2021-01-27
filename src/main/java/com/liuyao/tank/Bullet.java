@@ -54,7 +54,7 @@ public class Bullet extends TankParent{
 
     //碰撞检测
     public void collideWith(Tank tank) {
-        if (this.group == tank.getGroup()) return;
+        if (this.group == tank.group) return;
         if (this.rectangle.intersects(tank.rectangle)){
             tank.die();
             this.die();

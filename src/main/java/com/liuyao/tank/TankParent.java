@@ -34,25 +34,5 @@ public abstract class TankParent extends ImgUtil{
         this.living = false;
     };
 
-    public TankFrame getTankFrame() {
-        return tankFrame;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
     public abstract void paint(Graphics g);
 }
