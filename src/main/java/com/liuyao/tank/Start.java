@@ -9,8 +9,9 @@ public class Start {
         // 窗口类
         TankFrame tf = new TankFrame();
 
+        int tankcount = Integer.parseInt(PropertyMgr.getProperty("initTankCount"));
         // 初始化敌方坦克
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < tankcount; i++) {
             tf.tanks.add(new Tank(100 + i * 80, 100, Dir.DOWN, tf, Group.BAD));
         }
 

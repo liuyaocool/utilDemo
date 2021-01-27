@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <title>hack</title>
+
+    <link rel="stylesheet" href="00-static/base.css">
+    <script src="00-static/base.js"></script>
+
+    <style>
+
+    </style>
+</head>
+<body>
+
+<pre>
+
+    <h2 class="anchor">windows</h2>
+    用户密码文件:  C:\Windows\System32\config\SAM
+
+    <h2 class="anchor">windows dos</h2>
+    net use k: \\192.168.1.1\c$
+    net use k: \\192.168.1.1\c$ /del
+    net start --查看开启了哪些服务
+    net start 服务名 --开启服务, 如:net start telnet, net start schedule
+    net stop 服务名 --停止某服务
+
+
+    <h2 class="anchor">常见端口</h2>
+    HTTP协议代理服务器: 80 8080 3128 8081 9080
+    FTP(文件传输)协议代理服务器: 21
+    Telnet(远程登录)协议代理服务器: 23
+    TFTP(Trivial File Transfer Protocol): 69/udp
+    SSH SCP 端口重定向: 22/tcp
+    SMTP(Simple Mail Transfer Protocol)(E-mail): 25/tcp
+        木马Antigen\Email Password Sender\Haebu Coceda\Shtrilitz Stealth\WinPC\WinSpy都开放这个端口
+    POP3(Post Office Protocol)(E-mail): 110/tcp
+    tomcat: 8080
+    win2003远程登录: 3389
+    oracle: 1521
+    MS SQL Server: 1433/tcp 1433/udp
+    qq: 1080/udp
+
+    <h2 class="anchor">...</h2>
+
+</pre>
+
+</body>
+</html>

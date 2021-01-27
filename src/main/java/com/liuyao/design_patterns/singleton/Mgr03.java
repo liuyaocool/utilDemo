@@ -1,0 +1,22 @@
+package com.liuyao.design_patterns.singleton;
+
+/**
+ * 最完美 单例
+ * 不仅可以解决线程同步，还可以防止反序列化。
+ * <<effective java>>
+ */
+public enum Mgr03 {
+
+    INSTANCE;
+
+    public void m() {}
+
+    public static void main(String[] args) {
+        for(int i=0; i<100; i++) {
+            new Thread(()->{
+                System.out.println(Mgr03.INSTANCE.hashCode());
+            }).start();
+        }
+    }
+
+}
