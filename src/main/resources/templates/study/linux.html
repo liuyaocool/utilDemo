@@ -231,9 +231,22 @@
         $()的弊端： 不是所有类unix系统都支持，但反引号肯定支持
     {}
 
-    awk --打印
+    awk --打印筛选
         语法： awk [选项]  '指令'  操作文件
         https://blog.csdn.net/wdz306ling/article/details/80383824
+        例如：
+            awk '{{$1=""}{$7=""};print $0}' --1 7列设置为空 其他打印
+            awk '{ for(i=1; i<=3; i++){ $i="" }; print $0 }'  --1~3列置为空
+            awk '{print $1, "\t", $2}' --打印1 2列 中间带tab
+            awk 'NR==1{print $0}' --打印第一行
+            awk 'END{print NR}' --打印总行数
+    sed --行筛选
+        例如：
+            sed -n '/abc/,$p' --打印匹配abc的行到最后一行
+            sed -n '1,5p' --打印1~5行
+            sed -n '1,$p' --打印1~末行
+            sed -n '/‘$a'/,$p' --打印匹配a变量的行到最后一行
+
     ()
         命令组。括号中的命令将会新开一个子shell顺序执行，所以括号中的变量不能够被脚本余下的部分使用。括号中多个命令之间用分号隔开，最后一个命令可以没有分号，各命令和括号之间不必有空格。
         命令替换。等同于`cmd`，shell扫描一遍命令行，发现了$(cmd)结构，便将$(cmd)中的cmd执行一次，得到其标准输出，再将此输出放到原来命令。有些shell不支持，如tcsh。
@@ -278,6 +291,32 @@
             标准输入0 来自文件描述符8
             cat: 读文件,从标准输入读东西
         exec 8<& - --关掉
+
+    <h2 class="anchor">子进程</h2>
+    /bin/bash --进入子进程
+    pstree --查看是否在子进程
+        |-sshd---sshd---sshd---bash---pstree
+        |-sshd---sshd---sshd---bash---bash---pstree
+    会触发创建【子进程】（bash shell为一个进程），echo $BASEPID($$), echo $BASEPID($$) | more
+    $$优先级高于管道， $xxx优先级低于管道
+    父子进程，子进程不能访问父进程数据，数据隔离 pstree
+    export xxx 添加环境变量，则子进程可以看到数据
+    环境变量 子进程修改不会破坏父进程，反过来一样
+    fork(2) --系统调用,快速创建一个子进程
+        进程之间是数据隔离的 利用copy on write内核机制
+        子进程与父进程中都只维护了指针(指向内存中的数据)
+        父子进程中 任一个 修改了 自己进程中的数据,会新创建一块内存空间,然后把指针指向新内存空间,另一个进程指针不变
+
+    <h2 class="anchor">管道 |</h2>
+    正则 egrep --xxxxx | egrep '正则'
+        例如 netstat -natp | egrep '(2888|3888)' --或者
+    管道会创建子进程
+    |前以输出流形式交给后边, |后以输入流形式接收 例如: cat aaa | head -2
+    若|后命令无法以输入流形式接收, 则需要使用xargs
+        xargs 创建并执行命令行从标准输入流
+        例如 echo "/" | xargs ls -l → ls -l /
+    例子
+        取第n行数据 head -n 文件名 | tail -1
 
     <h2 class="anchor">文件系统</h2>
     /boot
@@ -375,35 +414,10 @@
         -5 后5行
         -f 输出增量数据,监控文件
 
-    子进程
-        /bin/bash --进入子进程
-        pstree --查看是否在子进程
-            |-sshd---sshd---sshd---bash---pstree
-            |-sshd---sshd---sshd---bash---bash---pstree
-        会触发创建【子进程】（bash shell为一个进程），echo $BASEPID($$), echo $BASEPID($$) | more
-        $$优先级高于管道， $xxx优先级低于管道
-        父子进程，子进程不能访问父进程数据，数据隔离 pstree
-        export xxx 添加环境变量，则子进程可以看到数据
-        环境变量 子进程修改不会破坏父进程，反过来一样
-        fork(2) --系统调用,快速创建一个子进程
-            进程之间是数据隔离的 利用copy on write内核机制
-            子进程与父进程中都只维护了指针(指向内存中的数据)
-            父子进程中 任一个 修改了 自己进程中的数据,会新创建一块内存空间,然后把指针指向新内存空间,另一个进程指针不变
-
     copy on write --内核机制
 
-    | --管道
-        正则 egrep --xxxxx | egrep '正则'
-            例如 netstat -natp | egrep '(2888|3888)' --或者
-        管道会创建子进程
-        |前以输出流形式交给后边, |后以输入流形式接收 例如: cat aaa | head -2
-        若|后命令无法以输入流形式接收, 则需要使用xargs
-            xargs 创建并执行命令行从标准输入流
-            例如 echo "/" | xargs ls -l → ls -l /
-        例子
-            取第n行数据 head -n 文件名 | tail -1
-
     echo "123" >> 文件名 --文件中加一行数据
+        echo -e "\t" a" "b
 
     vi --文本编辑器
         vi + xxx --定位到最后行
