@@ -15,33 +15,60 @@ import java.util.concurrent.ConcurrentHashMap;
 public class PropertiesLoader {
 
     protected static final Map<String, Properties> PROPS = new ConcurrentHashMap<>();
-    private static final String STARTER_PATH =
-            new File("").getAbsolutePath().replace("\\", "/") + "/";
-    private static final String JAR_PATH;
-    private static final String[] RELATIVE_PATH = {"/", "/config/", "/conf/"};
+    private static final String STARTER_PATH = new File("").getAbsolutePath() + File.separator;
+    private static final String JAR_PATH = getLastFolderFromPath(
+            PropertiesLoader.class.getClassLoader().getResource("").getPath()) + File.separator;
+    private static final String[] RELATIVE_PATH = {"", "config" + File.separator, "conf" + File.separator};
 
     static {
 
+        System.out.println("JAR_PATH: " + JAR_PATH);
+        System.out.println("STARTER_PATH: " + STARTER_PATH);
 
-        String sysPathStart = STARTER_PATH.substring(0, STARTER_PATH.indexOf("/") + 1);
-        String jarPath = PropertiesLoader.class.getClassLoader().getResource("").getPath()
-                .replace("\\", "/").split(".jar")[0];
-        jarPath = jarPath.replaceFirst(jarPath.split(sysPathStart)[0], "");
-        JAR_PATH = jarPath.substring(0, jarPath.lastIndexOf("/") + 1);System.out.println("jar path: " + JAR_PATH);
+        System.out.println();
+        System.out.println("System.getProperty(\"java.class.path\"): " + System.getProperty("java.class.path"));
+        System.out.println("System.getProperty(\"path.separator\"): " + System.getProperty("path.separator"));
+        System.out.println("System.getProperty(\"java.ext.dirs\"): " + System.getProperty("java.ext.dirs"));
+        System.out.println("new File(\"" + File.separator + "\").getAbsolutePath(): " + new File(File.separator).getAbsolutePath());
+        //启动脚本所在路劲
+        System.out.println("new File(\"\").getAbsolutePath(): " + new File("").getAbsolutePath());
+        //启动脚本所在路劲
+        System.out.println("System.getProperty(\"user.dir\"): " + System.getProperty("user.dir"));
+        System.out.println("File.separator: " + File.separator);
 
-        // 有BUG，不会获得jar包所在绝对路径 而是start.bat所在绝对路径
-        // 打印 D:\PROJECT\javatest
-        System.out.println(new File("").getAbsolutePath());
-
+        System.out.println();
         // 打印 file:/D:/PROJECT/javatest/target/demo-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/
         System.out.println(PropertiesLoader.class.getProtectionDomain().getCodeSource().getLocation().getPath());
-        System.out.println(PropertiesLoader.class.getProtectionDomain().getCodeSource().getLocation());
+        System.out.println(PropertiesLoader.class.getClassLoader().getResource("").getPath());
+        System.out.println();
+
+        System.out.println("getLastFolderFromPath(): " +
+                getLastFolderFromPath("file:/D:/PROJECT/javatest/target/demo-0.0.1-SNAPSHOT.jar!/BOOT-INF/classes!/"));
+        String path = PropertiesLoader.class.getClassLoader().getResource("").getPath();
+        path = getLastFolderFromPath(path);
+        System.out.println("getLastFolderFromPath(): " + path);
+        System.out.println("==================== static {} end ================================");
+
+    }
+
+    public static String getLastFolderFromPath(String path){
+        File file = new File(path);
+        if (file.isDirectory()) { return file.getAbsolutePath(); }
+        while (null != file.getParentFile()){
+            file = file.getParentFile();
+//            System.out.println(file.getPath());
+            if (file.isDirectory()) { return file.getAbsolutePath(); }
+        }
+        String path1 = path.replaceFirst(file.getPath(), "");
+        return getLastFolderFromPath(path1);
     }
 
     public static Properties getProperties(String propName){
         if (null == PROPS.get(propName)){
             synchronized (PropertiesLoader.class){
                 if (null == PROPS.get(propName)){
+                    while (propName.startsWith("/")) { propName = propName.substring(1); }
+                    while (propName.startsWith("\\")) { propName = propName.substring(1); }
                     Properties p = new Properties();
                     File file = new File(STARTER_PATH + propName);
                     for (int i = 0; i < RELATIVE_PATH.length; i++) {
@@ -55,9 +82,6 @@ public class PropertiesLoader {
                             System.out.println("load properties：" + file.getAbsolutePath());
                             is = new FileInputStream(file);
                         } else {
-                            while (propName.startsWith("/")) {
-                                propName = propName.substring(1);
-                            }
                             // 从class 文件处加载文件 jar包内的也可以
                             is = PropertiesLoader.class.getClassLoader().getResourceAsStream(propName);
                             if (is == null) {
