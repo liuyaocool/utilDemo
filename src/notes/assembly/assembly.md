@@ -212,7 +212,7 @@ cpu读取外设指令的过程：
 
 - ds: 数据地址
 - es 
-- ss
+- ss: 栈顶地址
 - cs: 指令地址 代码段寄存器 段地址 配合寄存器ip使用
   - jmp 段地址：偏移地址    --修改寄存器中的值
   - jmp 2AE3:3
@@ -220,7 +220,7 @@ cpu读取外设指令的过程：
 
 ### 偏移地址寄存器
 
-- sp 
+- sp: 栈顶地址 
 - bp 
 - si 
 - di 
@@ -346,11 +346,13 @@ add al,[2]      将数据段第三个单元(偏移地址为0)中的数值加到a
 
 ## 先进后出 
 
-PUSH(入栈)  POP(出栈)
+PUSH(入栈)  POP(出栈)  只操作字型数据
+
+
 
  <img src="img/PUSH-01.png" alt="PUSH-01" style="zoom:40%;" />
 
-- SS:SP指向栈顶元素 黑色箭头位置
+- SS:SP指向栈顶元素 栈顶标记 黑色箭头位置
   - 段寄存器SS  存放<b>栈顶</b>的段地址
   - 寄存器SP      存放<b>栈顶</b>的偏移地址
 
@@ -358,9 +360,14 @@ PUSH(入栈)  POP(出栈)
 
 - 1: SP=SP-2
 - 2: 将ax中内容送入SS:SP指向的内存单元处,SS:SP指向新栈顶
-  <img src="img/push_process-01.png" alt="push_process-01" style="zoom:80%;" />
+  <img src="img/push_process-01.png" alt="push_process-01" style="zoom:35%;" />
 - 当栈为空时,SP偏移地址指向下一个内存地址
-  <img src="img/null_stack_SP.png" alt="null_stack_SP" style="zoom:80%;" />
+  <img src="img/null_stack_SP.png" alt="null_stack_SP" style="zoom:30%;" />
+
+## pop bx
+
+- 1: sp = sp + 2
+- 
 
 ## 栈顶超界问题
 
@@ -370,6 +377,49 @@ PUSH(入栈)  POP(出栈)
   <img src="img/out_PUSH.png" alt="out_PUSH" style="zoom:40%;" />
 - POP溢出
   <img src="img/out_POP.png" alt="out_PUSH" style="zoom:40%;" />
+
+## 栈的大小
+
+- 最大65536个字节
+  - ss=2000 sp=0~FFFFH=0~65535byte
+- push 1234H, 若之前sp=0000H,则之后sp=FFFEH
+
+## 作用
+
+- 临时性保存数据 
+
+  - call指令和ret指令
+
+
+  ```assembly
+  mov ax,100
+  call func		;
+  mov bx,ax
+  func:
+  	push ax
+  	push bx		;栈中临时保存
+  	mov bx,1000
+  	mov ax,100
+  	add cx,bx
+  	pop bx
+  	pop ax		;从栈中取出 这样3行执行时寄存器值就不会变化
+  	ret
+  ```
+
+- 数据交换
+
+  ```assembly
+  push ax		;寄存器
+  push bx
+  pop ax
+  pop bx
+  push ds:[0]	;内存
+  push ds:[2]
+  pop ds:[0]
+  pop ds:[2]
+  ```
+
+- 实质就是mov指令 只不过是ss:sp操作
 
 ## 指令
 
@@ -385,11 +435,134 @@ push bx
 push ds
 ```
 
+# 编译 链接 分配内存
 
+## 编译
+
+masm *.asm   →   *.obj
+
+## 链接
+
+link *.obj  →   *.exe
+
+## 系统分配内存
+
+exe文件中, 除了程序, 还包括一些**描述信息**, 如文件有多大,程序在哪里等. 系统就是根据这些描述信息对寄存器进行相关的设置.
+
+start伪指令, 就是设置的程序的入口, 记录在描述信息中
+
+exe可执行文件 不只包括了整个程序 还包括了描述信息
+
+# 汇编代码
+
+## 源文件
+
+汇编指令		 被编译器翻译成 0101100101010101... 机器指令 机器码 由CPU执行
+
+伪指令 			由编译器执行的
+
+符号体系		 由编译器执行的
+
+```assembly
+;assume假设 cs寄存器和code段联系在了一起
+assume cs:code,ds:data,ss:stack 	;CPU对寄存器设置的依据
+
+;段名字可以随意取
+;这里写data为了方便阅读
+data segment 	;告诉编译器 data段从这里开始 
+	db		128	dup	(0)
+data ends		;告诉编译器 data段从这里结束
+
+statck segment stack 	;第二个stack 告诉编译器这是栈段
+	db		128 dup (0)
+statck ends
+
+code segment
+	start:	mov bx,0100H 	;start 是标记程序开始执行的地方
+							;或者不加start  将code段转移到3行位置
+								
+			mov cx,0b800H 	;字母在前方必须加0 一种翻译的规则
+			mov ax,160*5-12*5 	;符号体系 由编译器计算出来
+			
+			mov ax,4c00H 	;这两行 程序返回的功能
+			int 21h 		;执行完后 将内存和寄存器 都还给系统
+code ends
+
+end 	;告诉编译器整个程序到这里结束啦
+```
+
+## 程序的跟踪
+
+- debug *.exe
+- r命令 
+  - cx = 程序的长度
+- t命令  单步执行
+- p命令  执行int指令
+- q命令  p命令后执行 退出程序
+
+## PSP区
+
+从ds:0开始的 256个字节
+
+用来 系统和程序之间 进行通信的
+
+## 实验
+
+Test.asm
+
+```assembly
+assume cs:code
+
+code segment
+			mov ax,2000H
+			mov ss,ax
+			mov sp,0
+			add sp,10H
+			pop ax
+			pop bx
+			push ax
+			push bx
+			pop ax
+			pop bx
+
+			mov ax,4c00H
+			int 21h
+code ends
+
+end
+```
+
+- masm test.asm
+
+- link TEST.OBJ
+
+  - 前2行可使用脚本 compile.bat
+
+  ```
+  del TEST.EXE
+  del TEST.OBJ
+  masm test.asm;
+  link TEST.OBJ;
+  start cmd /k
+  ```
+
+- debug TEST.EXE
+
+- u命令 查看指令
+
+- r命令 查看
+
+- e 2000:10  → 22 11 44 33    设置值
+
+- t命令单步执行
+
+- p命令 执行int指令
+
+- q命令 退出
 
 # 进度
 
-https://www.bilibili.com/video/BV1mt411R7Xv?p=48&spm_id_from=pageDriver
+https://www.bilibili.com/video/BV1mt411R7Xv?p=90&spm_id_from=pageDriver
 
 
 
