@@ -3,7 +3,7 @@ assume cs:code
 code segment
 
 			; define word
-			dw		1,2,3,4,5,6,7,8 ; 字型数据 从cs:0开始
+			dw		1,2,3,4,5,6,7,8 ; 字型数据 地址为cs:0
 
 ; -------- 
 start:		mov bx,0	; 由于定义了dw(数据) 所以定义代码开始位置

@@ -472,12 +472,12 @@ data segment 	;告诉编译器 data段从这里开始
 	db		128	dup	(0)
 data ends		;告诉编译器 data段从这里结束
 
-statck segment stack 	;第二个stack 告诉编译器这是栈段
+statck segment stack 	;第二个stack告诉编译器这是栈段,第一个statck只是标记名,可以修改
 	db		128 dup (0)
 statck ends
 
 code segment
-	start:	mov bx,0100H 	;start 是标记程序开始执行的地方
+	start:	mov bx,0100H 	;start 是标记程序开始执行的地方 将程序入口地址 记录在exe文件的描述信息中
 							;或者不加start  将code段转移到3行位置
 								
 			mov cx,0b800H 	;字母在前方必须加0 一种翻译的规则
