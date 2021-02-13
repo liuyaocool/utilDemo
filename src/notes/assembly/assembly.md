@@ -245,7 +245,7 @@ cpu读取外设指令的过程：
 | add ax,bx | 将AX BX中内容相加,结果存入AX | AX = AX + BX             |
 | inc bx    | 将BX中的值+1,                | BX++  比add bx,1节约内存 |
 
-```
+```assembly
 mov 寄存器,数据     mov ax,6
 mov 寄存器,寄存器   mov bx,ax
 mov 寄存器,内存单元 mov ax,[0]
@@ -263,6 +263,28 @@ sub 寄存器,寄存器  sub ax,bx
 sub 寄存器,内存单元 sub ax,[0]
 sub 内存单元,寄存器 sub [0],ax
 ```
+
+## 除法指令 div
+
+| 参数   | 除数8位              | 除数16位                    |
+| ------ | -------------------- | --------------------------- |
+| 被除数 | 16位, ax             | 32位, dx存高16位 ax存低16位 |
+| 除数   | 8位寄存器 / byte ptr | 16位寄存器 / word ptr       |
+| 商     | al                   | ax                          |
+| 余数   | ah                   | dx                          |
+
+```assembly
+db 3,0,0,0
+
+mov ax 16
+; 第一种
+mov bl 3
+div bl
+; 第二种
+div byte ptr ds:[0]
+```
+
+
 
 ## 转移指令
 
@@ -302,6 +324,16 @@ sub 内存单元,寄存器 sub [0],ax
   - and al,11110000B
 - or  --有1为1
   - or al,01010101B
+
+## 伪指令
+
+- dup 重复
+
+```assembly
+db 	100 dup (0) ; 重复100个字节 都为0
+```
+
+
 
 ## CUP如何区分指令和数据
 
@@ -592,7 +624,7 @@ end
 
 # 进度
 
-https://www.bilibili.com/video/BV1mt411R7Xv?p=109&spm_id_from=pageDriver
+https://www.bilibili.com/video/BV1mt411R7Xv?p=131&spm_id_from=pageDriver
 
 
 
