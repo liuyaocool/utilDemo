@@ -288,9 +288,20 @@ sub 内存单元,寄存器 sub [0],ax
 - POP 段寄存器
 - PUSH 内存单元
   - PUSH [0]  
+  - push ds:[0]
+  - push ds:[bx]
   - 找到DS段地址和[0]偏移地址数据推进栈
 - POP 内存单元
   - POP [2]
+
+## 逻辑运算指令
+
+按照二进制位运算
+
+- and --同1为1
+  - and al,11110000B
+- or  --有1为1
+  - or al,01010101B
 
 ## CUP如何区分指令和数据
 
@@ -505,6 +516,26 @@ end 	;告诉编译器整个程序到这里结束啦
 
 用来 系统和程序之间 进行通信的
 
+## 更灵活的定位内存地址
+
+见 code/test05_RAM.asm
+
+## 以字符形式给出数据
+
+- ASCLL码
+  - 为什么 a为97 A为65?   
+    - 看65 97二进制  使用and or 指令  进行大小写转换
+    - 大写 and 11011111B
+    - 小写 or 00100000B
+  - 0~31为控制字符 不能被打印
+  - 32~127位打印字符
+
+```assembly
+data segment
+		db 		'123456adf adhgh !lkj l' ; 单引号
+date ends
+```
+
 ## 实验
 
 Test.asm
@@ -561,7 +592,7 @@ end
 
 # 进度
 
-https://www.bilibili.com/video/BV1mt411R7Xv?p=103&spm_id_from=pageDriver
+https://www.bilibili.com/video/BV1mt411R7Xv?p=109&spm_id_from=pageDriver
 
 
 
