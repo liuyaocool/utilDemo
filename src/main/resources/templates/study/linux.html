@@ -38,7 +38,29 @@
     4 用户区
 
     <h2 class="anchor">远程连接</h2>
-    ssh username@ip
+    ssh连接
+        ssh username@ip
+    远程断连问题:
+        sudo vim /etc/ssh/ssh_config
+            ServerAliveInterval 50 #每隔50秒就向服务器发送一个请求
+            ServerAliveCountMax 3  #允许超时的次数，一般都会响应
+        sudo /etc/init.d/ssh restart
+    远程命令
+        ssh user@remoteNode "cd /home ; ls"
+            双引号，必须有。如果不加双引号，第二个ls命令在本地执行
+            分号，两个命令之间用分号隔开
+        对于脚本的方式：
+        　　有些远程执行的命令内容较多，单一命令无法完成，考虑脚本方式实现：
+            #!/bin/bash
+            ssh user@remoteNode > /dev/null 2>&1 << eeooff
+            cd /home
+            touch abcdefg.txt
+            exit    #在结束前，加exit退出远程节点
+            eeooff
+            echo done!
+            远程执行的内容在“<< eeooff ” 至“ eeooff ”之间，在远程机器上的操作就位于其中，注意的点：
+            << eeooff，ssh后直到遇到eeooff这样的内容结束，eeooff可以随便修改成其他形式。
+            重定向目的在于不显示远程的输出了
 
     <h2 class="anchor">查看命令</h2>
     lsof -i --
@@ -50,6 +72,15 @@
     ./ 当前路径
     / 根路径
     ../ 上级路径
+
+    echo `dirname $0`
+        /Users/liuyao/Desktop/PROJECT/BrowserInWeb --mac
+        ./ --linux
+    echo $(cd `dirname $0`;pwd)
+        /Users/liuyao/Desktop/PROJECT/BrowserInWeb --mac/linux
+    mac中双击shell可执行程序
+        pwd = /Users/liuyao
+
     单文件
         上传: scp local_file linux_user@ip:linux_folder（/filename）
         下载: scp linux_user@linux_ip:linux_file local_folder
@@ -573,7 +604,7 @@
         5 yum repolist --打印yum信息等
 
     <h2 class="anchor">脚本.sh</h2>
-    #!/bin/bash --开头
+    见notes中的linux.md
 
     <h2 class="anchor">...</h2>
 

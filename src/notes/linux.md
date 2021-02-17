@@ -57,3 +57,39 @@
 
 终端输入 → shell → 调用内核
 
+
+
+# 脚本示例
+
+## 示例1
+
+- 自动发布重启.sh 本地机
+
+```sh
+#!/bin/sh
+# 停止
+ssh -p 27085 root@144.34.187.149 "sh /home/**/stop.sh"
+# 上传
+scp -P 27085 `dirname $0`/target/***.jar root@144.34.187.149:/home/**.jar
+# 启动
+ssh -p 27085 root@144.34.187.149 "sh /home/&&&/start.sh"
+```
+
+- stop.sh 服务器
+
+```sh
+a=(`/opt/java/jdk/jdk-11_0_10/bin/jps | grep BrowserInWeb.jar`)
+echo kill ${a[0]}
+kill ${a[0]}
+```
+
+- start.sh 服务器
+
+```sh
+a=$(cd `dirname $0`;pwd)
+echo start $a/BrowserInWeb.jar
+# 注意: 若要第一个脚本启动命令执行成功, java程序必须全路径
+# 否则无法得到服务器PATH, 直接java -jar会报错找不到java
+/opt/java/jdk/jdk-11_0_10/bin/java -jar $a/BrowserInWeb.jar &
+```
+

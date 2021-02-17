@@ -291,16 +291,92 @@ div byte ptr ds:[0]
 - jmp
   - jmp 2000:0  --CS=2000  IP=0000    --修改CS:IP的值
   - jmp 寄存器    --仅修改IP
+  - 跳转原理
+  
+  ```assembly
+  ; 第一种情况
+  	; 汇编码
+          jmp s
+          mov ax,1000
+          mov ax,10
+          mov al,1
+      s:	mov ax,1000H
+          mov ax,100H
+  	; debug显示编译结果
+      0B3D:0000 EB09		JMP		000B
+      0B3D:0002 90		NOP	
+      0B3D:0003 B8E803	MOV		AX,03E8
+      0B3D:0006 B80A00	MOV		AX,000A
+      0B3D:0009 B001		MOV		AL,01
+      0B3D:000B B80010	MOV		AX,1000		;s标号
+      0B3D:000E B80001	MOV		AX,0100
+      
+  ; 第二种情况
+      ; 汇编码
+          jmp s
+          mov ax,1000
+          mov al,1
+      s:	mov ax,1000H
+          mov ax,100H
+      ; debug显示编译结果
+      0B3D:0000 EB06		JMP		000B
+      0B3D:0002 90		NOP	
+      0B3D:0003 B8E803	MOV		AX,03E8
+      0B3D:0006 B064		MOV		AL,64
+      0B3D:0008 B80010	MOV		AX,1000		;s标号
+      0B3D:000B B80001	MOV		AX,0100
+      
+  ; 由上述可看出 jmp编译后的机器码的第二字节=要跳过的指令长度
+  ; CPU执行jmp指令时, 并不需要跳转目的地址, 就可对IP寄存器修改
+  ; jmp机器码第二字节 = 标号地址 - jmp指令后一个字节地址(指令缓冲器)
+  
+  ; 第三种情况
+  	; 汇编码
+  	s:	mov ax,1000H
+  		jmp s
+  		mov ax,4C00H
+  		int 21H
+  	; debug显示编译结果
+  	0B3D:0000 B80010	MOV		AX,1000		;s标号
+  	0B3D:0003 EBFB		JMP		0000
+  	0B3D:0005 B8004C	MOV		AX,4C00
+      0B3D:0008 CD21		INT		21
+  ; 此处 jmp机器码第二字节为FB
+  ; 按照上边公式 5 + FB(-5) = 0
+  ; 计算机中负数采用补码形式:正数变二进制,然后按位取反 再+1
+  ```
+  
+  - 跳转范围  --位移范围
+    - 8位位移 8个二进制 -128~127
+    - 16位位移 -32768~32767
+    - 指定位移方式
+      - jmp short s  --8位位移
+      - jmp near ptr s
+  
 - call     如:call 001c
+  
   - 跳转到001c对应位置指令,  并将本该执行的下一条指令对应的IP保存
+  
 - ret
   - 将call指令保存的IP拿过来,并执行
   - call ret结合类似于高级语言的方法调用
+  
 - loop
+
   - 配合cx寄存器使用
   - 先cx-- 再判断 如果cx==0 则结束循环 继续向下执行
   - p命令 执行 直接完成loop循环
   - g 14 命令: 直接执行到14位置的指令
+
+## 条件转移指令
+
+所有都是短转移 范围为-128~127
+
+经过编译后 机器码中包含位移范围 如jmp→EBXX
+
+- jcxz
+  - jmp cx zero 
+  - 当cx=0时 跳转
 
 ## 栈指令 PUSH POP
 
@@ -331,6 +407,15 @@ div byte ptr ds:[0]
 
 ```assembly
 db 	100 dup (0) ; 重复100个字节 都为0
+```
+
+## 操作符
+
+- offset  --取得标号处的偏移地址
+
+```assembly
+	mov ax,offset s
+s:	mov ax,offset s
 ```
 
 
